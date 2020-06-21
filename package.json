@@ -11,10 +11,10 @@
   "dependencies": {
     "@sentry/browser": "^5.17.0",
     "browserify": "latest",
-    "cypress": "^4.8.0",
     "sass": "latest"
   },
   "devDependencies": {
+    "cypress": "^4.8.0",
     "prettier": "latest",
     "watchify": "latest"
   }
