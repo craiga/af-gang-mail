@@ -11,6 +11,6 @@ jobs:
     steps:
       - name: Check securityheaders.com Grade
         run: |
-          GRADE=`curl -I "https://securityheaders.com/?q=https%3A%2F%2F.herokuapp.com&followRedirects=on" | grep ^x-grade  | tr -d '\n\r'`
+          GRADE=`curl -I "https://securityheaders.com/?q=https%3A%2F%2Faf-gang-mail.herokuapp.com&followRedirects=on" | grep ^x-grade  | tr -d '\n\r'`
           echo $GRADE
           [[ $GRADE =~ A\+?$ ]]

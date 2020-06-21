@@ -22,5 +22,17 @@
 
   </body>
   <script src="{% static "bundle.js" %}"></script>
+  {% if sentry_dsn %}
+    <script nonce="{{ request.csp_nonce }}">
+        let sentry_options = {"dsn": "{{ sentry_dsn }}"};
+        {% if sentry_environment %}
+          sentry_options["environment"] = "{{ sentry_environment }}";
+        {% endif %}
+        {% if sentry_release %}
+          sentry_options["release"] = "{{ sentry_release }}";
+        {% endif %}
+        Sentry.init(sentry_options);
+    </script>
+  {% endif %}
   {% block script %} {% endblock %}
 </html>
