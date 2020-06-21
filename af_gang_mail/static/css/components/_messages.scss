@@ -1,0 +1,30 @@
+@use "../colors" as *;
+
+$opacity: 0.2;
+
+#messages {
+  list-style: none;
+  padding: 0;
+  margin: 1em;
+  li {
+    border: 2px solid $black;
+    background-color: rgba($black, $opacity);
+    padding: 1em;
+
+    @each $messageClass,
+      $color
+        in (
+          "success": $green,
+          "warning": $red,
+          "error": $red,
+          "info": $black,
+          "debug": $blue
+        )
+    {
+      &.#{$messageClass} {
+        border-color: $color;
+        background-color: rgba($color, $opacity);
+      }
+    }
+  }
+}

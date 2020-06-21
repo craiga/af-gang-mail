@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -ex
+
+if [ -z "$DEBUG" ]
+then
+    python manage.py check --deploy --fail-level WARNING
+fi
+
+gunicorn af_gang_mail.wsgi --log-file -

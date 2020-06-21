@@ -1,0 +1,18 @@
+{
+  "name": "",
+  "scripts": {
+    "prettier": "$(npm bin)/prettier",
+    "sass": "$(npm bin)/sass",
+    "browserify": "$(npm bin)/browserify",
+    "watchify": "$(npm bin)/watchify",
+    "postinstall": "make scss && make js"
+  },
+  "dependencies": {
+    "browserify": "latest",
+    "sass": "latest"
+  },
+  "devDependencies": {
+    "prettier": "latest",
+    "watchify": "latest"
+  }
+}

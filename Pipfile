@@ -1,0 +1,25 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "==19.10b0"
+isort = "*"
+pylint = "*"
+pylint-django = "*"
+pyenchant = "*"
+pytest = "*"
+pytest-django = "*"
+ipython = "*"
+
+[packages]
+django = "*"
+gunicorn = "*"
+dj-database-url = "*"
+psycopg2 = "*"
+django-debug-toolbar = "*"
+whitenoise = "*"
+
+[requires]
+python_version = "3.8"

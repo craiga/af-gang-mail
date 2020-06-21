@@ -1,0 +1,6 @@
+/.env
+/node_modules
+**/static/**/*.css
+**/static/**/*.map
+af_gang_mail/static/bundle.js
+/staticfiles

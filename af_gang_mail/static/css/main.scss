@@ -1,0 +1,29 @@
+@use "components/header";
+@use "components/messages";
+@use "components/footer";
+@use "fonts" as *;
+@use "colors" as *;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: $sansSerif;
+  background-color: $white;
+  color: $black;
+  display: flex;
+  flex-direction: column;
+
+  header,
+  footer {
+    flex-shrink: 0;
+  }
+
+  main {
+    flex-grow: 1;
+    padding: 1em;
+  }
+}
