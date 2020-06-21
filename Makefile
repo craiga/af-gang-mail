@@ -9,15 +9,19 @@ db:  ## Create a database.
 	psql --command "alter user af_gang_mail with encrypted password 'security_is_important';"
 	createdb af_gang_mail --owner=af_gang_mail
 
-setup:  ## Install required environments and packages.
-	pipenv install
-	npm ci --production
-	printf "DATABASE_URL=postgres://af_gang_mail:security_is_important@localhost/af_gang_mail\nCANONICAL_HOST=localhost\nSECRET_KEY=`pwgen --capitalize --numerals 50 1`\n" > .env
+db-delete:  ## Delete database.
+	dropdb af_gang_mail
+	dropuser af_gang_mail
 
-setup-dev:  ## Install required environments and packages for development.
+setup:  ## Install required environments and packages.
 	pipenv install --dev
 	npm ci
+
+dotenv:  ## Create .env file suitable for development.
 	printf "DEBUG=1\nDATABASE_URL=postgres://af_gang_mail:security_is_important@localhost/af_gang_mail\n" > .env
+
+superuser: ## Create a Django superuser. Requires DJANGO_SUPERUSER_USERNAME, _EMAIL and _PASSWORD environment variables.
+	pipenv run python manage.py createsuperuser --no-input
 
 test: ## Run tests.
 	pipenv run pytest
@@ -30,6 +34,22 @@ migrations:  ## Create Django migrations.
 	pipenv run python manage.py makemigrations
 	pipenv run black **/migrations/*.py
 	pipenv run isort --apply **/migrations/*.py
+
+migrate:  ## Run Django migrations.
+	pipenv run python manage.py migrate
+
+cypress-web:  ## Build and serve the web site for Cypress.
+	PIPENV_DONT_LOAD_ENV=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py migrate
+	PIPENV_DONT_LOAD_ENV=1 DEBUG=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py runserver 8001
+
+cypress-db:  ## Create database for Cypress.
+	createuser af_gang_mail_cypress --createdb
+	psql --command "alter user af_gang_mail_cypress with encrypted password 'security_is_important';"
+	createdb af_gang_mail_cypress --owner=af_gang_mail_cypress
+
+cypress-db-delete:  ## Delete database for Cypress.
+	dropdb af_gang_mail_cypress
+	dropuser af_gang_mail_cypress
 
 scss:  ## Build SCSS.
 	npm run sass -- .

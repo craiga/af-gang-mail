@@ -1,9 +1,10 @@
 {
-  "name": "",
+  "name": "af-gang-mail",
   "scripts": {
+    "browserify": "$(npm bin)/browserify",
+    "cypress": "$(npm bin)/cypress",
     "prettier": "$(npm bin)/prettier",
     "sass": "$(npm bin)/sass",
-    "browserify": "$(npm bin)/browserify",
     "watchify": "$(npm bin)/watchify",
     "postinstall": "make scss && make js"
   },
@@ -13,6 +14,7 @@
     "sass": "latest"
   },
   "devDependencies": {
+    "cypress": "^4.8.0",
     "prettier": "latest",
     "watchify": "latest"
   }

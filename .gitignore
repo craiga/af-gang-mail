@@ -1,6 +1,9 @@
-/.env
-/node_modules
 **/static/**/*.css
 **/static/**/*.map
-af_gang_mail/static/bundle.js
+/.env
+/af_gang_mail/static/bundle.js
+/cypress/plugins
+/cypress/screenshots
+/cypress/videos
+/node_modules
 /staticfiles
