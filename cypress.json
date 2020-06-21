@@ -1,0 +1,6 @@
+{
+  "baseUrl": "http://localhost:8001",
+  "env": {
+    "DJANGO_MANAGE_COMMAND": "PIPENV_DONT_LOAD_ENV=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py"
+  }
+}

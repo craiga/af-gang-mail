@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "af-gang-mail",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
@@ -12,6 +12,12 @@
   "env": {
     "SECRET_KEY": {
       "generator": "secret"
+    },
+    "NPM_CONFIG_PRODUCTION": {
+      "value": "true"
     }
+  },
+  "formation": {
+    "web": { "quantity": 1, "size": "hobby" }
   }
 }
