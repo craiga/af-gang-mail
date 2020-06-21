@@ -20,6 +20,10 @@ dj-database-url = "*"
 psycopg2 = "*"
 django-debug-toolbar = "*"
 whitenoise = "*"
+django-enforce-host = "*"
+django-csp = "*"
+django-feature-policy = "*"
+sentry-sdk = "*"
 
 [requires]
 python_version = "3.8"

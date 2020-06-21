@@ -1,0 +1,1 @@
+Sentry = require("@sentry/browser");
