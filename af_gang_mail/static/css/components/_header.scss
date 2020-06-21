@@ -39,7 +39,8 @@ header {
       list-style: none;
 
       li {
-        a {
+        a,
+        span {
           color: inherit;
           padding: ($height - $baseSize) / 2 $baseSize;
           display: block;

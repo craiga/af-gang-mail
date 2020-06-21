@@ -12,6 +12,10 @@ pyenchant = "*"
 pytest = "*"
 pytest-django = "*"
 ipython = "*"
+watchdog = "*"
+pyyaml = "*"  # required by watchdog; https://github.com/gorakhargosh/watchdog/issues/664
+argh = "*"    # required by watchdog; https://github.com/gorakhargosh/watchdog/issues/664
+flower = "*"
 
 [packages]
 django = "*"
@@ -24,6 +28,9 @@ django-enforce-host = "*"
 django-csp = "*"
 django-feature-policy = "*"
 sentry-sdk = "*"
+django-allauth = "*"
+django-celery-email = "*"
+django-anymail = "*"
 
 [requires]
 python_version = "3.8"
