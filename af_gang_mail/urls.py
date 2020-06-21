@@ -4,8 +4,11 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
+from af_gang_mail import views
+
 urlpatterns = [
     path("in-case-of-emergency/", admin.site.urls),
+    path("", views.Home.as_view(), name="home"),
 ]
 
 
