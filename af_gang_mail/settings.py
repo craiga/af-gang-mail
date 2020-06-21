@@ -6,14 +6,15 @@ import os
 import dj_database_url
 import django_feature_policy
 import sentry_sdk
+from sentry_sdk.integrations import celery as sentry_celery
 from sentry_sdk.integrations import django as sentry_django
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 SECRET_KEY = os.environ.get("SECRET_KEY", "not-so-secret")
 DEBUG = bool(os.environ.get("DEBUG"))
+
 
 # Allowed Hosts
 # https://docs.djangoproject.com/en/stable/ref/settings/#allowed-hosts
@@ -53,7 +54,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    # Third-party
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     "debug_toolbar",
+    "djcelery_email",
+    # First-party
     "af_gang_mail",
 ]
 
@@ -74,7 +82,10 @@ ROOT_URLCONF = "af_gang_mail.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            # workaround for https://github.com/pennersr/django-allauth/issues/370
+            "af_gang_mail/templates"
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -172,7 +183,10 @@ SENTRY_ENVIRONMENT = os.environ.get(
 SENTRY_RELEASE = os.environ.get("SENTRY_RELEASE", os.environ.get("HEROKU_SLUG_COMMIT"))
 
 sentry_sdk.init(
-    integrations=[sentry_django.DjangoIntegration()],
+    integrations=[
+        sentry_celery.CeleryIntegration(),
+        sentry_django.DjangoIntegration(),
+    ],
     environment=SENTRY_ENVIRONMENT,
     release=SENTRY_RELEASE,
 )
@@ -231,3 +245,61 @@ CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", None)
 FEATURE_POLICY = {
     feature_name: "none" for feature_name in django_feature_policy.FEATURE_NAMES
 }
+
+
+# Sites
+# https://docs.djangoproject.com/en/3.0/ref/contrib/sites/
+
+SITE_ID = 1
+
+
+# Authentication
+# https://docs.djangoproject.com/en/stable/topics/auth/customizing/
+# https://django-allauth.readthedocs.io/
+
+AUTH_USER_MODEL = "af_gang_mail.User"
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+LOGIN_REDIRECT_URL = "home"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+
+# Cast user to string to get display name.
+ACCOUNT_USER_DISPLAY = str  # pylint: disable=invalid-name
+
+
+# Celery
+# https://docs.celeryproject.org/en/stable/userguide/configuration.html
+
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", os.environ.get("CLOUDAMQP_URL"))
+CELERY_TASK_SOFT_TIME_LIMIT = int(os.environ.get("CELERY_TASK_SOFT_TIME_LIMIT", 30))
+CELERY_TASK_TIME_LIMIT = int(os.environ.get("CELERY_TASK_TIME_LIMIT", 60))
+CELERY_TASK_ALWAYS_EAGER = bool(os.environ.get("CELERY_TASK_ALWAYS_EAGER", False))
+CELERY_TASK_EAGER_PROPAGATES = True
+
+
+# Email
+# https://docs.djangoproject.com/en/stable/topics/email/
+# https://github.com/pmclanahan/django-celery-email
+# https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
+
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "craiga@craiga.id.au")
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+EMAIL_BACKEND = "djcelery_email.backends.CeleryEmailBackend"
+
+if "SENDINBLUE_API_KEY" in os.environ:
+    CELERY_EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
+    ANYMAIL = {"SENDINBLUE_API_KEY": os.environ["SENDINBLUE_API_KEY"]}
+
+else:
+    CELERY_EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = os.environ.get("SMTP_SERVER")
+    EMAIL_PORT = int(os.environ.get("SMTP_PORT", 587))
+    EMAIL_HOST_USER = os.environ.get("SMTP_USERNAME")
+    EMAIL_HOST_PASSWORD = os.environ.get("SMTP_PASSWORD")
+    EMAIL_USE_TLS = bool(os.environ.get("SMTP_TLS", True))

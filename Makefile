@@ -4,6 +4,15 @@ default:  ## Build and serve the web site.
 	make js
 	pipenv run python manage.py runserver
 
+queue:  ## Run the task queue.
+	rabbitmq-server
+
+worker:  ## Run one instance of the queue worker.
+	pipenv run watchmedo auto-restart --pattern=*.py --recursive -- celery worker --app af_gang_mail --loglevel INFO
+
+monitor:  ## Run the web-based queue monitor.
+	pipenv run watchmedo auto-restart --pattern=*.py --recursive -- celery flower --app af_gang_mail
+
 db:  ## Create a database.
 	createuser af_gang_mail --createdb
 	psql --command "alter user af_gang_mail with encrypted password 'security_is_important';"

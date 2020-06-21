@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -ex
+
+if [ -z "$DEBUG" ]
+then
+    python manage.py check --deploy --fail-level WARNING
+fi
+
+REMAP_SIGTERM=SIGQUIT celery worker --app af_gang_mail

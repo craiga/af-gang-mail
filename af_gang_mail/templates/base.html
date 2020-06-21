@@ -8,9 +8,9 @@
     {% block style %} {% endblock %}
   </head>
   <body>
-    {% include "af_gang_mail/_header.html" with user=user only %}
+    {% include "af_gang_mail/_header.html" %}
 
-    {% include "af_gang_mail/_messages.html" with messages=messages only %}
+    {% include "af_gang_mail/_messages.html" %}
 
     <main>
       {% block content %}
@@ -18,7 +18,7 @@
       {% endblock %}
     </main>
 
-    {% include "af_gang_mail/_footer.html" with user=user only %}
+    {% include "af_gang_mail/_footer.html" %}
 
   </body>
   <script src="{% static "bundle.js" %}"></script>
