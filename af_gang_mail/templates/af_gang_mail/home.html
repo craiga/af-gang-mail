@@ -1,7 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <h1>AF Gang Mail Exchange</h1>
+  <p>The AF Gang mail exchange is open for business! Make someone’s day by sending a small gift up of a value up to £5.</p>
   <section>
-    <p>Hello, world!</p>
+    <h1>Enter an email address and choose a password to get started</h1>
+    <form method="post" action="{% url 'account_signup' %}">
+      {% csrf_token %}
+      {{ register_form }}
+      <button>Get Started</button>
+    </form>
+  </section>
+  <section>
+    <h1>Log in</h1>
+    <form method="post" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {{ login_form }}
+      <button>Log In</button>
+    </form>
   </section>
 {% endblock %}
