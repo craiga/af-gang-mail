@@ -44,7 +44,7 @@ jobs:
       - name: Run Tests
         run: npm run cypress run -- --config baseUrl=https://af-gang-mail-${{ github.run_id }}-${{ github.run_number }}.herokuapp.com
         env:
-          CYPRESS_DJANGO_MANAGE_COMMAND: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku run --app $HEROKU_APP_NAME --exit-code python manage.py
+          CYPRESS_DJANGO_MANAGE_COMMAND: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku run --app af-gang-mail-${{ github.run_id }}-${{ github.run_number }} --exit-code python manage.py
       - name: Destroy Heroku Deployment
         if: ${{ always() }}
         run: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku apps:destroy af-gang-mail-${{ github.run_id }}-${{ github.run_number }} --confirm af-gang-mail-${{ github.run_id }}-${{ github.run_number }}

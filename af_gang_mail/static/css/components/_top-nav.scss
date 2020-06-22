@@ -1,0 +1,46 @@
+@use "../colors" as *;
+@use "../fonts" as *;
+@use "../size" as *;
+
+$height: $baseSize * 3;
+$background: $black;
+$foreground: $white;
+
+nav {
+  display: flex;
+  height: $height;
+  flex-shrink: 0;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+  background: $background;
+  color: $foreground;
+  font-size: $baseSize;
+  line-height: 1;
+
+  a {
+    color: inherit;
+    padding: ($height - $baseSize) / 2 $baseSize;
+    display: block;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+    justify-content: flex-end;
+    list-style: none;
+
+    li {
+      a,
+      span {
+        color: inherit;
+        padding: ($height - $baseSize) / 2 $baseSize;
+        display: block;
+      }
+    }
+  }
+}

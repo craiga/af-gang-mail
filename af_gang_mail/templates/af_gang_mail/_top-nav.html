@@ -1,0 +1,10 @@
+<nav>
+  <a href="http://afgang.co.uk/">back to afgang.co.uk</a>
+  <ul>
+    <li><a href="{% url 'home'%}">Home</a></li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+      <li><a href="{% url 'account_logout' %}">Log Out</a></li>
+    {% endif %}
+  </ul>
+</nav>

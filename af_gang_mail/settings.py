@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "crispy_forms",
     "debug_toolbar",
     "djcelery_email",
     # First-party

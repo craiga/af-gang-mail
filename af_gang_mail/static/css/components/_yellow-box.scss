@@ -1,0 +1,40 @@
+@use "../colors" as *;
+@use "../size" as *;
+
+.yellow-box {
+  padding: $baseSize / 2 $baseSize;
+  margin: $baseSize 0;
+  background: $yellow;
+  border: 1px solid $black;
+  h1 {
+    font-size: inherit;
+    text-align: center;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  label,
+  button {
+    width: 100%;
+    font-size: $baseSize;
+    display: block;
+    padding: $baseSize / 4 0;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    border: 1px solid black;
+    padding: $baseSize / 4;
+    box-sizing: border-box;
+  }
+  button {
+    color: $white;
+    background: $black;
+    padding: $baseSize / 2;
+    border-width: 0;
+    margin: $baseSize 0 $baseSize / 2;
+  }
+  .control-group {
+    margin: $baseSize / 2 0;
+  }
+}

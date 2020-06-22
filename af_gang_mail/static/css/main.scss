@@ -1,8 +1,12 @@
+@use "components/top-nav";
 @use "components/header";
 @use "components/messages";
+@use "components/yellow-box";
 @use "components/footer";
 @use "fonts" as *;
 @use "colors" as *;
+
+$opacity: 25%;
 
 html,
 body {
@@ -16,11 +20,14 @@ body {
   color: $black;
   display: flex;
   flex-direction: column;
-
-  header,
-  footer {
-    flex-shrink: 0;
-  }
+  background-image: linear-gradient(
+      rgba($white, $opacity),
+      rgba($white, $opacity)
+    ),
+    url("/static/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 
   main {
     flex-grow: 1;
