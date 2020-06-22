@@ -1,51 +1,16 @@
-@use "../colors" as *;
-@use "../fonts" as *;
-
-$baseSize: 16px;
-$height: $baseSize * 6;
-$background: $black;
-$foreground: $white;
-
 header {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-
-  background: $background;
-  color: $foreground;
-  font-size: $baseSize;
-  line-height: 1;
-  height: $height;
-
-  img {
-    height: 100%;
-  }
-
   h1 {
-    flex-grow: 1;
-    font-size: $baseSize * 2;
-    padding: ($height - ($baseSize * 2)) / 2;
-    margin: 0;
-  }
-
-  nav {
-    ul {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: no-wrap;
-      justify-content: flex-end;
-      list-style: none;
-
-      li {
-        a,
-        span {
-          color: inherit;
-          padding: ($height - $baseSize) / 2 $baseSize;
-          display: block;
-        }
-      }
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 10vh;
+    @media (orientation: portrait) {
+      font-size: 10vw;
     }
+
+    line-height: 120%;
+    /* identical to box height, or 38px */
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-align: center;
   }
 }

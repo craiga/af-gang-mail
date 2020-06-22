@@ -1,0 +1,5 @@
+{% if user.get_full_name %}
+  Welcome back {{ user }}!
+{% else %}
+  Hello {{ user }}!
+{% endif %}

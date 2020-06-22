@@ -1,0 +1,30 @@
+[
+  {
+    "model": "af_gang_mail.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$g89tNaWaVUfZ$8MwAYFjKmmF266mJH8gWfsA7pTAmxuhDrfPFYEzAlZU=",
+      "last_login": "2020-06-22T18:00:25.631Z",
+      "is_superuser": false,
+      "username": "alice",
+      "first_name": "Alice",
+      "last_name": "McUserFace",
+      "email": "alice@afgang.co.uk",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-06-22T18:00:25.299Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "account.emailaddress",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "email": "alice@afgang.co.uk",
+      "verified": true,
+      "primary": true
+    }
+  }
+]

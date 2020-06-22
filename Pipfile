@@ -31,6 +31,7 @@ sentry-sdk = "*"
 django-allauth = "*"
 django-celery-email = "*"
 django-anymail = "*"
+django-crispy-forms = "*"
 
 [requires]
 python_version = "3.8"

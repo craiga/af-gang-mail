@@ -2,6 +2,7 @@
 **/static/**/*.map
 /.env
 /af_gang_mail/static/bundle.js
+/cypress/fixtures
 /cypress/plugins
 /cypress/screenshots
 /cypress/videos
