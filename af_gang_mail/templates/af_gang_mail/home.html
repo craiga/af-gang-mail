@@ -3,9 +3,11 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <p>The AF Gang mail exchange is open for business!
-    Make someone’s day by sending a small gift.
-    There's no minimum value—whatever you're comfortable with is fine.</p>
+  <section>
+    <p>The AF Gang mail exchange is open for business!
+      Make someone’s day by sending a small gift.
+      There's no minimum value—whatever you're comfortable with is fine.</p>
+  </section>
   <section class="yellow-box" data-cy="signup">
     <h1>Enter an email address and choose a password to get started</h1>
     <form method="post" action="{% url 'account_signup' %}">
