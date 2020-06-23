@@ -5,17 +5,17 @@
 {% block body_classes %}home unauthenticated{% endblock %}
 
 {% block content %}
-  <p class="white-box">The AF Gang mail exchange is open for business!
+  <p>The AF Gang mail exchange is open for business!
     Make someone’s day by sending a small gift.
     There's no minimum value—whatever you're comfortable with is fine.</p>
   <section>
-    <form method="post" action="{% url 'account_signup' %}"  class="yellow-box" data-cy="signup">
+    <form method="post" action="{% url 'account_signup' %}"  data-cy="signup">
     <h1>Enter an email address and choose a password to get started</h1>
       {% csrf_token %}
       {{ register_form|crispy }}
       <button>Get Started</button>
     </form>
-    <form method="post" action="{% url 'account_login' %}" class="yellow-box" data-cy="login">
+    <form method="post" action="{% url 'account_login' %}" data-cy="login">
       <h1>Log in</h1>
       {% csrf_token %}
       {{ login_form|crispy }}

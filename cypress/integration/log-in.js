@@ -3,7 +3,7 @@ describe("Log in", () => {
     cy.flushDatabase();
     cy.loadFixture("cypress/user");
   }),
-    it("You can log in from the home page", () => {
+    it("User can log in from the home page", () => {
       cy.visit("/");
       cy.get("[data-cy=login]")
         .contains("E-mail")
@@ -18,7 +18,13 @@ describe("Log in", () => {
       cy.contains("Welcome back Alice McUserFace!");
 
       cy.contains("Your Name & Address");
+      cy.contains("340 Acton Mews");
+      cy.contains("London");
+      cy.contains("England");
+      cy.contains("E8 4EA");
+      cy.contains("United Kingdom");
       cy.contains("Your Upcoming Exchanges");
       cy.contains("Your Past Exchanges");
-    });
+    }),
+    it("User can edit your name and address", () => {});
 });

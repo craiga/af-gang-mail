@@ -1,7 +1,7 @@
 [MASTER]
 load-plugins = pylint.extensions.mccabe, pylint_django, pylint.extensions.bad_builtin
 ignore-patterns = manage.py, \d{4}.*.py
-good-names = application, urlpatterns, i, j, k, e
+good-names = application, urlpatterns, i, j, k, e, rf
 
 [REPORTS]
 output-format = colorized

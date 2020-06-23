@@ -9,3 +9,9 @@ def sentry(request):
         "sentry_environment": settings.SENTRY_ENVIRONMENT,
         "sentry_release": settings.SENTRY_RELEASE,
     }
+
+
+def google(request):
+    return {
+        "google_api_key": settings.GOOGLE_API_KEY,
+    }

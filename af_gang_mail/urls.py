@@ -9,6 +9,11 @@ from af_gang_mail import views
 urlpatterns = [
     path("in-case-of-emergency/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
+    path(
+        "update-name-and-address/",
+        views.UpdateNameAndAddress.as_view(),
+        name="update-name-and-address",
+    ),
     path("", views.Home.as_view(), name="home"),
 ]
 

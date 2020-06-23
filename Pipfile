@@ -16,6 +16,7 @@ watchdog = "*"
 pyyaml = "*"  # required by watchdog; https://github.com/gorakhargosh/watchdog/issues/664
 argh = "*"    # required by watchdog; https://github.com/gorakhargosh/watchdog/issues/664
 flower = "*"
+model-bakery = "*"
 
 [packages]
 django = "*"
@@ -32,6 +33,7 @@ django-allauth = "*"
 django-celery-email = "*"
 django-anymail = "*"
 django-crispy-forms = "*"
+django-countries = "*"
 
 [requires]
 python_version = "3.8"
