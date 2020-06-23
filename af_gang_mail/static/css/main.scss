@@ -5,6 +5,7 @@
 @use "components/footer";
 @use "fonts" as *;
 @use "colors" as *;
+@use "size" as *;
 
 $opacity: 25%;
 
@@ -32,5 +33,31 @@ body {
   main {
     flex-grow: 1;
     padding: 1em;
+
+    section {
+      margin: $baseSize 0;
+    }
+
+    @media only screen and (min-width: 600px) {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: center;
+      section {
+        flex-grow: 1;
+        flex-basis: auto;
+        width: 200px;
+        max-width: 500px;
+        margin: $baseSize;
+      }
+
+      @media only screen and (max-width: 800px) {
+        section:first-of-type {
+          width: 100%;
+          align-self: center;
+        }
+      }
+    }
   }
 }
