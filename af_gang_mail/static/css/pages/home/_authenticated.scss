@@ -1,0 +1,32 @@
+@use "../../colors" as *;
+@use "../../size" as *;
+
+$formWidthMin: 260px;
+$formWidthMax: 400px;
+
+.home.authenticated {
+  main {
+    div {
+      form {
+        margin: $baseSize 0;
+      }
+    }
+    @media (min-width: $formWidthMin * 3 + $baseSize * 9) {
+      div {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: center;
+        form {
+          flex-grow: 1;
+          flex-basis: auto;
+          width: $formWidthMin;
+          max-width: $formWidthMax;
+          box-sizing: border-box;
+          margin: $baseSize;
+        }
+      }
+    }
+  }
+}

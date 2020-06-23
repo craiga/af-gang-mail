@@ -16,5 +16,9 @@ describe("Log in", () => {
       cy.get("[data-cy=login]").contains("Log In").click();
 
       cy.contains("Welcome back Alice McUserFace!");
+
+      cy.contains("Your Name & Address");
+      cy.contains("Your Upcoming Exchanges");
+      cy.contains("Your Past Exchanges");
     });
 });

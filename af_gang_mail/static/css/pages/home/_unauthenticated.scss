@@ -1,0 +1,60 @@
+@use "../../colors" as *;
+@use "../../size" as *;
+
+$formWidthMin: 260px;
+$formWidthMax: 400px;
+
+.home.unauthenticated {
+  #messages {
+    max-width: $formWidthMax * 2 + $baseSize;
+    margin: 0 auto;
+  }
+
+  main {
+    p {
+      max-width: $formWidthMax * 2;
+      margin: 0 auto;
+      font-size: $baseSize * 1;
+      text-shadow: 0 0 5px $white;
+    }
+
+    section {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: center;
+      form {
+        flex-grow: 1;
+        flex-basis: auto;
+        width: $formWidthMin;
+        max-width: $formWidthMax;
+        margin: $baseSize 0;
+        box-sizing: border-box;
+        @media (min-width: $formWidthMin * 2 + $baseSize * 2) {
+          margin: $baseSize;
+        }
+      }
+    }
+
+    @media (min-width: $formWidthMax * 3 + $baseSize * 3) {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+
+      p {
+        flex-grow: 1;
+        width: $formWidthMin;
+        max-width: $formWidthMax;
+        margin: $baseSize;
+      }
+
+      section {
+        flex-grow: 1;
+        width: $formWidthMin * 2 + $baseSize * 4;
+        max-width: $formWidthMax * 2 + $baseSize * 4;
+      }
+    }
+  }
+}
