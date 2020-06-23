@@ -18,5 +18,9 @@ describe("Sign up", () => {
       cy.contains(
         "We've sent an email to alice@afgang.co.uk to verify your account. Please click the link in that email!"
       );
+
+      cy.contains("Your Name & Address");
+      cy.contains("Your Upcoming Exchanges");
+      cy.contains("Your Past Exchanges");
     });
 });

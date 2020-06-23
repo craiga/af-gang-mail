@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{% static "css/main.css" %}">
     {% block style %} {% endblock %}
   </head>
-  <body>
+  <body class="{% block body_classes %}{% endblock %}">
     {% include "af_gang_mail/_top-nav.html" %}
 
     <header><h1>AF Gang Mail Exchange</h1></header>
