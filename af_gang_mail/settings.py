@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "crispy_forms",
     "debug_toolbar",
+    "django_countries",
     "djcelery_email",
     # First-party
     "af_gang_mail",
@@ -96,6 +97,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "af_gang_mail.context_processors.google",
                 "af_gang_mail.context_processors.sentry",
             ],
         },
@@ -195,26 +197,6 @@ sentry_sdk.init(
 )
 
 
-# Content Security Policy
-# https://django-csp.readthedocs.io/en/stable/configuration.html
-
-CSP_DEFAULT_SRC = []
-CSP_IMG_SRC = ["'self'", "https://secure.gravatar.com/avatar/"]
-CSP_CONNECT_SRC = ["'self'", "https://*.ingest.sentry.io"]
-CSP_STYLE_SRC = ["'self'"]
-CSP_SCRIPT_SRC = ["'self'"]
-CSP_INCLUDE_NONCE_IN = ["script-src"]
-CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", None)
-
-
-# Feature policy
-# https://github.com/adamchainz/django-feature-policy#setting
-
-FEATURE_POLICY = {
-    feature_name: "none" for feature_name in django_feature_policy.FEATURE_NAMES
-}
-
-
 # Security
 # https://docs.djangoproject.com/en/stable/topics/security/
 
@@ -234,10 +216,13 @@ SECURE_REFERRER_POLICY = "same-origin"
 # https://django-csp.readthedocs.io/en/stable/configuration.html
 
 CSP_DEFAULT_SRC = []
-CSP_IMG_SRC = ["'self'"]
+CSP_IMG_SRC = ["'self'", "https://maps.gstatic.com/mapfiles/api-3/images/"]
 CSP_CONNECT_SRC = ["'self'", "https://*.ingest.sentry.io"]
-CSP_STYLE_SRC = ["'self'"]
-CSP_SCRIPT_SRC = ["'self'"]
+CSP_STYLE_SRC = [
+    "'self'",
+    "'unsafe-inline'",  # required for Google places auto suggest
+]
+CSP_SCRIPT_SRC = ["'self'", "https://maps.googleapis.com"]
 CSP_INCLUDE_NONCE_IN = ["script-src"]
 CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", None)
 
@@ -306,3 +291,8 @@ else:
     EMAIL_HOST_USER = os.environ.get("SMTP_USERNAME")
     EMAIL_HOST_PASSWORD = os.environ.get("SMTP_PASSWORD")
     EMAIL_USE_TLS = bool(os.environ.get("SMTP_TLS", True))
+
+
+# Google APIs
+
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")

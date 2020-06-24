@@ -5,11 +5,6 @@ $formWidthMin: 260px;
 $formWidthMax: 400px;
 
 .home.unauthenticated {
-  #messages {
-    max-width: $formWidthMax * 2 + $baseSize;
-    margin: 0 auto;
-  }
-
   main {
     p {
       max-width: $formWidthMax * 2;

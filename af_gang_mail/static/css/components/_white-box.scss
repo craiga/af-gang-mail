@@ -1,9 +1,0 @@
-@use "../colors" as *;
-@use "../size" as *;
-
-$opacity: 0%;
-
-.white-box {
-  padding: $baseSize / 2 $baseSize;
-  background: rgba($white, $opacity);
-}

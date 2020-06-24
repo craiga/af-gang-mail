@@ -35,6 +35,7 @@ jobs:
           HEROKU_APP_NAME="af-gang-mail-${{ github.run_id }}-${{ github.run_number }}"
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku labs:enable runtime-dyno-metadata --app $HEROKU_APP_NAME
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set SENTRY_DSN=${{ secrets.SENTRY_DSN }} --app $HEROKU_APP_NAME
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} --app $HEROKU_APP_NAME
       - name: Install Cypress
         run: npm install cypress@`cat package-lock.json | jq ".dependencies.cypress.version" --raw-output`
       - name: Wait for Heroku

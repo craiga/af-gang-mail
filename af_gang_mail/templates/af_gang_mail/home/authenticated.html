@@ -4,15 +4,16 @@
 
 {% block content %}
   <div>
-    <form class="yellow-box">
+    <form action="{% url 'update-name-and-address' %}">
       <h1>Your Name &amp; Address</h1>
-      <p>Coming soon.</p>
+      <div>{{ user.get_full_address|linebreaksbr }}</div>
+      <button>Edit Name &amp; Address</button>
     </form>
-    <form class="yellow-box">
+    <form>
       <h1>Your Upcoming Exchanges</h1>
       <p>Coming soon.</p>
     </form>
-    <form class="yellow-box">
+    <form>
       <h1>Your Past Exchanges</h1>
       <p>Coming soon.</p>
     </form>

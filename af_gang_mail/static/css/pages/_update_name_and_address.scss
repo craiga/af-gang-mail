@@ -1,0 +1,15 @@
+@use "../colors" as *;
+@use "../size" as *;
+
+$formWidthMin: 260px;
+$formWidthMax: 600px;
+
+.update-name-and-address {
+  main {
+    form {
+      min-width: $formWidthMin;
+      max-width: $formWidthMax;
+      margin: $baseSize auto;
+    }
+  }
+}

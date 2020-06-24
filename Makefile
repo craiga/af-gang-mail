@@ -48,8 +48,13 @@ migrate:  ## Run Django migrations.
 	pipenv run python manage.py migrate
 
 cypress-web:  ## Build and serve the web site for Cypress.
-	PIPENV_DONT_LOAD_ENV=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py migrate
-	PIPENV_DONT_LOAD_ENV=1 DEBUG=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py runserver 8001
+	PIPENV_DONT_LOAD_ENV=1 \
+		DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress \
+		pipenv run python manage.py migrate
+	PIPENV_DONT_LOAD_ENV=1 \
+		DEBUG=1 \
+		DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress \
+		pipenv run python manage.py runserver 8001
 
 cypress-db:  ## Create database for Cypress.
 	createuser af_gang_mail_cypress --createdb
