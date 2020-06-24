@@ -12,7 +12,7 @@ on:
 jobs:
   lint-python:
     name: Lint Python Code
-    timeout-minutes: 2
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repo
