@@ -263,12 +263,25 @@ ACCOUNT_USER_DISPLAY = str  # pylint: disable=invalid-name
 
 # Celery
 # https://docs.celeryproject.org/en/stable/userguide/configuration.html
+# https://www.cloudamqp.com/docs/celery.html
 
+CELERY_BROKER_CONNECTION_TIMEOUT = int(
+    os.environ.get("CELERY_BROKER_CONNECTION_TIMEOUT", 30)
+)
+CELERY_BROKER_HEARTBEAT = None
+CELERY_BROKER_POOL_LIMIT = int(os.environ.get("CELERY_BROKER_POOL_LIMIT", 1))
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", os.environ.get("CLOUDAMQP_URL"))
-CELERY_TASK_SOFT_TIME_LIMIT = int(os.environ.get("CELERY_TASK_SOFT_TIME_LIMIT", 30))
-CELERY_TASK_TIME_LIMIT = int(os.environ.get("CELERY_TASK_TIME_LIMIT", 60))
+CELERY_EVENT_QUEUE_EXPIRES = int(os.environ.get("CELERY_EVENT_QUEUE_EXPIRES", 60))
+CELERY_RESULT_BACKEND = None
 CELERY_TASK_ALWAYS_EAGER = bool(os.environ.get("CELERY_TASK_ALWAYS_EAGER", False))
 CELERY_TASK_EAGER_PROPAGATES = True
+CELERY_TASK_SOFT_TIME_LIMIT = int(os.environ.get("CELERY_TASK_SOFT_TIME_LIMIT", 30))
+CELERY_TASK_TIME_LIMIT = int(os.environ.get("CELERY_TASK_TIME_LIMIT", 60))
+CELERY_WORKER_CONCURRENCY = int(os.environ.get("CELERY_WORKER_CONCURRENCY", 5))
+CELERY_WORKER_PREFETCH_MULTIPLIER = int(
+    os.environ.get("CELERY_WORKER_PREFETCH_MULTIPLIER", 1)
+)
+CELERY_WORKER_SEND_TASK_EVENTS = bool(os.environ.get("CELERY_WORKER_SEND_TASK_EVENTS"))
 
 
 # Email
