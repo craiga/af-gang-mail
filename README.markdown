@@ -1,5 +1,7 @@
 # AF Gang Mail
 
+Just an idea I'm working on.
+
 ## Getting Started
 
 To run the site locally, run:
