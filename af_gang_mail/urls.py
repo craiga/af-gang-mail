@@ -14,6 +14,9 @@ urlpatterns = [
         views.UpdateNameAndAddress.as_view(),
         name="update-name-and-address",
     ),
+    path(
+        "select-exchanges/", views.SelectExchanges.as_view(), name="select-exchanges",
+    ),
     path("", views.Home.as_view(), name="home"),
 ]
 

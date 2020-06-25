@@ -1,0 +1,26 @@
+[
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 1,
+    "fields": {
+      "name": "Christmas 2050",
+      "drawn": "2050-12-11T00:00:00Z",
+      "sent": "2050-12-18T00:00:00Z",
+      "received": "2050-12-25T00:00:00Z",
+      "created": "2020-06-25T15:35:35.504Z",
+      "updated": "2020-06-25T15:35:35.504Z"
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 2,
+    "fields": {
+      "name": "Christmas 1978",
+      "drawn": "1978-12-11T00:00:00Z",
+      "sent": "1978-12-18T00:00:00Z",
+      "received": "1978-12-25T00:00:00Z",
+      "created": "2020-06-25T15:35:35.504Z",
+      "updated": "2020-06-25T15:35:35.504Z"
+    }
+  }
+]

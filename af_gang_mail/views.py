@@ -41,6 +41,9 @@ class Home(TemplateView):
             if not user.get_full_name() or not user.get_full_address():
                 return HttpResponseRedirect(urls.reverse("update-name-and-address"))
 
+            if not user.exchanges.exists():
+                return HttpResponseRedirect(urls.reverse("select-exchanges"))
+
         return super().get(request, *args, **kwargs)
 
 
@@ -49,6 +52,32 @@ class UpdateNameAndAddress(LoginRequiredMixin, UpdateView):
 
     form_class = forms.UpdateNameAndAddress
     template_name = "af_gang_mail/update_name_and_address.html"
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def form_valid(self, form):
+        """Handle valid form."""
+
+        response = super().form_valid(form)
+
+        messages.success(
+            self.request,
+            f"Thanks { self.request.user.get_full_name() }!",
+            fail_silently=True,
+        )
+
+        return response
+
+    def get_success_url(self):
+        return urls.reverse("home")
+
+
+class SelectExchanges(LoginRequiredMixin, UpdateView):
+    """Select exchanges."""
+
+    form_class = forms.SelectExchanges
+    template_name = "af_gang_mail/select_exchanges.html"
 
     def get_object(self, queryset=None):
         return self.request.user

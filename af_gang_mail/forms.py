@@ -1,6 +1,7 @@
 """Forms"""
 
 from django import forms
+from django.utils.timezone import now
 
 from af_gang_mail import models
 
@@ -31,3 +32,18 @@ class UpdateNameAndAddress(forms.ModelForm):
             "address_state": forms.TextInput(),
             "address_postcode": forms.TextInput(),
         }
+
+
+class SelectExchanges(forms.ModelForm):
+    """Update selected exchanges."""
+
+    exchanges = forms.ModelMultipleChoiceField(
+        queryset=models.Exchange.objects.filter(drawn__gt=now()).order_by("drawn"),
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+    class Meta:
+        model = models.User
+        fields = [
+            "exchanges",
+        ]

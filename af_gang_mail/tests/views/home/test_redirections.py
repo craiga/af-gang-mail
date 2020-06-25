@@ -1,4 +1,4 @@
-"""View tests."""
+"""Home view redirection tests."""
 
 # pylint: disable=redefined-outer-name
 
@@ -31,8 +31,8 @@ def user_address_kwargs():
 
 
 @pytest.fixture
-def user_complete(user_name_kwargs, user_address_kwargs):
-    return baker.prepare("af_gang_mail.User", **user_name_kwargs, **user_address_kwargs)
+def user_no_exchanges(user_name_kwargs, user_address_kwargs):
+    return baker.make("af_gang_mail.User", **user_name_kwargs, **user_address_kwargs)
 
 
 @pytest.fixture
@@ -67,19 +67,32 @@ def test_empty_address(view, user_with_name, rf):
     assert response["Location"] == urls.reverse("update-name-and-address")
 
 
+@pytest.mark.django_db
+def test_no_exchanges(view, user_no_exchanges, rf):
+    """Redirected to select exchanges when no exchanges have been selected."""
+
+    request = rf.get("/")
+    request.user = user_no_exchanges
+    response = view(request)
+
+    assert response.status_code == HTTPStatus.FOUND
+    assert response["Location"] == urls.reverse("select-exchanges")
+
+
+@pytest.mark.django_db
+def test_all_details(view, user, rf):
+    """Not redirected when logged in with all details."""
+
+    request = rf.get("/")
+    request.user = user
+    response = view(request)
+    assert response.status_code == HTTPStatus.OK
+
+
 def test_unauthentated(view, anonymous_user, rf):
     """Not redirected when unauthenticated."""
 
     request = rf.get("/")
     request.user = anonymous_user
-    response = view(request)
-    assert response.status_code == HTTPStatus.OK
-
-
-def test_all_details(view, user_complete, rf):
-    """Not redirected when logged in with all details."""
-
-    request = rf.get("/")
-    request.user = user_complete
     response = view(request)
     assert response.status_code == HTTPStatus.OK

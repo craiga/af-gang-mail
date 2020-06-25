@@ -1,7 +1,9 @@
 """Models."""
 
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.timezone import now
 
 from django_countries.fields import CountryField
 
@@ -15,6 +17,7 @@ class User(AbstractUser):
     address_state = models.TextField("State", blank=True, null=False)
     address_postcode = models.TextField("Postcode", blank=True, null=False)
     address_country = CountryField("Country", blank=True, null=False)
+    exchanges = models.ManyToManyField("Exchange")
 
     def __str__(self):
         """Full name or email address."""
@@ -37,3 +40,34 @@ class User(AbstractUser):
         ]
         address_parts = [part for part in address_parts if part]
         return "\n".join(address_parts)
+
+    def get_past_exchanges(self):
+        return self.exchanges.filter(received__lt=now())
+
+    def get_current_exchanges(self):
+        return self.exchanges.filter(drawn__lte=now(), received__gte=now())
+
+    def get_future_exchanges(self):
+        return self.exchanges.filter(drawn__gt=now())
+
+
+class Exchange(models.Model):
+    """Exchange"""
+
+    name = models.TextField(blank=False, null=False)
+    drawn = models.DateTimeField(blank=False, null=False)
+    sent = models.DateTimeField(blank=False, null=False)
+    received = models.DateTimeField(blank=False, null=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    def clean(self):
+        if not self.drawn < self.sent < self.received:
+            raise ValidationError(
+                "Exchange must be drawn before it's sent and sent before it's recieved."
+            )
+
+        return super().clean()

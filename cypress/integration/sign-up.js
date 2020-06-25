@@ -1,6 +1,7 @@
 describe("Sign up", () => {
   before(() => {
     cy.flushDatabase();
+    cy.loadFixture("cypress/exchanges");
   }),
     it("You can sign up from the home page", () => {
       cy.visit("/");
@@ -30,6 +31,10 @@ describe("Sign up", () => {
 
       cy.contains("Thanks Zane Xylophone!");
 
+      cy.contains("Select Exchanges");
+      cy.contains("Christmas 2050").click();
+      cy.contains("Join the Selected Exchanges").click();
+
       cy.contains("Your Name & Address");
       cy.contains("10 Fucking");
       cy.contains("Fucking");
@@ -37,6 +42,7 @@ describe("Sign up", () => {
       cy.contains("5121");
       cy.contains("Austria");
       cy.contains("Your Upcoming Exchanges");
+      cy.contains("Christmas 2050");
       cy.contains("Your Past Exchanges");
     });
 });

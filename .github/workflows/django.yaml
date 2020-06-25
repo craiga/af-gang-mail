@@ -12,6 +12,20 @@ jobs:
     name: Test Django
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: data_power
+          POSTGRES_PASSWORD: security_is_important
+          POSTGRES_DB: data_power
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - name: Clone Repo
         uses: actions/checkout@v2
@@ -25,6 +39,8 @@ jobs:
           pipenv install --dev
       - name: Run Tests
         run: make test
+        env:
+          DATABASE_URL: postgres://data_power:security_is_important@localhost/data_power
 
   check-django-configuration:
     name: Check Django Configuration

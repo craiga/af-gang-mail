@@ -19,7 +19,8 @@
       "is_active": true,
       "date_joined": "2020-06-22T18:00:25.299Z",
       "groups": [],
-      "user_permissions": []
+      "user_permissions": [],
+      "exchanges": [1, 2]
     }
   },
   {
