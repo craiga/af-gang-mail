@@ -9,9 +9,25 @@
       <div>{{ user.get_full_address|linebreaksbr }}</div>
       <button>Edit Name &amp; Address</button>
     </form>
-    <form>
+    <form action="{% url 'select-exchanges' %}">
       <h1>Your Upcoming Exchanges</h1>
-      <p>Coming soon.</p>
+      {% if user.get_future_exchanges %}
+        <table>
+          <tr>
+            <th scope="col">Exchange</th>
+            <th scope="col">Drawn</th>
+          </tr>
+          {% for exchange in user.get_future_exchanges %}
+            <tr>
+              <td>{{ exchange.name }}</td>
+              <td>{{ exchange.drawn }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      {% else %}
+        <p>No upcoming exchanges.</p>
+      {% endif %}
+      <button>Select Exchanges</button>
     </form>
     <form>
       <h1>Your Past Exchanges</h1>

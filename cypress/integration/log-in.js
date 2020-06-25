@@ -1,6 +1,7 @@
 describe("Log in", () => {
   before(() => {
     cy.flushDatabase();
+    cy.loadFixture("cypress/exchanges");
     cy.loadFixture("cypress/user");
   }),
     it("User can log in from the home page", () => {
@@ -25,6 +26,5 @@ describe("Log in", () => {
       cy.contains("United Kingdom");
       cy.contains("Your Upcoming Exchanges");
       cy.contains("Your Past Exchanges");
-    }),
-    it("User can edit your name and address", () => {});
+    });
 });

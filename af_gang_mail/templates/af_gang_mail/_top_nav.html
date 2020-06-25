@@ -4,6 +4,9 @@
     <li><a href="{% url 'home'%}">Home</a></li>
     {% if user.is_authenticated %}
       <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+      {% if user.is_staff %}
+        <li><a href="{% url 'admin:index' %}">Admin</a></li>
+      {% endif %}
       <li><a href="{% url 'account_logout' %}">Log Out</a></li>
     {% endif %}
   </ul>

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block body_classes %}update-name-and-address{% endblock %}
+
+{% block content %}
+
+  <form method="post">
+    <h1>Select Exchanges</h1>
+    {% csrf_token %}
+    <button>Join the Selected Exchanges</button>
+    {{ form|crispy }}
+    <button>Join the Selected Exchanges</button>
+  </form>
+
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places"></script>
+{% endblock %}
