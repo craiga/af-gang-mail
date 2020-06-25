@@ -17,6 +17,7 @@ pyyaml = "*"  # required by watchdog; https://github.com/gorakhargosh/watchdog/i
 argh = "*"    # required by watchdog; https://github.com/gorakhargosh/watchdog/issues/664
 flower = "*"
 model-bakery = "*"
+pytest-repeat = "*"
 
 [packages]
 django = "*"
