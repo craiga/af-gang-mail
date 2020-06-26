@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e961706840eac6b65a6d65c5dd4bbd6a6961af57ad6da3f0e6f18509108bc1f3"
+            "sha256": "74db45d4e559d2531a618e7c91e8571881a3077560aeffb53375880b4c485e1c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -161,6 +161,14 @@
             ],
             "index": "pypi",
             "version": "==3.4.0"
+        },
+        "django-tables2": {
+            "hashes": [
+                "sha256:28da782f81f046c7d921246f43e7ba2df430cafe5a0e00a0f9dadef25a0e487d",
+                "sha256:7e425ad51e22caf5470351981f0fcd4fd35d4cf2d4c3b76fa1b7bf56251778d1"
+            ],
+            "index": "pypi",
+            "version": "==2.3.1"
         },
         "future": {
             "hashes": [
@@ -797,10 +805,10 @@
         },
         "watchdog": {
             "hashes": [
-                "sha256:c560efb643faed5ef28784b2245cf8874f939569717a4a12826a173ac644456b"
+                "sha256:4214e1379d128b0588021880ccaf40317ee156d4603ac388b9adcf29165e0c04"
             ],
             "index": "pypi",
-            "version": "==0.10.2"
+            "version": "==0.10.3"
         },
         "wcwidth": {
             "hashes": [

@@ -17,6 +17,9 @@ urlpatterns = [
     path(
         "select-exchanges/", views.SelectExchanges.as_view(), name="select-exchanges",
     ),
+    path(
+        "manage-exchanges/", views.ManageExchanges.as_view(), name="manage-exchanges",
+    ),
     path("", views.Home.as_view(), name="home"),
 ]
 
