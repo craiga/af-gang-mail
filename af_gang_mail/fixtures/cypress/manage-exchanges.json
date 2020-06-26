@@ -1,0 +1,92 @@
+[
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+      "app_label": "af_gang_mail",
+      "model": "exchange"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+      "name": "Can view exchange",
+      "content_type": 1,
+      "codename": "view_exchange"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+      "name": "Can add exchange",
+      "content_type": 1,
+      "codename": "add_exchange"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+      "name": "Can change exchange",
+      "content_type": 1,
+      "codename": "change_exchange"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+      "name": "Can delete exchange",
+      "content_type": 1,
+      "codename": "delete_exchange"
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 1,
+    "fields": {
+      "name": "Christmas 2050",
+      "drawn": "2050-12-11T00:00:00Z",
+      "sent": "2050-12-18T00:00:00Z",
+      "received": "2050-12-25T00:00:00Z",
+      "created": "2020-06-25T15:35:35.504Z",
+      "updated": "2020-06-25T15:35:35.504Z"
+    }
+  },
+  {
+    "model": "af_gang_mail.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$g89tNaWaVUfZ$8MwAYFjKmmF266mJH8gWfsA7pTAmxuhDrfPFYEzAlZU=",
+      "last_login": "2020-06-22T18:00:25.631Z",
+      "is_superuser": false,
+      "username": "alice",
+      "first_name": "Alice",
+      "last_name": "McUserFace",
+      "email": "alice@afgang.co.uk",
+      "address_line_1": "340 Acton Mews",
+      "address_city": "London",
+      "address_state": "England",
+      "address_postcode": "E8 4EA",
+      "address_country": "GB",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-06-22T18:00:25.299Z",
+      "groups": [],
+      "user_permissions": [1, 2, 3, 4],
+      "exchanges": []
+    }
+  },
+  {
+    "model": "account.emailaddress",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "email": "alice@afgang.co.uk",
+      "verified": true,
+      "primary": true
+    }
+  }
+]
