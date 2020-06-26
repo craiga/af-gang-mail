@@ -2,7 +2,7 @@ describe("Log in", () => {
   before(() => {
     cy.flushDatabase();
     cy.loadFixture("cypress/exchanges");
-    cy.loadFixture("cypress/user");
+    cy.loadFixture("cypress/users");
   }),
     it("User can log in from the home page", () => {
       cy.visit("/");

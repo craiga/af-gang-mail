@@ -6,8 +6,7 @@
     "prettier": "$(npm bin)/prettier",
     "sass": "$(npm bin)/sass",
     "watchify": "$(npm bin)/watchify",
-    "postinstall": "make scss && make js",
-    "flush": "PIPENV_DONT_LOAD_ENV=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py flush --no-input --skip-checks"
+    "postinstall": "make scss && make js"
   },
   "dependencies": {
     "@sentry/browser": "^5.17.0",

@@ -10,7 +10,7 @@ from af_gang_mail.models import Draw
 
 @pytest.fixture
 def exchange():
-    return baker.make("af_gang_mail.Exchange")
+    return baker.make("af_gang_mail.Exchange", slug="my-cool-exchange")
 
 
 @pytest.fixture
@@ -50,7 +50,7 @@ def test_draw_with_past_exchange(exchange):
     Featuring the Beastie Boys.
     """
 
-    past_exchange = baker.make("af_gang_mail.Exchange")
+    past_exchange = baker.make("af_gang_mail.Exchange", slug="past-exchange")
 
     # Set up the Beastie Boys.
     mike_d = baker.make("af_gang_mail.User", username="mike_d")
@@ -92,8 +92,8 @@ def test_impossible_draw(exchange):
     Featuring De La Soul.
     """
 
-    past_exchange_1 = baker.make("af_gang_mail.Exchange")
-    past_exchange_2 = baker.make("af_gang_mail.Exchange")
+    past_exchange_1 = baker.make("af_gang_mail.Exchange", slug="past-exchange-1")
+    past_exchange_2 = baker.make("af_gang_mail.Exchange", slug="past-exchange-2")
 
     # Set up De La Soul.
     posdnuos = baker.make("af_gang_mail.User", username="posdnuos")

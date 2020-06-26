@@ -22,6 +22,7 @@ def past_exchanges():
             baker.make(
                 models.Exchange,
                 name=f"Past {i}",
+                slug=f"past-{i}",
                 drawn=now() - timedelta(days=i * 10 + 6),
                 sent=now() - timedelta(days=i * 10 + 3),
                 received=now() - timedelta(days=i * 10),
@@ -39,6 +40,7 @@ def current_exchanges():
         baker.make(
             models.Exchange,
             name="Current 1",
+            slug="current-1",
             drawn=now() - timedelta(days=1),
             sent=now() + timedelta(days=1),
             received=now() + timedelta(days=2),
@@ -46,6 +48,7 @@ def current_exchanges():
         baker.make(
             models.Exchange,
             name="Current 2",
+            slug="current-2",
             drawn=now() - timedelta(days=2),
             sent=now() - timedelta(days=1),
             received=now() + timedelta(days=1),
@@ -65,6 +68,7 @@ def future_exchanges():
             baker.make(
                 models.Exchange,
                 name=f"Future {i}",
+                slug=f"future-{i}",
                 drawn=now() + timedelta(days=i * 10),
                 sent=now() + timedelta(days=i * 10 + 3),
                 received=now() + timedelta(days=i * 10 + 6),

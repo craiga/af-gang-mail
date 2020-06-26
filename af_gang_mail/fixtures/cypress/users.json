@@ -24,11 +24,46 @@
     }
   },
   {
+    "model": "af_gang_mail.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$rr3PFCqMKYdi$6cj6CpYn3D4sMzln6UvWEND71RQNX0psirID9dlbhp0=",
+      "last_login": "2020-06-26T20:12:46.616Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@afgang.co.uk",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-06-26T20:12:26.233Z",
+      "address_line_1": "",
+      "address_line_2": "",
+      "address_city": "",
+      "address_state": "",
+      "address_postcode": "",
+      "address_country": "",
+      "groups": [],
+      "user_permissions": [],
+      "exchanges": []
+    }
+  },
+  {
     "model": "account.emailaddress",
     "pk": 1,
     "fields": {
       "user": 1,
       "email": "alice@afgang.co.uk",
+      "verified": true,
+      "primary": true
+    }
+  },
+  {
+    "model": "account.emailaddress",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "email": "admin@afgang.co.uk",
       "verified": true,
       "primary": true
     }

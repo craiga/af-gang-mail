@@ -8,3 +8,4 @@
 /cypress/videos
 /node_modules
 /staticfiles
+/dump.json
