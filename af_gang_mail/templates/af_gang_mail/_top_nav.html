@@ -7,6 +7,9 @@
       {% if user.is_staff %}
         <li><a href="{% url 'admin:index' %}">Admin</a></li>
       {% endif %}
+      {% if perms.af_gang_mail.exchange_view %}
+        <li><a href="{% url 'manage-exchanges' %}">Manage Exchanges</a></li>
+      {% endif %}
       <li><a href="{% url 'account_logout' %}">Log Out</a></li>
     {% endif %}
   </ul>

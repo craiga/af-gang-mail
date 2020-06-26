@@ -2,13 +2,14 @@
 
 from django import urls
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, UpdateView
 
 from allauth.account.forms import LoginForm, SignupForm
+from django_tables2 import SingleTableView
 
-from af_gang_mail import forms
+from af_gang_mail import forms, models, tables
 
 
 class Home(TemplateView):
@@ -97,3 +98,12 @@ class SelectExchanges(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return urls.reverse("home")
+
+
+class ManageExchanges(PermissionRequiredMixin, SingleTableView):
+    """List exchanges."""
+
+    permission_required = "af_gang_mail.view_exchange"
+    model = models.Exchange
+    template_name = "af_gang_mail/manage_exchanges/list.html"
+    table_class = tables.Exchange

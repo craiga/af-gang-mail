@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "debug_toolbar",
     "django_countries",
+    "django_tables2",
     "djcelery_email",
     # First-party
     "af_gang_mail",

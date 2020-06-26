@@ -35,6 +35,7 @@ django-celery-email = "*"
 django-anymail = "*"
 django-crispy-forms = "*"
 django-countries = "*"
+django-tables2 = "*"
 
 [requires]
 python_version = "3.8"
