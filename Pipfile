@@ -37,6 +37,8 @@ django-crispy-forms = "*"
 django-countries = "*"
 django-tables2 = "*"
 django-autoslug = "*"
+factory-boy = "*"
+python-dateutil = "*"
 
 [requires]
 python_version = "3.8"

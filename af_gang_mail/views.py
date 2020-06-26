@@ -3,6 +3,7 @@
 from django import urls
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.views.generic import DeleteView, TemplateView, UpdateView
 
@@ -107,6 +108,9 @@ class ManageExchanges(PermissionRequiredMixin, SingleTableView):
     model = models.Exchange
     template_name = "af_gang_mail/manage_exchanges/list.html"
     table_class = tables.Exchange
+
+    def get_table_data(self):
+        return super().get_table_data().annotate(user_count=Count("users"))
 
 
 class DeleteExchange(PermissionRequiredMixin, DeleteView):
