@@ -4,7 +4,7 @@ from django import urls
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import DeleteView, TemplateView, UpdateView
 
 from allauth.account.forms import LoginForm, SignupForm
 from django_tables2 import SingleTableView
@@ -107,3 +107,12 @@ class ManageExchanges(PermissionRequiredMixin, SingleTableView):
     model = models.Exchange
     template_name = "af_gang_mail/manage_exchanges/list.html"
     table_class = tables.Exchange
+
+
+class DeleteExchange(PermissionRequiredMixin, DeleteView):
+    """Delete exchange."""
+
+    permission_required = "af_gang_mail.delete_exchange"
+    model = models.Exchange
+    template_name = "af_gang_mail/manage_exchanges/delete.html"
+    success_url = urls.reverse_lazy("manage-exchanges")

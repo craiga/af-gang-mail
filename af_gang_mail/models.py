@@ -8,6 +8,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils.timezone import now
 
+from autoslug import AutoSlugField
 from django_countries.fields import CountryField
 
 
@@ -61,6 +62,7 @@ class Exchange(models.Model):
     """Exchange"""
 
     name = models.TextField(blank=False, null=False)
+    slug = AutoSlugField(populate_from="name", unique=True)
     drawn = models.DateTimeField(blank=False, null=False)
     sent = models.DateTimeField(blank=False, null=False)
     received = models.DateTimeField(blank=False, null=False)

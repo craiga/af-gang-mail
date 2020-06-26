@@ -18,6 +18,11 @@ urlpatterns = [
         "select-exchanges/", views.SelectExchanges.as_view(), name="select-exchanges",
     ),
     path(
+        "manage-exchanges/<slug:slug>/delete",
+        views.DeleteExchange.as_view(),
+        name="delete-exchange",
+    ),
+    path(
         "manage-exchanges/", views.ManageExchanges.as_view(), name="manage-exchanges",
     ),
     path("", views.Home.as_view(), name="home"),

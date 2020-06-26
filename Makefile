@@ -65,6 +65,9 @@ cypress-db-delete:  ## Delete database for Cypress.
 	dropdb af_gang_mail_cypress
 	dropuser af_gang_mail_cypress
 
+dump:  ## Write a Django data dump to dump.json.
+	pipenv run python manage.py  dumpdata | jq > dump.json
+
 scss:  ## Build SCSS.
 	npm run sass -- .
 
