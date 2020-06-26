@@ -11,12 +11,24 @@ class Exchange(tables.Table):
     """Exchange table."""
 
     delete = columns.LinkColumn(
-        viewname="delete-exchange", kwargs={"slug": A("slug")}, text="Delete"
+        viewname="delete-exchange",
+        kwargs={"slug": A("slug")},
+        text="Delete",
+        orderable=False,
     )
 
     class Meta:
         model = models.Exchange
-        fields = ["name", "drawn", "sent", "received", "created", "modified", "delete"]
+        fields = [
+            "name",
+            "user_count",
+            "drawn",
+            "sent",
+            "received",
+            "created",
+            "updated",
+            "delete",
+        ]
 
     def before_render(self, request):
         """Hide columns based on user permission."""
