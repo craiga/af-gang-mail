@@ -13,6 +13,14 @@ class UpdateNameAndAddress(forms.ModelForm):
 
     class Meta:
         model = models.User
+        widgets = {
+            "address_search": forms.TextInput(),
+            "address_line_1": forms.TextInput(),
+            "address_line_2": forms.TextInput(),
+            "address_city": forms.TextInput(),
+            "address_state": forms.TextInput(),
+            "address_postcode": forms.TextInput(),
+        }
         fields = [
             "first_name",
             "last_name",
@@ -24,14 +32,6 @@ class UpdateNameAndAddress(forms.ModelForm):
             "address_postcode",
             "address_country",
         ]
-        widgets = {
-            "address_search": forms.TextInput(),
-            "address_line_1": forms.TextInput(),
-            "address_line_2": forms.TextInput(),
-            "address_city": forms.TextInput(),
-            "address_state": forms.TextInput(),
-            "address_postcode": forms.TextInput(),
-        }
 
 
 class SelectExchanges(forms.ModelForm):

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load render_table from django_tables2 %}
+
+{% block content %}
+
+<h1>{{ exchange.name }}</h1>
+
+<dl>
+  {% for field, value in exchange_data.items %}
+    <dt>{{ field }}</dt>
+    <dd>{{ value }}</dd>
+  {% endfor %}
+  <dt>Users</dt>
+  <dd>
+    {% render_table user_table %}
+  </dd>
+</dl>
+
+<nav>
+  {% if perms.af_gang_mail.delete_exchange %}
+    <a href="{% url 'delete-exchange' slug=exchange.slug %}">Delete</a>
+  {% endif %}
+</nav>
+
+{% endblock %}
