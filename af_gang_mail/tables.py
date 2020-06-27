@@ -11,7 +11,8 @@ class Exchange(tables.Table):
     """Exchange table."""
 
     name = columns.LinkColumn(viewname="view-exchange", kwargs={"slug": A("slug")},)
-
+    users = tables.Column(verbose_name="Users")
+    draws = tables.Column(verbose_name="Draws")
     delete = columns.LinkColumn(
         viewname="delete-exchange",
         kwargs={"slug": A("slug")},
@@ -23,7 +24,8 @@ class Exchange(tables.Table):
         model = models.Exchange
         fields = [
             "name",
-            "user_count",
+            "users",
+            "draws",
             "drawn",
             "sent",
             "received",
@@ -39,6 +41,12 @@ class Exchange(tables.Table):
             self.columns.hide("delete")
 
         return super().before_render(request)
+
+    def render_users(self, value):  # pylint: disable=no-self-use
+        return value.count()
+
+    def render_draws(self, value):  # pylint: disable=no-self-use
+        return value.count()
 
 
 class User(tables.Table):

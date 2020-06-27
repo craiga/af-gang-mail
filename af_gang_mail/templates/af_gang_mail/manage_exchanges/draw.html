@@ -3,9 +3,9 @@
 {% block content %}
 
   <form method="post">
-    <h1>Delete {{ object.name }}?</h1>
+    <h1>Draw {{ object.name }}?</h1>
     {% csrf_token %}
-    <button>Delete</button>
+    <button>Draw</button>
   </form>
 
 {% endblock %}

@@ -23,6 +23,11 @@ urlpatterns = [
         name="delete-exchange",
     ),
     path(
+        "manage-exchanges/<slug:slug>/draw",
+        views.DrawExchange.as_view(),
+        name="draw-exchange",
+    ),
+    path(
         "manage-exchanges/<slug:slug>",
         views.ViewExchange.as_view(),
         name="view-exchange",
