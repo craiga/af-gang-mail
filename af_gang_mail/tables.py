@@ -10,6 +10,8 @@ from af_gang_mail import models
 class Exchange(tables.Table):
     """Exchange table."""
 
+    name = columns.LinkColumn(viewname="view-exchange", kwargs={"slug": A("slug")},)
+
     delete = columns.LinkColumn(
         viewname="delete-exchange",
         kwargs={"slug": A("slug")},
@@ -37,3 +39,15 @@ class Exchange(tables.Table):
             self.columns.hide("delete")
 
         return super().before_render(request)
+
+
+class User(tables.Table):
+    """User table."""
+
+    class Meta:
+        model = models.User
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+        ]

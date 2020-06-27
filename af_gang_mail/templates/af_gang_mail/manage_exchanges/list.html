@@ -2,16 +2,10 @@
 
 {% load render_table from django_tables2 %}
 
-{% block body_classes %}update-name-and-address{% endblock %}
-
 {% block content %}
 
 <h1>Manage Exchanges</h1>
 
 {% render_table table %}
 
-{% endblock %}
-
-{% block script %}
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places"></script>
 {% endblock %}

@@ -23,6 +23,11 @@ urlpatterns = [
         name="delete-exchange",
     ),
     path(
+        "manage-exchanges/<slug:slug>",
+        views.ViewExchange.as_view(),
+        name="view-exchange",
+    ),
+    path(
         "manage-exchanges/", views.ManageExchanges.as_view(), name="manage-exchanges",
     ),
     path("", views.Home.as_view(), name="home"),

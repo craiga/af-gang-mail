@@ -4,11 +4,12 @@ from django import urls
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Count
+from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect
-from django.views.generic import DeleteView, TemplateView, UpdateView
+from django.views.generic import DeleteView, DetailView, TemplateView, UpdateView
 
 from allauth.account.forms import LoginForm, SignupForm
-from django_tables2 import SingleTableView
+from django_tables2.views import SingleTableMixin, SingleTableView
 
 from af_gang_mail import forms, models, tables
 
@@ -111,6 +112,25 @@ class ManageExchanges(PermissionRequiredMixin, SingleTableView):
 
     def get_table_data(self):
         return super().get_table_data().annotate(user_count=Count("users"))
+
+
+class ViewExchange(PermissionRequiredMixin, SingleTableMixin, DetailView):
+    """View exchange."""
+
+    permission_required = "af_gang_mail.view_exchange"
+    model = models.Exchange
+    template_name = "af_gang_mail/manage_exchanges/view.html"
+    context_object_name = "exchange"
+    table_class = tables.User
+    context_table_name = "user_table"
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["exchange_data"] = model_to_dict(self.get_object())
+        return context_data
+
+    def get_table_data(self):
+        return self.get_object().users.all()
 
 
 class DeleteExchange(PermissionRequiredMixin, DeleteView):
