@@ -9,7 +9,23 @@ from af_gang_mail import celery, models
 logger = logging.getLogger(__name__)
 
 
-def calculate_draw_exchange_time_limits(exchange, max_attempts=10):
+def enqueue_draw_exchange_task(exchange):
+    """Enqueue a draw_exchange task."""
+
+    soft_time_limit, time_limit = _calculate_draw_exchange_time_limits(
+        exchange, max_attempts=settings.CREATE_DRAW_MAX_ATTEMPTS
+    )
+    draw_exchange.apply_async(
+        kwargs={
+            "exchange_id": exchange.id,
+            "max_attempts": settings.CREATE_DRAW_MAX_ATTEMPTS,
+        },
+        soft_time_limit=soft_time_limit,
+        time_limit=time_limit,
+    )
+
+
+def _calculate_draw_exchange_time_limits(exchange, max_attempts=10):
     """Calculate the maximum amount of time we'd expect a draw to take."""
 
     num_users = exchange.users.count()
@@ -42,7 +58,11 @@ def calculate_draw_exchange_time_limits(exchange, max_attempts=10):
 
 @celery.app.task
 def draw_exchange(exchange_id, max_attempts):
-    """Draw an exchange."""
+    """
+    Draw an exchange.
+
+    To enqueue this task, call enqueue_draw_exchange_task which will set an appropriate time limit.
+    """
 
     exchange = models.Exchange.objects.get(id=exchange_id)
     models.Draw.objects.bulk_create_from_exchange(exchange, max_attempts=max_attempts)
