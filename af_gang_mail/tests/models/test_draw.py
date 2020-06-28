@@ -32,7 +32,7 @@ def users(exchange):
 def test_draw(exchange, users, django_assert_max_num_queries):
     """Test a simple draw."""
 
-    with django_assert_max_num_queries(3):
+    with django_assert_max_num_queries(3 + len(users)):
         draws = Draw.objects.bulk_create_from_exchange(exchange)
 
     assert len(draws) == len(users) == exchange.users.count()
