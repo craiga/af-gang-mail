@@ -3,6 +3,8 @@
 from django import forms
 from django.utils.timezone import now
 
+from allauth.account import forms as allauth_forms
+
 from af_gang_mail import models
 
 
@@ -47,3 +49,9 @@ class SelectExchanges(forms.ModelForm):
         fields = [
             "exchanges",
         ]
+
+
+class LoginForm(allauth_forms.LoginForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["login"].widget.attrs.pop("autofocus", None)

@@ -5,9 +5,11 @@
 {% block body_classes %}home unauthenticated{% endblock %}
 
 {% block content %}
-  <p>The AF Gang mail exchange is open for business!
-    Make someone’s day by sending a small gift.
-    There's no minimum value—whatever you're comfortable with is fine.</p>
+  <div id="intro" class="yellow-box">
+    <p>The AF Gang mail exchange is open for business!
+      Make someone’s day by sending a small gift.
+      There's no minimum value—whatever you're comfortable with is fine.</p>
+  </div>
   <section>
     <form method="post" action="{% url 'account_signup' %}"  data-cy="signup">
     <h1>Enter an email address and choose a password to get started</h1>

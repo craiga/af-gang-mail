@@ -257,6 +257,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_FORMS = {"login": "af_gang_mail.forms.LoginForm"}
+
 
 # Cast user to string to get display name.
 ACCOUNT_USER_DISPLAY = str  # pylint: disable=invalid-name
