@@ -313,6 +313,7 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 
 # Logging
+# https://docs.djangoproject.com/en/stable/topics/logging/
 
 LOGGING = {
     "version": 1,
@@ -320,3 +321,14 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler",},},
     "root": {"handlers": ["console"], "level": "INFO",},
 }
+
+
+# Draw creation
+
+CREATE_DRAW_MAX_ATTEMPTS = int(os.environ.get("CREATE_DRAW_MAX_ATTEMPTS", 100))
+
+
+# Default value based on Heroku hobby dynos. On my laptop this was 0.001.
+CREATE_DRAW_SECONDS_PER_USER = float(
+    os.environ.get("CREATE_DRAW_SECONDS_PER_USER", 0.003)
+)

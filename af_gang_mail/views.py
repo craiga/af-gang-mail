@@ -1,7 +1,6 @@
 """Views"""
 
 from django import urls
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms.models import model_to_dict
@@ -158,14 +157,7 @@ class DrawExchange(PermissionRequiredMixin, DetailView):
         """Start draw."""
 
         exchange = self.get_object()
-        time_limit = tasks.calculate_draw_exchange_time_limit(exchange, max_attempts=10)
-        tasks.draw_exchange.apply_async(
-            kwargs={"exchange_id": exchange.id, "max_attempts": 10},
-            soft_time_limit=time_limit,
-            time_limit=time_limit
-            + settings.CELERY_TASK_TIME_LIMIT
-            - settings.CELERY_TASK_SOFT_TIME_LIMIT,
-        )
+        tasks.enqueue_draw_exchange_task(exchange)
 
         messages.info(
             self.request,
