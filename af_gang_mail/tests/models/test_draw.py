@@ -2,6 +2,8 @@
 
 # pylint: disable=redefined-outer-name
 
+from django.db.utils import IntegrityError
+
 import pytest
 from model_bakery import baker
 
@@ -136,3 +138,21 @@ def test_impossible_draw(exchange):
         assert draw.sender != draw.recipient
         assert draw.sender in [posdnuos, trugoy, maseo]
         assert draw.recipient in [posdnuos, trugoy, maseo]
+
+
+@pytest.mark.django_db
+def test_user_cannot_be_sender_twice(exchange, user):
+    """Test that a user cannot be a sender twice for the same exchange."""
+
+    baker.make("af_gang_mail.Draw", exchange=exchange, sender=user)
+    with pytest.raises(IntegrityError):
+        baker.make("af_gang_mail.Draw", exchange=exchange, sender=user)
+
+
+@pytest.mark.django_db
+def test_user_cannot_be_recipient_twice(exchange, user):
+    """Test that a user cannot be a recipient twice for the same exchange."""
+
+    baker.make("af_gang_mail.Draw", exchange=exchange, recipient=user)
+    with pytest.raises(IntegrityError):
+        baker.make("af_gang_mail.Draw", exchange=exchange, recipient=user)
