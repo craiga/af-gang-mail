@@ -11,7 +11,7 @@ from allauth.account.forms import LoginForm, SignupForm
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin, SingleTableView
 
-from af_gang_mail import forms, models, tables
+from af_gang_mail import forms, models, tables, tasks
 
 
 class Home(TemplateView):
@@ -154,5 +154,15 @@ class DrawExchange(PermissionRequiredMixin, DetailView):
     context_object_name = "exchange"
 
     def post(self, request, slug):  # pylint: disable=unused-argument
-        models.Draw.objects.bulk_create_from_exchange(self.get_object())
+        """Start draw."""
+
+        exchange = self.get_object()
+        tasks.draw_exchange.delay(exchange_id=exchange.id)
+
+        messages.info(
+            self.request,
+            f"Task to draw { exchange.name } has been submitted. Refresh this page to see results.",
+            fail_silently=True,
+        )
+
         return HttpResponseRedirect(urls.reverse("manage-exchanges"))
