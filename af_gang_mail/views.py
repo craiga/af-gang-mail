@@ -3,15 +3,15 @@
 from django import urls
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.db.models import Count
 from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect
 from django.views.generic import DeleteView, DetailView, TemplateView, UpdateView
 
 from allauth.account.forms import LoginForm, SignupForm
+from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin, SingleTableView
 
-from af_gang_mail import forms, models, tables
+from af_gang_mail import forms, models, tables, tasks
 
 
 class Home(TemplateView):
@@ -109,9 +109,7 @@ class ManageExchanges(PermissionRequiredMixin, SingleTableView):
     model = models.Exchange
     template_name = "af_gang_mail/manage_exchanges/list.html"
     table_class = tables.Exchange
-
-    def get_table_data(self):
-        return super().get_table_data().annotate(user_count=Count("users"))
+    paginator_class = LazyPaginator
 
 
 class ViewExchange(PermissionRequiredMixin, SingleTableMixin, DetailView):
@@ -123,6 +121,7 @@ class ViewExchange(PermissionRequiredMixin, SingleTableMixin, DetailView):
     context_object_name = "exchange"
     table_class = tables.User
     context_table_name = "user_table"
+    paginator_class = LazyPaginator
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -140,3 +139,30 @@ class DeleteExchange(PermissionRequiredMixin, DeleteView):
     model = models.Exchange
     template_name = "af_gang_mail/manage_exchanges/delete.html"
     success_url = urls.reverse_lazy("manage-exchanges")
+
+
+class DrawExchange(PermissionRequiredMixin, DetailView):
+    """
+    Manually run the draw for an exchange.
+
+    This should only ever be used for testing the system.
+    """
+
+    permission_required = "af_gang_mail.add_draw"
+    model = models.Exchange
+    template_name = "af_gang_mail/manage_exchanges/draw.html"
+    context_object_name = "exchange"
+
+    def post(self, request, slug):  # pylint: disable=unused-argument
+        """Start draw."""
+
+        exchange = self.get_object()
+        tasks.draw_exchange.delay(exchange_id=exchange.id)
+
+        messages.info(
+            self.request,
+            f"Task to draw { exchange.name } has been submitted. Refresh this page to see results.",
+            fail_silently=True,
+        )
+
+        return HttpResponseRedirect(urls.reverse("manage-exchanges"))

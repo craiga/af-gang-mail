@@ -149,3 +149,13 @@ class Draw(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     objects = DrawManager()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["exchange", "sender"], name="send_once_per_exchange"
+            ),
+            models.UniqueConstraint(
+                fields=["exchange", "recipient"], name="receive_once_per_exchange"
+            ),
+        ]

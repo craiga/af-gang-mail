@@ -43,7 +43,7 @@ jobs:
           HEROKU_APP_NAME="af-gang-mail-${{ github.run_id }}-${{ github.run_number }}"
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku ps:wait --app $HEROKU_APP_NAME
       - name: Run Tests
-        run: npm run cypress run -- --config baseUrl=https://af-gang-mail-${{ github.run_id }}-${{ github.run_number }}.herokuapp.com
+        run: npm run cypress run -- --config baseUrl=https://af-gang-mail-${{ github.run_id }}-${{ github.run_number }}.herokuapp.com execTimeout=120000
         env:
           CYPRESS_DJANGO_MANAGE_COMMAND: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku run --app af-gang-mail-${{ github.run_id }}-${{ github.run_number }} --exit-code python manage.py
       - name: Destroy Heroku Deployment
