@@ -1,15 +1,17 @@
 """Models."""
 
+import logging
 import random
 
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q
 from django.utils.timezone import now
 
 from autoslug import AutoSlugField
 from django_countries.fields import CountryField
+
+logger = logging.getLogger(__name__)
 
 
 class User(AbstractUser):
@@ -102,34 +104,61 @@ class DrawManager(models.Manager):
         """
 
         # Count number of repeated sender/recipient pairs
-        # pylint: disable=invalid-name
-        q = Q()
-        for draw in draws:
-            q = q | Q(sender=draw.sender, recipient=draw.recipient)
+        logger.info("Testing for %d repeated sender-recipient pairs.", len(draws))
+        repeated_sender_recipient_pairs = 0
+        for i, draw in enumerate(draws):
+            if self.filter(
+                sender_id=draw.sender_id, recipient_id=draw.recipient_id
+            ).exists():
+                repeated_sender_recipient_pairs = repeated_sender_recipient_pairs + 1
 
-        repeated_sender_recipient_pairs = self.filter(q).count()
+            if i % 1000 == 0 and i > 0:
+                logger.info("Tested %d/%d sender-recipient pairs.", i, len(draws))
+
+        logger.info(
+            "Got %d repeated sender-recipient pairs.", repeated_sender_recipient_pairs
+        )
 
         return repeated_sender_recipient_pairs
 
-    def bulk_create_from_exchange(self, exchange, max_draw_attempts=1000):
+    def bulk_create_from_exchange(self, exchange, max_attempts=1000):
         """Create draws for an exchange."""
 
-        users = list(exchange.users.all())
+        logger.info("Preparing set of draws for %s.", exchange.name)
 
-        # Run through some iterations and try to generate a perfect draw.
+        users = list(exchange.users.all())
+        logger.info("%d users.", len(users))
+
+        # Run through some iterations and try to generate a perfect result.
         iteration_results = []
-        while len(iteration_results) < max_draw_attempts:
+        while len(iteration_results) < max_attempts:
+            logger.info("Shuffling users.")
             random.shuffle(users)
+            logger.info("Shuffled users.")
+
+            logger.info("Generating draws.")
             draws = list(self._draws(exchange, users))
+            logger.info("Generated draws.")
+
+            logger.info("Scoring draws.")
             score = self._score_draws(draws)
+            logger.info("Draws scored %d (higher is worse; zero is perfect).", score)
             if score == 0:
+                logger.info("Got a perfect result!")
                 break
 
             iteration_results.append((score, draws))
 
         if score > 0:
-            draws = min(iteration_results, key=lambda result: result[0])[1]
+            logger.info("Didn't get a perfect result. Selecting the best result.")
+            result = min(iteration_results, key=lambda result: result[0])
+            logger.info(
+                "Selected a result with score %d (higher is worse; zero is perfect).",
+                result[0],
+            )
+            draws = result[1]
 
+        logger.info("Writing draws to database.")
         return self.bulk_create(draws)
 
 
