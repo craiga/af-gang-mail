@@ -2,12 +2,14 @@
 
 import logging
 
+from django.conf import settings
+
 from af_gang_mail import celery, models
 
 logger = logging.getLogger(__name__)
 
 
-def calculate_draw_exchange_time_limit(exchange, max_attempts=10):
+def calculate_draw_exchange_time_limits(exchange, max_attempts=10):
     """
     Calculate the maximum amount of time we'd expect a draw to take.
 
@@ -26,7 +28,21 @@ def calculate_draw_exchange_time_limit(exchange, max_attempts=10):
         max_attempts,
     )
 
-    return time_for_scoring
+    soft_time_limit = time_for_scoring
+
+    if soft_time_limit < settings.CELERY_TASK_SOFT_TIME_LIMIT:
+        logger.info(
+            "Estimated time limit < configured time limit. Use configured time limit."
+        )
+        soft_time_limit = settings.CELERY_TASK_SOFT_TIME_LIMIT
+
+    time_limit = (
+        soft_time_limit
+        + settings.CELERY_TASK_TIME_LIMIT
+        - settings.CELERY_TASK_SOFT_TIME_LIMIT
+    )
+
+    return (soft_time_limit, time_limit)
 
 
 @celery.app.task
