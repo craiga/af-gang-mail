@@ -1,7 +1,8 @@
 @use "../colors" as *;
 @use "../size" as *;
 
-form, .yellow-box {
+form,
+.yellow-box {
   padding: $baseSize / 2 $baseSize;
   background: $yellow;
   border: 1px solid $black;

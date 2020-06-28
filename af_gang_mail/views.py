@@ -8,7 +8,7 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect
 from django.views.generic import DeleteView, DetailView, TemplateView, UpdateView
 
-from allauth.account.forms import LoginForm, SignupForm
+from allauth.account.forms import SignupForm
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin, SingleTableView
 
@@ -26,7 +26,7 @@ class Home(TemplateView):
 
         else:
             context_data.update(
-                {"login_form": LoginForm(), "register_form": SignupForm(),}
+                {"login_form": forms.LoginForm(), "register_form": SignupForm(),}
             )
 
         return context_data
