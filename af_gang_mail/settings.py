@@ -310,3 +310,13 @@ else:
 # Google APIs
 
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+
+
+# Logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler",},},
+    "root": {"handlers": ["console"], "level": "INFO",},
+}

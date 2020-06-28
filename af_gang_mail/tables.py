@@ -19,6 +19,12 @@ class Exchange(tables.Table):
         text="Delete",
         orderable=False,
     )
+    draw = columns.LinkColumn(
+        viewname="draw-exchange",
+        kwargs={"slug": A("slug")},
+        text="Draw",
+        orderable=False,
+    )
 
     class Meta:
         model = models.Exchange
@@ -32,6 +38,7 @@ class Exchange(tables.Table):
             "created",
             "updated",
             "delete",
+            "draw",
         ]
 
     def before_render(self, request):

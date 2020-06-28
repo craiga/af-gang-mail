@@ -130,7 +130,7 @@ def test_impossible_draw(exchange):
     )
 
     # Generate a new draw.
-    draws = Draw.objects.bulk_create_from_exchange(exchange, max_draw_attempts=3)
+    draws = Draw.objects.bulk_create_from_exchange(exchange, max_attempts=3)
 
     # Test draws were generated.
     assert len(draws) == exchange.users.count() == 3
