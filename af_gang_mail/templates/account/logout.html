@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<form method="post" action="{% url 'account_logout' %}">
+  <h1>Log Out</h1>
+  <p>Thanks for visiting! Are you sure you want to log out?</p>
+  {% csrf_token %}
+  {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+  {% endif %}
+  <button>Log Out</button>
+</form>
+
+{% endblock %}
