@@ -1,8 +1,12 @@
 @use "../colors" as *;
 @use "../size" as *;
 
+$formWidthMax: 600px;
+
 form,
 .yellow-box {
+  max-width: $formWidthMax;
+  margin: $baseSize auto;
   padding: $baseSize / 2 $baseSize;
   background: $yellow;
   border: 1px solid $black;
@@ -29,12 +33,20 @@ form,
     padding: $baseSize / 4;
     box-sizing: border-box;
   }
-  button {
+  button,
+  .button {
+    display: block;
+    text-decoration: none;
+    text-align: center;
     color: $white;
     background: $black;
     padding: $baseSize / 2;
-    border-width: 0;
+    border: 1px solid $black;
     margin: $baseSize 0 $baseSize / 2;
+    &.secondary {
+      color: $black;
+      background: $yellow;
+    }
   }
   .control-group {
     margin: $baseSize / 2 0;

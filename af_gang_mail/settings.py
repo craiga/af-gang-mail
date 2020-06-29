@@ -292,7 +292,7 @@ CELERY_WORKER_SEND_TASK_EVENTS = bool(os.environ.get("CELERY_WORKER_SEND_TASK_EV
 # https://github.com/pmclanahan/django-celery-email
 # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
 
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "craiga@craiga.id.au")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@mail.afgang.co.uk")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 EMAIL_BACKEND = "djcelery_email.backends.CeleryEmailBackend"
 

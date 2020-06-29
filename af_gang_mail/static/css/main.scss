@@ -1,3 +1,4 @@
+@use "components/background_image";
 @use "components/footer";
 @use "components/form";
 @use "components/header";
@@ -9,8 +10,6 @@
 @use "fonts" as *;
 @use "colors" as *;
 @use "size" as *;
-
-$opacity: 25%;
 
 html {
   height: 100%;
@@ -24,14 +23,6 @@ body {
   color: $black;
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(
-      rgba($white, $opacity),
-      rgba($white, $opacity)
-    ),
-    url("/static/background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
 
   main {
     flex-grow: 1;

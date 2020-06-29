@@ -1,0 +1,42 @@
+@use "../colors" as *;
+
+$opacity: 25%;
+
+body {
+  background-image: linear-gradient(
+      rgba($white, $opacity),
+      rgba($white, $opacity)
+    ),
+    url("/static/background-w-400.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  @for $bgSize from 5 through 24 {
+    @media (min-width: ($bgSize - 1) * 100px) {
+      background-image: linear-gradient(
+          rgba($white, $opacity),
+          rgba($white, $opacity)
+        ),
+        url("/static/background-w-#{$bgSize * 100}.jpg");
+    }
+  }
+
+  @media (orientation: portrait) {
+    background-image: linear-gradient(
+        rgba($white, $opacity),
+        rgba($white, $opacity)
+      ),
+      url("/static/background-h-500.jpg");
+
+    @for $bgSize from 6 through 30 {
+      @media (min-height: ($bgSize - 1) * 100px) {
+        background-image: linear-gradient(
+            rgba($white, $opacity),
+            rgba($white, $opacity)
+          ),
+          url("/static/background-h-#{$bgSize * 100}.jpg");
+      }
+    }
+  }
+}
