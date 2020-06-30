@@ -3,7 +3,8 @@
 
 // https://www.craiga.id.au/2008/10/27/luminance
 @function luminance($color) {
-  @return 0.3 * (red($color) / 255) + 0.59 * (green($color) / 255) + 0.11 * (blue($color) / 255)
+  @return 0.3 * (red($color) / 255) + 0.59 * (green($color) / 255) + 0.11 *
+    (blue($color) / 255);
 }
 
 #messages {
@@ -33,8 +34,7 @@
         background-color: $color;
         @if (luminance($color) > 0.5) {
           color: $black;
-        }
-        @else {
+        } @else {
           color: $white;
         }
       }
