@@ -1,4 +1,4 @@
-# AF Gang Mail
+# AF GANG Mail
 
 Just an idea I'm working on.
 

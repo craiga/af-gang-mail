@@ -1,4 +1,4 @@
-"""WSGI configuration for AF Gang Mail."""
+"""WSGI configuration for AF GANG Mail."""
 
 import os
 

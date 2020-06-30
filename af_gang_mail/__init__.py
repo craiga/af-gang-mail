@@ -1,4 +1,4 @@
-"""AF Gang Mail"""
+"""AF GANG Mail"""
 
 from af_gang_mail.celery import app as celery_app
 

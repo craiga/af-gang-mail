@@ -5,8 +5,9 @@
 {% block content %}
 
   <form method="post">
-    <h1>Enter Name &amp; Address</h1>
-    <p>Enter your name and address here so that you can participate in exchanges.</p>
+    <h1>Name &amp; Address</h1>
+    <p>In order to run the AF GANG Mail Exchange, we need your full name and address.</p>
+    <p>This information is confidential. Only the person mailing to you each month will see it.</p>
     {% csrf_token %}
     {{ form|crispy }}
     <button>Save</button>
