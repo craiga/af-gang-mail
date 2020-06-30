@@ -166,3 +166,25 @@ class DrawExchange(PermissionRequiredMixin, DetailView):
         )
 
         return HttpResponseRedirect(urls.reverse("manage-exchanges"))
+
+
+class StyleGallery(TemplateView):
+    """Style gallery."""
+
+    template_name = "af_gang_mail/style-gallery.html"
+
+    def get(self, *args, **kwargs):
+        for tag in ["debug", "info", "success", "warning", "error"]:
+            write_message = getattr(messages, tag)
+            write_message(self.request, f"Short { tag } message.")
+            write_message(self.request, f"Another short { tag } message.")
+            write_message(
+                self.request,
+                (
+                    f"Quite an unnecessarily long { tag } message with lots of verbose waffling "
+                    "detail about not much at all. In fact, you might suspect that it's "
+                    "completely, 100 percent contrieved."
+                ),
+            )
+
+        return super().get(*args, **kwargs)

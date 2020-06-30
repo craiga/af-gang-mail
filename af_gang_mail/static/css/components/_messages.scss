@@ -1,14 +1,24 @@
 @use "../colors" as *;
 @use "../size" as *;
 
+// https://www.craiga.id.au/2008/10/27/luminance
+@function luminance($color) {
+  @return 0.3 * (red($color) / 255) + 0.59 * (green($color) / 255) + 0.11 *
+    (blue($color) / 255);
+}
+
 #messages {
   list-style: none;
   padding: 0;
-  margin: 0 auto;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   li {
     border: 2px solid $black;
     padding: $baseSize;
-    margin: $baseSize 0;
+    margin: $baseSize;
 
     @each $messageClass,
       $color
@@ -21,8 +31,12 @@
         )
     {
       &.#{$messageClass} {
-        border-color: $black;
         background-color: $color;
+        @if (luminance($color) > 0.5) {
+          color: $black;
+        } @else {
+          color: $white;
+        }
       }
     }
   }

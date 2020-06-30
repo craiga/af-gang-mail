@@ -10,6 +10,9 @@
       {% if perms.af_gang_mail.view_exchange %}
         <li><a href="{% url 'manage-exchanges' %}">Manage Exchanges</a></li>
       {% endif %}
+      {% if perms.af_gang_mail.view_style_gallery %}
+        <li><a href="{% url 'style-gallery' %}">Style Gallery</a></li>
+      {% endif %}
       <li><a href="{% url 'account_logout' %}">Log Out</a></li>
     {% endif %}
   </ul>

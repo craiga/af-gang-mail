@@ -3,6 +3,8 @@
 import ipaddress
 import os
 
+from django.contrib.messages import constants as message_constants
+
 import dj_database_url
 import django_feature_policy
 import sentry_sdk
@@ -323,6 +325,12 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler",},},
     "root": {"handlers": ["console"], "level": "INFO",},
 }
+
+
+# Messages
+# https://docs.djangoproject.com/en/3.0/ref/contrib/messages/
+
+MESSAGE_LEVEL = message_constants.DEBUG if DEBUG else message_constants.INFO
 
 
 # Draw creation
