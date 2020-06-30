@@ -35,6 +35,7 @@ urlpatterns = [
     path(
         "manage-exchanges/", views.ManageExchanges.as_view(), name="manage-exchanges",
     ),
+    path("style-gallery/", views.StyleGallery.as_view(), name="style-gallery",),
     path("", views.Home.as_view(), name="home"),
 ]
 
