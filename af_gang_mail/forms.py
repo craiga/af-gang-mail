@@ -42,6 +42,7 @@ class SelectExchanges(forms.ModelForm):
     exchanges = forms.ModelMultipleChoiceField(
         queryset=models.Exchange.objects.filter(drawn__gt=now()).order_by("drawn"),
         widget=forms.CheckboxSelectMultiple,
+        required=False,
     )
 
     class Meta:

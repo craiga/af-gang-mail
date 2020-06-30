@@ -1,0 +1,19 @@
+@use "../colors" as *;
+@use "../size" as *;
+
+$formWidthMin: 260px;
+$formWidthMax: 400px;
+
+.select-exchanges {
+  div.exchange {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: $baseSize 0;
+    input {
+    }
+    label {
+      padding-left: $baseSize / 2;
+    }
+  }
+}
