@@ -1,8 +1,6 @@
 describe("Manage exchanges", () => {
   before(() => {
-    cy.flushDatabase();
-    cy.loadFixture("cypress/exchanges");
-    cy.loadFixture("cypress/users");
+    cy.flushDatabaseAndLoadFixtures(["cypress/exchanges", "cypress/users"]);
   }),
     beforeEach(() => {
       cy.loadFixture("cypress/exchanges");

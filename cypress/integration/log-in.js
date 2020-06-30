@@ -1,8 +1,6 @@
 describe("Log in", () => {
   before(() => {
-    cy.flushDatabase();
-    cy.loadFixture("cypress/exchanges");
-    cy.loadFixture("cypress/users");
+    cy.flushDatabaseAndLoadFixtures(["cypress/exchanges", "cypress/users"]);
   }),
     it("User can log in from the home page", () => {
       cy.visit("/");
