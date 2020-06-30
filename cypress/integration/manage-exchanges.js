@@ -2,10 +2,7 @@ describe("Manage exchanges", () => {
   before(() => {
     cy.flushDatabaseAndLoadFixtures(["cypress/exchanges", "cypress/users"]);
   }),
-    beforeEach(() => {
-      cy.loadFixture("cypress/exchanges");
-    }),
-    it("Admin can view exchange", () => {
+    it("Admin can manage exchanges", () => {
       cy.visit("/");
       cy.get("[data-cy=login]")
         .contains("E-mail")
@@ -17,48 +14,27 @@ describe("Manage exchanges", () => {
         .type("Dirty, rotten filthy scum!");
       cy.get("[data-cy=login]").contains("Log In").click();
 
+      // Navigate to manage exchange page.
       cy.contains("Manage Exchanges").click();
+
+      // Assert that exchanges are listed.
+      cy.contains("Christmas 2050");
+      cy.contains("Christmas 1978");
+
+      // Navigate to eexchange detail page.
       cy.contains("Christmas 2050").click();
+
+      // Assert exchange details are listed.
       cy.contains("Alice McUserFace");
+
+      // Delete exchange from detail page.
+      cy.contains("Delete").click();
+      cy.get("button").click(); // confirm delete
+      cy.contains("Christmas 2050").should("not.exist");
+
+      // Delete another exchange from list page.
+      cy.contains("tr", "Christmas 1978").contains("Delete").click();
+      cy.get("button").click();
+      cy.contains("Christmas 1978").should("not.exist");
     });
-  it("Admin can delete exchange from list ", () => {
-    cy.visit("/");
-    cy.get("[data-cy=login]")
-      .contains("E-mail")
-      .click()
-      .type("admin@afgang.co.uk");
-    cy.get("[data-cy=login]")
-      .contains("Password")
-      .click()
-      .type("Dirty, rotten filthy scum!");
-    cy.get("[data-cy=login]").contains("Log In").click();
-
-    cy.contains("Manage Exchanges").click();
-
-    cy.contains("tr", "Christmas 2050").contains("Delete").click();
-    cy.get("button").click();
-    cy.contains("Christmas 2050").should("not.exist");
-  });
-  it("Admin can delete exchange from exchange detail", () => {
-    cy.visit("/");
-    cy.get("[data-cy=login]")
-      .contains("E-mail")
-      .click()
-      .type("admin@afgang.co.uk");
-    cy.get("[data-cy=login]")
-      .contains("Password")
-      .click()
-      .type("Dirty, rotten filthy scum!");
-    cy.get("[data-cy=login]").contains("Log In").click();
-
-    cy.contains("Manage Exchanges").click();
-
-    cy.contains("Christmas 2050").click();
-
-    cy.contains("Delete").click();
-
-    cy.get("button").click();
-
-    cy.contains("Christmas 2050").should("not.exist");
-  });
 });
