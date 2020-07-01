@@ -7,7 +7,7 @@ body {
       rgba($white, $opacity),
       rgba($white, $opacity)
     ),
-    url("/static/background-w-400.jpg");
+    url("/static/img/background-w-400.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -18,7 +18,7 @@ body {
           rgba($white, $opacity),
           rgba($white, $opacity)
         ),
-        url("/static/background-w-#{$bgSize * 100}.jpg");
+        url("/static/img/background-w-#{$bgSize * 100}.jpg");
     }
   }
 
@@ -27,7 +27,7 @@ body {
         rgba($white, $opacity),
         rgba($white, $opacity)
       ),
-      url("/static/background-h-500.jpg");
+      url("/static/img/background-h-500.jpg");
 
     @for $bgSize from 6 through 30 {
       @media (min-height: ($bgSize - 1) * 100px) {
@@ -35,7 +35,7 @@ body {
             rgba($white, $opacity),
             rgba($white, $opacity)
           ),
-          url("/static/background-h-#{$bgSize * 100}.jpg");
+          url("/static/img/background-h-#{$bgSize * 100}.jpg");
       }
     }
   }
