@@ -14,47 +14,22 @@ from django_tables2.views import SingleTableMixin, SingleTableView
 from af_gang_mail import forms, models, tables, tasks
 
 
-class Home(TemplateView):
-    """Home page."""
+class Home(LoginRequiredMixin, TemplateView):
+    """Home page for logged in users."""
+
+    template_name = "af_gang_mail/home.html"
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-
-        if self.request.user.is_authenticated:
-            context_data.update({"user": self.request.user})
-
-        else:
-            context_data.update(
-                {"login_form": forms.LoginForm(), "register_form": SignupForm(),}
-            )
-
+        context_data.update({"user": self.request.user})
         return context_data
-
-    def get_template_names(self):
-        if self.request.user.is_authenticated:
-            return ["af_gang_mail/home/authenticated.html"]
-
-        return ["af_gang_mail/home/unauthenticated.html"]
-
-    def get(self, request, *args, **kwargs):
-        """If logged in user doesn't have name or address, redirect them to enter those details."""
-
-        user = request.user
-        if user.is_authenticated:
-            if not user.get_full_name() or not user.get_full_address():
-                return HttpResponseRedirect(urls.reverse("update-name-and-address"))
-
-            if not user.exchanges.exists():
-                return HttpResponseRedirect(urls.reverse("select-exchanges"))
-
-        return super().get(request, *args, **kwargs)
 
 
 class UpdateNameAndAddress(LoginRequiredMixin, UpdateView):
     """Update name and address."""
 
     form_class = forms.UpdateNameAndAddress
-    template_name = "af_gang_mail/update_name_and_address.html"
+    template_name = "af_gang_mail/update-name-and-address.html"
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -65,12 +40,13 @@ class UpdateNameAndAddress(LoginRequiredMixin, UpdateView):
         response = super().form_valid(form)
 
         messages.success(
-            self.request,
-            f"Thanks { self.request.user.get_full_name() }!",
-            fail_silently=True,
+            self.request, self.get_success_message(), fail_silently=True,
         )
 
         return response
+
+    def get_success_message(self):  # pylint: disable=no-self-use
+        return "Your name and/or address have been updated."
 
     def get_success_url(self):
         return urls.reverse("home")
@@ -80,7 +56,7 @@ class SelectExchanges(LoginRequiredMixin, UpdateView):
     """Select exchanges."""
 
     form_class = forms.SelectExchanges
-    template_name = "af_gang_mail/select_exchanges.html"
+    template_name = "af_gang_mail/select-exchanges.html"
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -96,15 +72,54 @@ class SelectExchanges(LoginRequiredMixin, UpdateView):
         response = super().form_valid(form)
 
         messages.success(
-            self.request,
-            f"Thanks { self.request.user.get_full_name() }!",
-            fail_silently=True,
+            self.request, self.get_success_message(), fail_silently=True,
         )
 
         return response
 
+    def get_success_message(self):  # pylint: disable=no-self-use
+        return "Your upcoming exchanges have been updated."
+
     def get_success_url(self):
         return urls.reverse("home")
+
+
+class Landing(TemplateView):
+    """Landing page."""
+
+    template_name = "af_gang_mail/landing.html"
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data.update(
+            {"login_form": forms.LoginForm(), "register_form": SignupForm(),}
+        )
+        return context_data
+
+    def get(self, request, *args, **kwargs):
+        """If logged in user doesn't have name or address, redirect them to enter those details."""
+
+        user = request.user
+        if user.is_authenticated:
+            return HttpResponseRedirect(urls.reverse("home"))
+
+        return super().get(request, *args, **kwargs)
+
+
+class SignUpStepOne(UpdateNameAndAddress):
+    """First step of sign up process."""
+
+    template_name = "af_gang_mail/sign-up/step-one.html"
+
+    def get_success_message(self):
+        return f"Thanks { self.request.user.get_full_name() }!"
+
+    def get_success_url(self):
+        return urls.reverse("sign-up-step-two")
+
+
+class SignUpStepTwo(SelectExchanges):
+    template_name = "af_gang_mail/sign-up/step-two.html"
 
 
 class ManageExchanges(PermissionRequiredMixin, SingleTableView):
