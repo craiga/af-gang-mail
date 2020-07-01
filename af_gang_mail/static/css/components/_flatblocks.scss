@@ -1,0 +1,14 @@
+@use "../colors" as *;
+@use "../fonts" as *;
+@use "../size" as *;
+
+.flatblock {
+  border: 2px solid $red;
+  padding: $baseSize / 2;
+  overflow: auto;
+}
+
+.flatblock-edit {
+  float: right;
+  text-decoration: none;
+}

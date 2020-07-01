@@ -16,13 +16,15 @@ describe("Log in", () => {
 
       cy.contains("Welcome back Alice McUserFace!");
 
-      cy.contains("Your Name & Address");
+      cy.contains("home-name-and-address-intro");
       cy.contains("340 Acton Mews");
       cy.contains("London");
       cy.contains("England");
       cy.contains("E8 4EA");
       cy.contains("United Kingdom");
-      cy.contains("Your Upcoming Exchanges");
-      cy.contains("Your Past Exchanges");
+
+      cy.contains("home-upcoming-exchanges-intro");
+
+      cy.contains("home-past-exchanges-intro");
     });
 });

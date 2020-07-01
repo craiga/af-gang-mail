@@ -39,6 +39,7 @@ django-tables2 = "*"
 django-autoslug = "*"
 factory-boy = "*"
 python-dateutil = "*"
+django-flatblocks = {editable = true, git = "https://github.com/jazzband/django-flatblocks"}
 
 [requires]
 python_version = "3.8"

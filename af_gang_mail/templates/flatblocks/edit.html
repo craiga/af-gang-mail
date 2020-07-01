@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block body_classes %}select-exchanges{% endblock %}
+
+{% block content %}
+
+<form method="post">
+  <h1>{{ flatblock.slug }}</h1>
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button>Save</button>
+</form>
+
+{% endblock %}

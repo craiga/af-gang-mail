@@ -15,3 +15,10 @@ def google(request):
     return {
         "google_api_key": settings.GOOGLE_API_KEY,
     }
+
+
+def edit_mode(request):
+    return {
+        "edit_mode": request.user.has_perm("flatblocks.change_flatblock")
+        and request.GET.get("edit") == "true"
+    }

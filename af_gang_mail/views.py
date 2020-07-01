@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect
+from django.utils.safestring import mark_safe
 from django.views.generic import DeleteView, DetailView, TemplateView, UpdateView
 
 from allauth.account.forms import SignupForm
@@ -101,7 +102,21 @@ class Landing(TemplateView):
 
         user = request.user
         if user.is_authenticated:
-            return HttpResponseRedirect(urls.reverse("home"))
+            redirect_url = urls.reverse("home")
+            if user.has_perm("flatblocks.change_flatblock"):
+                messages.info(
+                    self.request,
+                    mark_safe(
+                        "Normally you would be redirected to "
+                        f"<a href='{ redirect_url }'>{ redirect_url }</a>, "
+                        "but as you're logged in as a user with edit permissions you can stay "
+                        "on this page to update it's content."
+                    ),
+                    fail_silently=True,
+                )
+
+            else:
+                return HttpResponseRedirect(redirect_url)
 
         return super().get(request, *args, **kwargs)
 
@@ -119,7 +134,12 @@ class SignUpStepOne(UpdateNameAndAddress):
 
 
 class SignUpStepTwo(SelectExchanges):
+    """Second step of sign up process."""
+
     template_name = "af_gang_mail/sign-up/step-two.html"
+
+    def get_success_message(self):
+        return f"Thanks { self.request.user.get_full_name() }!"
 
 
 class ManageExchanges(PermissionRequiredMixin, SingleTableView):
@@ -188,10 +208,11 @@ class DrawExchange(PermissionRequiredMixin, DetailView):
         return HttpResponseRedirect(urls.reverse("manage-exchanges"))
 
 
-class StyleGallery(TemplateView):
+class StyleGallery(PermissionRequiredMixin, TemplateView):
     """Style gallery."""
 
     template_name = "af_gang_mail/style-gallery.html"
+    permission_required = "af_gang_mail.view_style_gallery"
 
     def get(self, *args, **kwargs):
         for tag in ["debug", "info", "success", "warning", "error"]:
@@ -208,3 +229,23 @@ class StyleGallery(TemplateView):
             )
 
         return super().get(*args, **kwargs)
+
+
+class PageIndex(PermissionRequiredMixin, TemplateView):
+    """Page index."""
+
+    template_name = "af_gang_mail/page-index.html"
+    permission_required = "flatblocks.change_flatblock"
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        context_data["urls"] = []
+        resolver = urls.get_resolver()
+        for pattern in resolver.url_patterns:
+            try:
+                context_data["urls"].append(urls.reverse(pattern.name))
+            except (AttributeError, urls.NoReverseMatch):
+                pass
+
+        return context_data

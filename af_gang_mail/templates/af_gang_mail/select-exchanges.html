@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags flatblocks %}
 
 {% block body_classes %}select-exchanges{% endblock %}
-
 
 {% block content %}
 
 <form method="post">
-  <h1>Exchanges</h1>
+  {% flatblock "select-exchanges-intro" %}
   {% csrf_token %}
   {% for exchange in exchanges %}
     {% include "af_gang_mail/_exchange-checkbox.html" %}

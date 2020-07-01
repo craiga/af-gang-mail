@@ -1,0 +1,101 @@
+[
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 1,
+    "fields": {
+      "slug": "landing-intro",
+      "header": "",
+      "content": "The AF GANG mail exchange is open for business! Make someone’s day by sending a small gift. There's no minimum value—whatever you're comfortable with is fine."
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 2,
+    "fields": {
+      "slug": "landing-sign-up-intro",
+      "header": "Enter your email address and choose a password to get started",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 3,
+    "fields": {
+      "slug": "landing-log-in-intro",
+      "header": "Log In",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 4,
+    "fields": {
+      "slug": "footer",
+      "header": "",
+      "content": "Built by Nadia Saad, Jodie Fox, and <a href=\"https://www.craiga.id.au\">Craig Anderson</a> for <a href=\"https://www.afgang.co.uk\">AF GANG</a>. Maintained by <a href=\"https://www.uhf62.co.uk\">UHF 62</a>. This site is open source; <a href=\"https://github.com/craiga/af-gang-mail\">check out the code on GitHub</a>. Background image by <a href=\"https://unsplash.com/photos/pqtOMmZBpM8\">Geordanna Cordero</a>."
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 5,
+    "fields": {
+      "slug": "sign-up-step-one-intro",
+      "header": "Name & Address",
+      "content": "<p>In order to run the AF GANG Mail Exchange, we need your full name and address.</p>\r\n<p><strong>This information is confidential.</strong> Only the person mailing to you each month will see it.</p>"
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 6,
+    "fields": {
+      "slug": "sign-up-step-two-intro",
+      "header": "Exchanges",
+      "content": "Which exchanges would you like to take part in?"
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 7,
+    "fields": {
+      "slug": "home-name-and-address-intro",
+      "header": "Your Name & Address",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 8,
+    "fields": {
+      "slug": "home-upcoming-exchanges-intro",
+      "header": "Your Upcoming Exchanges",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 9,
+    "fields": {
+      "slug": "home-past-exchanges-intro",
+      "header": "Your Past Exchanges",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 10,
+    "fields": {
+      "slug": "update-name-and-address-intro",
+      "header": "Name & Address",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 11,
+    "fields": {
+      "slug": "select-exchanges-intro",
+      "header": "Exchanges",
+      "content": ""
+    }
+  }
+]

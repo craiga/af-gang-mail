@@ -15,6 +15,7 @@ describe("Manage exchanges", () => {
       cy.get("[data-cy=login]").contains("Log In").click();
 
       // Navigate to manage exchange page.
+      cy.showMenu();
       cy.contains("Manage Exchanges").click();
 
       // Assert that exchanges are listed.

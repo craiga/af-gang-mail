@@ -1,0 +1,15 @@
+{% if edit_mode %}
+  <div class="flatblock block-{{ flatblock.slug }}">
+    {% if perms.flatblocks.change_flatblock %}
+      <a class="flatblock-edit" href="{% url 'edit-flatblock' flatblock.id %}">✏️</a>
+    {% endif %}
+{% endif %}
+
+  {% if flatblock.header %}
+    <h1>{{ flatblock.header }}</h1>
+  {% endif %}
+  <div>{{ flatblock.content|safe }}</div>
+
+{% if edit_mode %}
+  </div>
+{% endif %}
