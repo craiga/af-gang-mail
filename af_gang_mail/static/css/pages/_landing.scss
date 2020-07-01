@@ -1,10 +1,10 @@
-@use "../../colors" as *;
-@use "../../size" as *;
+@use "../colors" as *;
+@use "../size" as *;
 
 $formWidthMin: 200px;
 $formWidthMax: 350px;
 
-.home.unauthenticated {
+.landing {
   main {
     display: flex;
     flex-direction: column;

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block body_classes %}select-exchanges{% endblock %}
+
+
+{% block content %}
+
+<form method="post">
+  <h1>Exchanges</h1>
+  <p>Which exchanges would you like to take part in?</p>
+  {% csrf_token %}
+  {% for exchange in exchanges %}
+    {% include "af_gang_mail/_exchange-checkbox.html" %}
+  {% endfor %}
+  <button>Join the Selected Exchanges</button>
+</form>
+
+{% endblock %}
