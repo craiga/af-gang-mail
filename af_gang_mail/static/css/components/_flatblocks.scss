@@ -3,12 +3,12 @@
 @use "../size" as *;
 
 .flatblock {
-  
+  border: 2px solid $red;
+  padding: $baseSize / 2;
+  overflow: auto;
 }
 
 .flatblock-edit {
   float: right;
-  border: 1px dashed $black;
-  color: $black;
-  padding: $baseSize / 2 $baseSize;
+  text-decoration: none;
 }

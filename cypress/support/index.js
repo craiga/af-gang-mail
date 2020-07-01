@@ -12,3 +12,7 @@ Cypress.Commands.add("flushDatabaseAndLoadFixtures", (fixtures) => {
 Cypress.Commands.add("loadFixture", (fixture) => {
   cy.exec(Cypress.env("DJANGO_MANAGE_COMMAND") + " loaddata " + fixture);
 });
+
+Cypress.Commands.add("showMenu", (fixture) => {
+  cy.get("nav section ul").invoke("show");
+});

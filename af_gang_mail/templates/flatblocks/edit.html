@@ -7,7 +7,7 @@
 {% block content %}
 
 <form method="post">
-  <h1>Edit "{{ flatblock.slug }}"</h1>
+  <h1>{{ flatblock.slug }}</h1>
   {% csrf_token %}
   {{ form|crispy }}
   <button>Save</button>

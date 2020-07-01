@@ -5,8 +5,7 @@
 {% block content %}
 
   <form method="post">
-    <h1>Name &amp; Address</h1>
-    {% flatblock "name-and-address.intro" %}
+    {% flatblock "sign-up-step-one-intro" %}
     {% csrf_token %}
     {{ form|crispy }}
     <button>Save</button>

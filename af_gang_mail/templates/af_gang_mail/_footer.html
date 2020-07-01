@@ -1,10 +1,5 @@
+{% load crispy_forms_tags flatblocks %}
+
 <footer>
-  <p>Built by Nadia Saad, Jodie Fox, and <a href="https://www.craiga.id.au">Craig Anderson</a>
-    for <a href="https://www.afgang.co.uk">AF GANG</a>.
-    Maintained by <a href="https://www.uhf62.co.uk">UHF 62</a>.
-    This site is open source;
-    <a href="https://github.com/craiga/af-gang-mail">check out the code on GitHub</a>.
-    Background image by
-    <a href="https://unsplash.com/photos/pqtOMmZBpM8">Geordanna Cordero</a>.
-  </p>
+  {% flatblock "footer" %}
 </footer>

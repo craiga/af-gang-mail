@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <div class="yellow-box">
+    <ul>
+      {% for url in urls %}
+        <li><a href="{{ url }}">{{ url }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endblock %}

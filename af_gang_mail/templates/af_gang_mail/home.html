@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 
+{% load flatblocks %}
+
 {% block body_classes %}home{% endblock %}
 
 {% block content %}
   <div>
     <form action="{% url 'update-name-and-address' %}">
-      <h1>Your Name &amp; Address</h1>
+      {% flatblock "home-name-and-address-intro" %}
       <div>{{ user.get_full_address|linebreaksbr }}</div>
       <button>Edit Name &amp; Address</button>
     </form>
     <form action="{% url 'select-exchanges' %}">
-      <h1>Your Upcoming Exchanges</h1>
+      {% flatblock "home-upcoming-exchanges-intro" %}
       {% if user.get_future_exchanges %}
         <table>
           <tr>
@@ -30,8 +32,7 @@
       <button>Select Exchanges</button>
     </form>
     <form>
-      <h1>Your Past Exchanges</h1>
-      <p>Coming soon.</p>
+      {% flatblock "home-past-exchanges-intro" %}
     </form>
   </div>
 {% endblock %}

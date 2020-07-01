@@ -101,6 +101,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "af_gang_mail.context_processors.edit_mode",
                 "af_gang_mail.context_processors.google",
                 "af_gang_mail.context_processors.sentry",
             ],
@@ -146,9 +147,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/stable/howto/static-files/
+# http://whitenoise.evans.io/en/stable/
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Internal IPs (required for Django Debug Toolbar)
@@ -173,12 +176,6 @@ INTERNAL_IPS = IPv4List(os.environ.get("INTERNAL_IP_CIDR", "127.0.0.1/32"))
 # https://django-debug-toolbar.readthedocs.io/en/stable/configuration.html
 
 DEBUG_TOOLBAR_CONFIG = {"SHOW_COLLAPSED": True}
-
-
-# Whitenoise
-# http://whitenoise.evans.io/en/stable/
-
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Sentry
@@ -332,6 +329,11 @@ LOGGING = {
 # https://docs.djangoproject.com/en/3.0/ref/contrib/messages/
 
 MESSAGE_LEVEL = message_constants.DEBUG if DEBUG else message_constants.INFO
+
+
+# Flat Blocks
+
+FLATBLOCKS_AUTOCREATE_STATIC_BLOCKS = True
 
 
 # Draw creation

@@ -2,8 +2,8 @@
 
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth.decorators import permission_required
 from django.urls import include, path
-from django.contrib.auth.decorators import login_required
 
 from flatblocks import views as flatblocks_views
 
@@ -12,7 +12,11 @@ from af_gang_mail import views
 urlpatterns = [
     path("in-case-of-emergency/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
-    path("flatblocks/<pk>/edit/", login_required(flatblocks_views.edit), name='flatblocks-edit'),
+    path(
+        "__edit__/<pk>/",
+        permission_required("flatblocks.change_flatblock")(flatblocks_views.edit),
+        name="edit-flatblock",
+    ),
     path(
         "update-name-and-address/",
         views.UpdateNameAndAddress.as_view(),
@@ -39,7 +43,8 @@ urlpatterns = [
     path(
         "manage-exchanges/", views.ManageExchanges.as_view(), name="manage-exchanges",
     ),
-    path("style-gallery/", views.StyleGallery.as_view(), name="style-gallery",),
+    path("style-gallery/", views.StyleGallery.as_view(), name="style-gallery"),
+    path("page-index/", views.PageIndex.as_view(), name="page-index"),
     path("home/", views.Home.as_view(), name="home"),
     path(
         "welcome/name-and-address",

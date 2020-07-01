@@ -6,18 +6,18 @@
 
 {% block content %}
   <div id="intro" class="yellow-box">
-    {% flatblock "home.unauthenticated.intro" %}
+    {% flatblock "landing-intro" %}
   </div>
   <section>
     <form method="post" action="{% url 'account_signup' %}"  data-cy="signup">
-    <h1>Enter an email address and choose a password to get started</h1>
+      {% flatblock "landing-sign-up-intro" %}
       {% csrf_token %}
       {{ register_form|crispy }}
       <input type="hidden" name="next" value="{% url 'sign-up-step-one' %}">
       <button>Get Started</button>
     </form>
     <form method="post" action="{% url 'account_login' %}" data-cy="login">
-      <h1>Log in</h1>
+      {% flatblock "landing-log-in-intro" %}
       {% csrf_token %}
       {{ login_form|crispy }}
       <button name="action" value="login">Log In</button>
