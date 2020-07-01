@@ -14,7 +14,6 @@ from django_tables2.views import SingleTableMixin, SingleTableView
 from af_gang_mail import forms, models, tables, tasks
 
 
-
 class Home(LoginRequiredMixin, TemplateView):
     """Home page for logged in users."""
 
@@ -41,15 +40,13 @@ class UpdateNameAndAddress(LoginRequiredMixin, UpdateView):
         response = super().form_valid(form)
 
         messages.success(
-            self.request,
-            self.get_success_message(),
-            fail_silently=True,
+            self.request, self.get_success_message(), fail_silently=True,
         )
 
         return response
 
-    def get_success_message(self):
-        return f"Your name and/or address have been updated."
+    def get_success_message(self):  # pylint: disable=no-self-use
+        return "Your name and/or address have been updated."
 
     def get_success_url(self):
         return urls.reverse("home")
@@ -75,14 +72,12 @@ class SelectExchanges(LoginRequiredMixin, UpdateView):
         response = super().form_valid(form)
 
         messages.success(
-            self.request,
-            self.get_success_message(),
-            fail_silently=True,
+            self.request, self.get_success_message(), fail_silently=True,
         )
 
         return response
 
-    def get_success_message(self):
+    def get_success_message(self):  # pylint: disable=no-self-use
         return "Your upcoming exchanges have been updated."
 
     def get_success_url(self):
@@ -112,6 +107,8 @@ class Landing(TemplateView):
 
 
 class SignUpStepOne(UpdateNameAndAddress):
+    """First step of sign up process."""
+
     template_name = "af_gang_mail/sign-up/step-one.html"
 
     def get_success_message(self):

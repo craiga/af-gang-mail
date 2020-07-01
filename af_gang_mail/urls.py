@@ -37,7 +37,11 @@ urlpatterns = [
     ),
     path("style-gallery/", views.StyleGallery.as_view(), name="style-gallery",),
     path("home/", views.Home.as_view(), name="home"),
-    path("welcome/name-and-address", views.SignUpStepOne.as_view(), name="sign-up-step-one"),
+    path(
+        "welcome/name-and-address",
+        views.SignUpStepOne.as_view(),
+        name="sign-up-step-one",
+    ),
     path("welcome/exchanges", views.SignUpStepTwo.as_view(), name="sign-up-step-two"),
     path("", views.Landing.as_view(), name="landing"),
 ]
