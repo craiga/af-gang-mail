@@ -15,7 +15,6 @@ describe("Sign up", () => {
       cy.get("[data-cy=signup]").contains("Get Started").click();
 
       cy.contains("Hello zane@afgang.co.uk!");
-      cy.contains("Name & Address");
       cy.contains("First name").click().type("Zane");
       cy.contains("Last name").click().type("Xylophone");
       cy.get(".pac-target-input").click().type("Fucking 10");
@@ -25,7 +24,6 @@ describe("Sign up", () => {
       cy.contains("Save").click();
 
       cy.contains("Thanks Zane Xylophone!");
-      cy.contains("Exchanges");
       cy.contains("Christmas 2050").click();
       cy.contains("Join the Selected Exchanges").click();
 

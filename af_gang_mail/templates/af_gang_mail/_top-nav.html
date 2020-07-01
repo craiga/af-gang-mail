@@ -1,8 +1,8 @@
 <nav>
   <a href="http://afgang.co.uk/">back to afgang.co.uk</a>
   <ul>
-    <li><a href="{% url 'home'%}">Home</a></li>
     {% if user.is_authenticated %}
+      <li><a href="{% url 'home'%}">Home</a></li>
       <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
       {% if user.is_staff %}
         <li><a href="{% url 'admin:index' %}">Admin</a></li>
@@ -14,6 +14,8 @@
         <li><a href="{% url 'style-gallery' %}">Style Gallery</a></li>
       {% endif %}
       <li><a href="{% url 'account_logout' %}">Log Out</a></li>
+    {% else %}
+      <li><a href="{% url 'landing'%}">Home</a></li>
     {% endif %}
   </ul>
 </nav>

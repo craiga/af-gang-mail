@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <form method="post">
+    <h1>Name &amp; Address</h1>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button>Save</button>
+  </form>
+
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places"></script>
+{% endblock %}

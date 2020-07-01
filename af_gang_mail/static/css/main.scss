@@ -1,12 +1,12 @@
-@use "components/background_image";
+@use "components/background-image";
 @use "components/flatblocks";
 @use "components/footer";
 @use "components/form";
 @use "components/header";
 @use "components/messages";
-@use "components/top_nav";
-@use "pages/home/authenticated";
-@use "pages/home/unauthenticated";
+@use "components/top-nav";
+@use "pages/home";
+@use "pages/landing";
 @use "pages/select-exchanges";
 @use "fonts" as *;
 @use "colors" as *;

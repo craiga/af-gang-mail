@@ -2,7 +2,7 @@
 
 {% load crispy_forms_tags flatblocks %}
 
-{% block body_classes %}home unauthenticated{% endblock %}
+{% block body_classes %}landing{% endblock %}
 
 {% block content %}
   <div id="intro" class="yellow-box">
@@ -13,6 +13,7 @@
     <h1>Enter an email address and choose a password to get started</h1>
       {% csrf_token %}
       {{ register_form|crispy }}
+      <input type="hidden" name="next" value="{% url 'sign-up-step-one' %}">
       <button>Get Started</button>
     </form>
     <form method="post" action="{% url 'account_login' %}" data-cy="login">
