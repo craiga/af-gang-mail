@@ -14,3 +14,10 @@ def static_file_storage(settings):
     settings.STATICFILES_STORAGE = (
         "django.contrib.staticfiles.storage.StaticFilesStorage"
     )
+
+
+@pytest.fixture(autouse=True)
+def disable_https_redirect(settings):
+    """Disable the HTTPS redirect."""
+
+    settings.SECURE_SSL_REDIRECT = False
