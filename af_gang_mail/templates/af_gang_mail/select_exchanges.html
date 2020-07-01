@@ -2,13 +2,24 @@
 
 {% load crispy_forms_tags %}
 
+{% block body_classes %}select-exchanges{% endblock %}
+
+
 {% block content %}
 
 <form method="post">
-  <h1>Select Exchanges</h1>
+  <h1>Exchanges</h1>
+  <p>Which exchanges would you like to take part in?
   {% csrf_token %}
-  <button>Join the Selected Exchanges</button>
-  {{ form|crispy }}
+  {% for exchange in exchanges %}
+    <div class="exchange">
+      <input type="checkbox" name="exchanges" id="id_exchanges_{{ exchange.id }}" value="{{ exchange.id }}">
+      <label for="id_exchanges_{{ exchange.id }}">
+        <strong>{{ exchange.name }}</strong><br>
+        Drawn {{ exchange.drawn|date:"l n F Y" }}, send by {{ exchange.sent|date:"l n F" }}.
+      </label>
+    </div>
+  {% endfor %}
   <button>Join the Selected Exchanges</button>
 </form>
 
