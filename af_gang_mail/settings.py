@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     "django_countries",
     "django_tables2",
     "djcelery_email",
+    "flatblocks",
     # First-party
     "af_gang_mail",
 ]

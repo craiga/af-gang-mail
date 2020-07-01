@@ -1,0 +1,9 @@
+<div class="flatblock block-{{ flatblock.slug }}">
+{% if perms.flatblock.change_flatblock %}
+    <a class="flatblock-edit" href="{% url 'flatblocks-edit' flatblock.id %}">edit</a>
+{% endif %}
+{% if flatblock.header %}
+    <h2 class="flatblock-title">{{ flatblock.header }}</h2>
+{% endif %}
+    <div class="flatblock-content">{{ flatblock.content|safe }}</div>
+</div>

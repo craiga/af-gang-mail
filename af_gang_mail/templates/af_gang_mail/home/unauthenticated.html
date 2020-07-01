@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags flatblocks %}
 
 {% block body_classes %}home unauthenticated{% endblock %}
 
 {% block content %}
   <div id="intro" class="yellow-box">
-    <p>The AF GANG mail exchange is open for business!
-      Make someone’s day by sending a small gift.
-      There's no minimum value—whatever you're comfortable with is fine.</p>
+    {% flatblock "home.unauthenticated.intro" %}
   </div>
   <section>
     <form method="post" action="{% url 'account_signup' %}"  data-cy="signup">

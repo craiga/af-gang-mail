@@ -3,12 +3,16 @@
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+from django.contrib.auth.decorators import login_required
+
+from flatblocks import views as flatblocks_views
 
 from af_gang_mail import views
 
 urlpatterns = [
     path("in-case-of-emergency/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
+    path("flatblocks/<pk>/edit/", login_required(flatblocks_views.edit), name='flatblocks-edit'),
     path(
         "update-name-and-address/",
         views.UpdateNameAndAddress.as_view(),
