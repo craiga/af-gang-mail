@@ -18,7 +18,8 @@ nav {
   color: $foreground;
   font-size: $baseSize;
   line-height: 1;
-  box-shadow: $baseSize / 8 $baseSize / 8 $baseSize / 2 transparentize($black, 0.5);
+  box-shadow: $baseSize / 8 $baseSize / 8 $baseSize / 2
+    transparentize($black, 0.5);
 
   a {
     color: $white;
@@ -59,7 +60,8 @@ nav {
       background-color: $black;
       list-style: none;
       text-align: left;
-      box-shadow: $baseSize / 8 $baseSize / 8 $baseSize / 2 transparentize($black, 0.5);
+      box-shadow: $baseSize / 8 $baseSize / 8 $baseSize / 2
+        transparentize($black, 0.5);
     }
     &:hover {
       h1 {
