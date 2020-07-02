@@ -18,16 +18,19 @@ nav {
   color: $foreground;
   font-size: $baseSize;
   line-height: 1;
+  box-shadow: $baseSize / 8 $baseSize / 8 $baseSize / 2 transparentize($black, 0.5);
 
   a {
-    color: inherit;
+    color: $white;
+    background-color: $black;
     padding: ($height - $baseSize) / 2 $baseSize;
     display: block;
     font-size: inherit;
     font-weight: normal;
     text-decoration: none;
     &:hover {
-      text-decoration: underline;
+      color: $black;
+      background-color: $white;
     }
   }
 
@@ -39,16 +42,29 @@ nav {
       padding: ($height - $baseSize) / 2 $baseSize;
       margin: 0;
       font-size: inherit;
+      font-weight: inherit;
+      line-height: 0;
+      img {
+        height: $baseSize;
+        filter: invert(1);
+      }
     }
     ul {
+      position: absolute;
+      right: 0;
       display: none;
+      white-space: nowrap;
       padding: 0;
       margin: 0;
       background-color: $black;
       list-style: none;
       text-align: left;
+      box-shadow: $baseSize / 8 $baseSize / 8 $baseSize / 2 transparentize($black, 0.5);
     }
     &:hover {
+      h1 {
+        padding-left: $baseSize * 3;
+      }
       ul {
         display: block;
       }
