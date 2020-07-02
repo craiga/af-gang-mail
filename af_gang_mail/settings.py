@@ -340,6 +340,7 @@ FLATBLOCKS_AUTOCREATE_STATIC_BLOCKS = True
 # django-ckeditor
 # https://github.com/django-ckeditor/django-ckeditor#installation
 
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_CONFIGS = {
     "default": {
         "height": 300,
