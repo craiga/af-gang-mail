@@ -10,6 +10,8 @@ form,
   padding: $baseSize / 2 $baseSize;
   background: $yellow;
   border: 1px solid $black;
+  box-shadow: $baseSize / 8 $baseSize / 8 $baseSize / 2
+    transparentize($black, 0.5);
   h1 {
     font-size: inherit;
     text-align: center;

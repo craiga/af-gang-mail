@@ -9,6 +9,8 @@ footer {
   padding: $baseSize;
   font-size: $baseSize * 0.8;
   box-sizing: border-box;
+  box-shadow: $baseSize / 8 $baseSize / 8 $baseSize / 2
+    transparentize($black, 0.5);
 
   a {
     color: inherit;

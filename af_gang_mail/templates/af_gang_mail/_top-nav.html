@@ -1,7 +1,11 @@
+{% load static %}
+
 <nav>
   <a href="http://afgang.co.uk/">back to afgang.co.uk</a>
   <section>
-    <h1>Menu</h1>
+    <h1>
+      <img src="{% static 'fontawesome/solid/bars.svg' %}" alt="Menu">
+    </h1>
     <ul>
       {% if user.is_authenticated %}
         <li><a href="{% url 'home'%}">🏡 Home</a></li>
