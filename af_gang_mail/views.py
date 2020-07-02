@@ -11,6 +11,7 @@ from django.views.generic import DeleteView, DetailView, TemplateView, UpdateVie
 from allauth.account.forms import SignupForm
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin, SingleTableView
+from flatblocks import views as flatblocks_views
 
 from af_gang_mail import forms, models, tables, tasks
 
@@ -249,3 +250,7 @@ class PageIndex(PermissionRequiredMixin, TemplateView):
                 pass
 
         return context_data
+
+
+def edit_flatblock(request, pk, **kwargs):
+    return flatblocks_views.edit(request, pk, modelform_class=forms.FlatBlock, **kwargs)

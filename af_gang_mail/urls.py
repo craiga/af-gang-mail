@@ -5,8 +5,6 @@ from django.contrib import admin
 from django.contrib.auth.decorators import permission_required
 from django.urls import include, path
 
-from flatblocks import views as flatblocks_views
-
 from af_gang_mail import views
 
 urlpatterns = [
@@ -14,7 +12,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path(
         "__edit__/<pk>/",
-        permission_required("flatblocks.change_flatblock")(flatblocks_views.edit),
+        permission_required("flatblocks.change_flatblock")(views.edit_flatblock),
         name="edit-flatblock",
     ),
     path(

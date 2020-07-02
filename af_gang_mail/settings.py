@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "ckeditor",
     "crispy_forms",
     "debug_toolbar",
     "django_countries",
@@ -223,7 +224,7 @@ CSP_STYLE_SRC = [
     "'self'",
     "'unsafe-inline'",  # required for Google places auto suggest
 ]
-CSP_SCRIPT_SRC = ["'self'", "https://maps.googleapis.com"]
+CSP_SCRIPT_SRC = ["'self'", "https://maps.googleapis.com", "'unsafe-inline'"]
 CSP_INCLUDE_NONCE_IN = ["script-src"]
 CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", None)
 
@@ -334,6 +335,24 @@ MESSAGE_LEVEL = message_constants.DEBUG if DEBUG else message_constants.INFO
 # Flat Blocks
 
 FLATBLOCKS_AUTOCREATE_STATIC_BLOCKS = True
+
+
+# django-ckeditor
+# https://github.com/django-ckeditor/django-ckeditor#installation
+
+CKEDITOR_CONFIGS = {
+    "default": {
+        "height": 300,
+        "width": 600,
+        "toolbar": "af_gang_mail",
+        "toolbar_af_gang_mail": [
+            ["Bold", "Italic"],
+            ["NumberedList", "BulletedList"],
+            ["Link", "Unlink"],
+            ["RemoveFormat", "Source"],
+        ],
+    },
+}
 
 
 # Draw creation
