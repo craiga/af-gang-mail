@@ -7,6 +7,9 @@ default:  ## Build and serve the web site.
 queue:  ## Run the task queue.
 	rabbitmq-server
 
+purge-queue:  ## Purge the task queue.
+	rabbitmqadmin purge queue name=celery
+
 worker:  ## Run one instance of the queue worker.
 	pipenv run watchmedo auto-restart --pattern=*.py --recursive -- celery worker --app af_gang_mail --loglevel INFO
 
