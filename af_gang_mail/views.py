@@ -9,6 +9,7 @@ from django.utils.safestring import mark_safe
 from django.views.generic import DeleteView, DetailView, TemplateView, UpdateView
 
 from allauth.account.forms import SignupForm
+from csp.decorators import csp_exempt
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin, SingleTableView
 from flatblocks import views as flatblocks_views
@@ -252,5 +253,6 @@ class PageIndex(PermissionRequiredMixin, TemplateView):
         return context_data
 
 
+@csp_exempt
 def edit_flatblock(request, pk, **kwargs):
     return flatblocks_views.edit(request, pk, modelform_class=forms.FlatBlock, **kwargs)
