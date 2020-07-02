@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "32d8fc76435f9bdbc9c45713ccce7e67e872af748cc7d193187022f45ca8425a"
+            "sha256": "d2f168dc793a5a4d63d9382584869d90219cb32f7dad8fa7be77871614775f49"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -123,6 +123,14 @@
             "index": "pypi",
             "version": "==3.0.0"
         },
+        "django-ckeditor": {
+            "hashes": [
+                "sha256:71c3c7bb46b0cbfb9712ef64af0d2a406eab233f44ecd7c42c24bdfa39ae3bde",
+                "sha256:e4d112851a72c5bf8b586e1c674d34084cab16d28f2553ad15cc770d1e9639c7"
+            ],
+            "index": "pypi",
+            "version": "==5.9.0"
+        },
         "django-countries": {
             "hashes": [
                 "sha256:2e852c9693818d64d28758a720a0cb8277673ac495af8b855c4dc64940703bd2",
@@ -174,6 +182,13 @@
             "editable": true,
             "git": "https://github.com/jazzband/django-flatblocks",
             "ref": "0717c024beb5dffe524b69a2d484e1774e6815fc"
+        },
+        "django-js-asset": {
+            "hashes": [
+                "sha256:8ec12017f26eec524cab436c64ae73033368a372970af4cf42d9354fcb166bdd",
+                "sha256:c163ae80d2e0b22d8fb598047cd0dcef31f81830e127cfecae278ad574167260"
+            ],
+            "version": "==1.2.2"
         },
         "django-tables2": {
             "hashes": [
