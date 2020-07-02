@@ -97,5 +97,86 @@
       "header": "Exchanges",
       "content": ""
     }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 12,
+    "fields": {
+      "slug": "login_intro",
+      "header": "Log In",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 13,
+    "fields": {
+      "slug": "logout_intro",
+      "header": "Log Out",
+      "content": "<p>Thanks for visiting! Are you sure you want to log out?</p>"
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 14,
+    "fields": {
+      "slug": "password_change_intro",
+      "header": "Change Password",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 15,
+    "fields": {
+      "slug": "password_reset_intro",
+      "header": "Forgotten Your Password?",
+      "content": "<p>Enter your e-mail address below, and we'll send you an e-mail with instructions on how to reset your password.</p>"
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 16,
+    "fields": {
+      "slug": "password_reset_done_intro",
+      "header": "An e-mail is on it's way!",
+      "content": "<p>You should recieve an e-mail from AF GANG Mail Exchange shortly.</p><p>Remember to check your spam folder too!</p>"
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 17,
+    "fields": {
+      "slug": "password_reset_from_key_invalid",
+      "header": "Sorry, this link is no longer valid.",
+      "content": "<p>This is probably because you've already used this link to reset your password once before.</p>"
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 18,
+    "fields": {
+      "slug": "password_reset_from_key_intro",
+      "header": "Reset Your Password",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 19,
+    "fields": {
+      "slug": "password_reset_from_key_done_intro",
+      "header": ">Your password has been updated!",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 20,
+    "fields": {
+      "slug": "signup_intro",
+      "header": "Enter an email address and choose a password to get started",
+      "content": "<p>If you already have an account, <a href=\"/\">log in</a>.</p>"
+    }
   }
 ]
