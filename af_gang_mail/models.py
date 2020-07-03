@@ -126,7 +126,7 @@ class DrawManager(models.Manager):
 
         logger.info("Preparing set of draws for %s.", exchange.name)
 
-        users = list(exchange.users.all())
+        users = list(exchange.users.filter(emailaddress__verified=True))
         logger.info("%d users.", len(users))
 
         # Run through some iterations and try to generate a perfect result.

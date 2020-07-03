@@ -5,6 +5,7 @@
 from django.db.utils import IntegrityError
 
 import pytest
+from allauth.account.models import EmailAddress
 from model_bakery import baker
 
 from af_gang_mail.models import Draw
@@ -20,8 +21,29 @@ def users(exchange):
     """A number of users belonging to exchange."""
 
     users = []
-    for _ in range(0, 10):
-        user = baker.make("af_gang_mail.User")
+    for _ in range(0, 5):
+        user = baker.make(
+            "af_gang_mail.User",
+            emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+        )
+        assert user.emailaddress_set.first().verified
+        user.exchanges.add(exchange)
+        users.append(user)
+
+    return users
+
+
+@pytest.fixture
+def unverified_users(exchange):
+    """A number of unverified users belonging to exchange."""
+
+    users = []
+    for _ in range(0, 2):
+        user = baker.make(
+            "af_gang_mail.User",
+            emailaddress_set=baker.prepare(EmailAddress, verified=False, _quantity=1),
+        )
+        assert not user.emailaddress_set.first().verified
         user.exchanges.add(exchange)
         users.append(user)
 
@@ -29,13 +51,14 @@ def users(exchange):
 
 
 @pytest.mark.django_db
-def test_draw(exchange, users, django_assert_max_num_queries):
+# pylint: disable=unused-argument
+def test_draw(exchange, users, unverified_users, django_assert_max_num_queries):
     """Test a simple draw."""
 
-    with django_assert_max_num_queries(3 + len(users)):
+    with django_assert_max_num_queries(2 + len(users)):
         draws = Draw.objects.bulk_create_from_exchange(exchange)
 
-    assert len(draws) == len(users) == exchange.users.count()
+    assert len(draws) == len(users)
 
     for draw in draws:
         assert draw.sender != draw.recipient
@@ -55,11 +78,23 @@ def test_draw_with_past_exchange(exchange):
     past_exchange = baker.make("af_gang_mail.Exchange", slug="past-exchange")
 
     # Set up the Beastie Boys.
-    mike_d = baker.make("af_gang_mail.User", username="mike_d")
+    mike_d = baker.make(
+        "af_gang_mail.User",
+        username="mike_d",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+    )
     mike_d.exchanges.add(exchange, past_exchange)
-    adrock = baker.make("af_gang_mail.User", username="adrock")
+    adrock = baker.make(
+        "af_gang_mail.User",
+        username="adrock",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+    )
     adrock.exchanges.add(exchange, past_exchange)
-    mca = baker.make("af_gang_mail.User", username="mca")
+    mca = baker.make(
+        "af_gang_mail.User",
+        username="mca",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+    )
     mca.exchanges.add(exchange, past_exchange)
 
     # Set up a previous draw.
@@ -98,11 +133,23 @@ def test_impossible_draw(exchange):
     past_exchange_2 = baker.make("af_gang_mail.Exchange", slug="past-exchange-2")
 
     # Set up De La Soul.
-    posdnuos = baker.make("af_gang_mail.User", username="posdnuos")
+    posdnuos = baker.make(
+        "af_gang_mail.User",
+        username="posdnuos",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+    )
     posdnuos.exchanges.add(exchange, past_exchange_1, past_exchange_2)
-    trugoy = baker.make("af_gang_mail.User", username="trugoy")
+    trugoy = baker.make(
+        "af_gang_mail.User",
+        username="trugoy",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+    )
     trugoy.exchanges.add(exchange, past_exchange_1, past_exchange_2)
-    maseo = baker.make("af_gang_mail.User", username="maseo")
+    maseo = baker.make(
+        "af_gang_mail.User",
+        username="maseo",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+    )
     maseo.exchanges.add(exchange, past_exchange_1, past_exchange_2)
 
     # Set up first exchange.
