@@ -11,6 +11,7 @@ from django.db import transaction
 
 import factory
 import faker
+from allauth.account.models import EmailAddress
 from dateutil.parser import parse
 
 from af_gang_mail import models
@@ -34,6 +35,15 @@ class ExchangeFactory(factory.django.DjangoModelFactory):
         model = models.Exchange
 
 
+class EmailAddressFactory(factory.django.DjangoModelFactory):
+    """Email address factory."""
+
+    email = factory.Faker("email")
+
+    class Meta:
+        model = EmailAddress
+
+
 class UserFactory(factory.django.DjangoModelFactory):
     """Fake user factory."""
 
@@ -41,6 +51,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     email = factory.Faker("email")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
+    emailaddress = factory.RelatedFactory(
+        EmailAddressFactory, factory_related_name="user", verified=True
+    )
 
     class Meta:
         model = models.User

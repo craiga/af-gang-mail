@@ -6,7 +6,7 @@ $height: $baseSize * 3;
 $background: $black;
 $foreground: $white;
 
-nav {
+#top-nav {
   display: flex;
   height: $height;
   flex-shrink: 0;

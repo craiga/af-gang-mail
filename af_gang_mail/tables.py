@@ -66,3 +66,14 @@ class User(tables.Table):
             "last_name",
             "email",
         ]
+
+
+class Draw(tables.Table):
+    """Draw table."""
+
+    class Meta:
+        model = models.Draw
+        fields = [
+            "sender",
+            "recipient",
+        ]

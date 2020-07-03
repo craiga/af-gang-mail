@@ -11,7 +11,7 @@ from django.views.generic import DeleteView, DetailView, TemplateView, UpdateVie
 from allauth.account.forms import SignupForm
 from csp.decorators import csp_exempt
 from django_tables2.paginators import LazyPaginator
-from django_tables2.views import SingleTableMixin, SingleTableView
+from django_tables2.views import MultiTableMixin, SingleTableView
 from flatblocks import views as flatblocks_views
 
 from af_gang_mail import forms, models, tables, tasks
@@ -154,24 +154,28 @@ class ManageExchanges(PermissionRequiredMixin, SingleTableView):
     paginator_class = LazyPaginator
 
 
-class ViewExchange(PermissionRequiredMixin, SingleTableMixin, DetailView):
+class ViewExchange(PermissionRequiredMixin, MultiTableMixin, DetailView):
     """View exchange."""
 
     permission_required = "af_gang_mail.view_exchange"
     model = models.Exchange
     template_name = "af_gang_mail/manage_exchanges/view.html"
     context_object_name = "exchange"
-    table_class = tables.User
-    context_table_name = "user_table"
     paginator_class = LazyPaginator
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data["exchange_data"] = model_to_dict(self.get_object())
+        context_data["user_table"] = context_data["tables"][0]
+        context_data["draw_table"] = context_data["tables"][1]
         return context_data
 
-    def get_table_data(self):
-        return self.get_object().users.all()
+    def get_tables(self):
+        exchange = self.get_object()
+        return [
+            tables.User(exchange.users.all(), prefix="user-"),
+            tables.Draw(exchange.draws.all(), prefix="draw-"),
+        ]
 
 
 class DeleteExchange(PermissionRequiredMixin, DeleteView):
