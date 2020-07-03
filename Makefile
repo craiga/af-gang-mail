@@ -71,6 +71,9 @@ cypress-db-delete:  ## Delete database for Cypress.
 dump:  ## Write a Django data dump to dump.json.
 	pipenv run python manage.py  dumpdata | jq > dump.json
 
+flatblocks:  ## Write Flat Blocks fixture from production data.
+	heroku run --app af-gang-mail python manage.py dumpdata flatblocks | jq > af_gang_mail/fixtures/flatblocks.json
+
 scss:  ## Build SCSS.
 	npm run sass -- .
 
