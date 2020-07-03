@@ -19,6 +19,8 @@
     border: 2px solid $black;
     padding: $baseSize;
     margin: $baseSize;
+    box-shadow: $baseSize / 8 $baseSize / 8 $baseSize / 2
+      transparentize($black, 0.5);
 
     @each $messageClass,
       $color

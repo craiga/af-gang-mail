@@ -24,17 +24,17 @@ urlpatterns = [
         "select-exchanges/", views.SelectExchanges.as_view(), name="select-exchanges",
     ),
     path(
-        "manage-exchanges/<slug:slug>/delete",
+        "manage-exchanges/<slug:slug>/delete/",
         views.DeleteExchange.as_view(),
         name="delete-exchange",
     ),
     path(
-        "manage-exchanges/<slug:slug>/draw",
+        "manage-exchanges/<slug:slug>/draw/",
         views.DrawExchange.as_view(),
         name="draw-exchange",
     ),
     path(
-        "manage-exchanges/<slug:slug>",
+        "manage-exchanges/<slug:slug>/",
         views.ViewExchange.as_view(),
         name="view-exchange",
     ),
@@ -45,11 +45,12 @@ urlpatterns = [
     path("page-index/", views.PageIndex.as_view(), name="page-index"),
     path("home/", views.Home.as_view(), name="home"),
     path(
-        "welcome/name-and-address",
+        "welcome/name-and-address/",
         views.SignUpStepOne.as_view(),
         name="sign-up-step-one",
     ),
-    path("welcome/exchanges", views.SignUpStepTwo.as_view(), name="sign-up-step-two"),
+    path("welcome/exchanges/", views.SignUpStepTwo.as_view(), name="sign-up-step-two"),
+    path("resend-verification/", views.resend_verification, name="resend-verification"),
     path("", views.Landing.as_view(), name="landing"),
 ]
 

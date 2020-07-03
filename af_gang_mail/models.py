@@ -59,6 +59,9 @@ class User(AbstractUser):
     def get_future_exchanges(self):
         return self.exchanges.filter(drawn__gt=now())
 
+    def has_verified_email_address(self):
+        return self.emailaddress_set.filter(verified=True).exists()
+
 
 class Exchange(models.Model):
     """Exchange"""
