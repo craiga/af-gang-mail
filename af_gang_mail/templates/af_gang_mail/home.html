@@ -5,34 +5,42 @@
 {% block body_classes %}home{% endblock %}
 
 {% block content %}
-  <div>
-    <form action="{% url 'update-name-and-address' %}">
-      {% flatblock "home-name-and-address-intro" %}
-      <div>{{ user.get_full_address|linebreaksbr }}</div>
-      <button>Edit Name &amp; Address</button>
-    </form>
-    <form action="{% url 'select-exchanges' %}">
-      {% flatblock "home-upcoming-exchanges-intro" %}
-      {% if user.get_future_exchanges %}
-        <table>
+
+{% if not user.has_verified_email_address %}
+  <section class="white-box">
+    {% flatblock "home-unverified-email-address" %}
+  </section>
+{% endif %}
+
+<div>
+  <form action="{% url 'update-name-and-address' %}">
+    {% flatblock "home-name-and-address-intro" %}
+    <div>{{ user.get_full_address|linebreaksbr }}</div>
+    <button>Edit Name &amp; Address</button>
+  </form>
+  <form action="{% url 'select-exchanges' %}">
+    {% flatblock "home-upcoming-exchanges-intro" %}
+    {% if user.get_future_exchanges %}
+      <table>
+        <tr>
+          <th scope="col">Exchange</th>
+          <th scope="col">Drawn</th>
+        </tr>
+        {% for exchange in user.get_future_exchanges %}
           <tr>
-            <th scope="col">Exchange</th>
-            <th scope="col">Drawn</th>
+            <td>{{ exchange.name }}</td>
+            <td>{{ exchange.drawn }}</td>
           </tr>
-          {% for exchange in user.get_future_exchanges %}
-            <tr>
-              <td>{{ exchange.name }}</td>
-              <td>{{ exchange.drawn }}</td>
-            </tr>
-          {% endfor %}
-        </table>
-      {% else %}
-        <p>No upcoming exchanges.</p>
-      {% endif %}
-      <button>Select Exchanges</button>
-    </form>
-    <form>
-      {% flatblock "home-past-exchanges-intro" %}
-    </form>
-  </div>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>No upcoming exchanges.</p>
+    {% endif %}
+    <button>Select Exchanges</button>
+  </form>
+  <form>
+    {% flatblock "home-past-exchanges-intro" %}
+  </form>
+</div>
+
 {% endblock %}

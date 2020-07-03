@@ -2,6 +2,7 @@
 
 from django import urls
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect
@@ -260,3 +261,10 @@ class PageIndex(PermissionRequiredMixin, TemplateView):
 @csp_exempt
 def edit_flatblock(request, pk, **kwargs):
     return flatblocks_views.edit(request, pk, modelform_class=forms.FlatBlock, **kwargs)
+
+
+@login_required
+def resend_verification(request):
+    request.user.emailaddress_set.first().send_confirmation(request)
+    messages.success(request, "A verification email is on its way!", fail_silently=True)
+    return HttpResponseRedirect(urls.reverse("home"))

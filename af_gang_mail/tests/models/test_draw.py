@@ -26,7 +26,7 @@ def users(exchange):
             "af_gang_mail.User",
             emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
         )
-        assert user.emailaddress_set.first().verified
+        assert user.has_verified_email_address()
         user.exchanges.add(exchange)
         users.append(user)
 
@@ -43,7 +43,7 @@ def unverified_users(exchange):
             "af_gang_mail.User",
             emailaddress_set=baker.prepare(EmailAddress, verified=False, _quantity=1),
         )
-        assert not user.emailaddress_set.first().verified
+        assert not user.has_verified_email_address()
         user.exchanges.add(exchange)
         users.append(user)
 

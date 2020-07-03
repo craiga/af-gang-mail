@@ -4,7 +4,8 @@
 $formWidthMax: 600px;
 
 form,
-.yellow-box {
+.yellow-box,
+.white-box {
   max-width: $formWidthMax;
   margin: $baseSize auto;
   padding: $baseSize / 2 $baseSize;
@@ -53,4 +54,8 @@ form,
   .control-group {
     margin: $baseSize / 2 0;
   }
+}
+
+.white-box {
+  background: $white;
 }

@@ -6,13 +6,13 @@ $formWidthMax: 400px;
 
 .home {
   main {
-    div {
+    & > div {
       form {
         margin: $baseSize 0;
       }
     }
     @media (min-width: $formWidthMin * 3 + $baseSize * 9) {
-      div {
+      & > div {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;

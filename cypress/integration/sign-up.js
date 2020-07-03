@@ -31,6 +31,8 @@ describe("Sign up", () => {
 
       cy.contains("Thanks Zane Xylophone!");
 
+      cy.contains("home-unverified-email-address");
+
       cy.contains("home-name-and-address-intro");
       cy.contains("10 Fucking");
       cy.contains("Fucking");
