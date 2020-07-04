@@ -258,7 +258,11 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_FORMS = {"login": "af_gang_mail.forms.LoginForm"}
+ACCOUNT_FORMS = {
+    "login": "af_gang_mail.forms.LoginForm",
+    "reset_password": "af_gang_mail.forms.ResetPasswordForm",
+    "signup": "af_gang_mail.forms.SignupForm",
+}
 
 
 # Cast user to string to get display name.

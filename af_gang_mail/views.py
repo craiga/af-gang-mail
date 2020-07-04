@@ -9,7 +9,6 @@ from django.http import HttpResponseRedirect
 from django.utils.safestring import mark_safe
 from django.views.generic import DeleteView, DetailView, TemplateView, UpdateView
 
-from allauth.account.forms import SignupForm
 from csp.decorators import csp_exempt
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import MultiTableMixin, SingleTableView
@@ -96,7 +95,7 @@ class Landing(TemplateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data.update(
-            {"login_form": forms.LoginForm(), "register_form": SignupForm(),}
+            {"login_form": forms.LoginForm(), "register_form": forms.SignupForm()}
         )
         return context_data
 

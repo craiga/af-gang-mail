@@ -54,10 +54,35 @@ class SelectExchanges(forms.ModelForm):
         ]
 
 
-class LoginForm(allauth_forms.LoginForm):
+def _fix_email(value):
+    return value.replace("e-mail", "email").replace("E-mail", "Email")
+
+
+class AllauthFormWithEmailMixin:
+    """Mixin to replace 'e-mail' with 'email' in fields."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.label = _fix_email(field.label)
+            if "placeholder" in field.widget.attrs:
+                field.widget.attrs["placeholder"] = _fix_email(
+                    field.widget.attrs["placeholder"]
+                )
+
+
+class LoginForm(AllauthFormWithEmailMixin, allauth_forms.LoginForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["login"].widget.attrs.pop("autofocus", None)
+
+
+class ResetPasswordForm(AllauthFormWithEmailMixin, allauth_forms.ResetPasswordForm):
+    pass
+
+
+class SignupForm(AllauthFormWithEmailMixin, allauth_forms.SignupForm):
+    pass
 
 
 class FlatBlock(flatblock_forms.FlatBlockForm):

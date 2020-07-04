@@ -5,7 +5,7 @@ describe("Sign up", () => {
     it("You can sign up from the home page", () => {
       cy.visit("/");
       cy.get("[data-cy=signup]")
-        .contains("E-mail")
+        .contains("Email")
         .click()
         .type("zane@afgang.co.uk");
       cy.get("[data-cy=signup]")

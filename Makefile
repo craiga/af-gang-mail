@@ -47,6 +47,9 @@ migrations:  ## Create Django migrations.
 	pipenv run black **/migrations/*.py
 	pipenv run isort --apply **/migrations/*.py
 
+empty-migration:  ## Create empty migration in af_gang_mail.
+	pipenv run python manage.py makemigrations af_gang_mail --empty
+
 migrate:  ## Run Django migrations.
 	pipenv run python manage.py migrate
 
