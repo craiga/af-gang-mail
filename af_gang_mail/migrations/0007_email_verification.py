@@ -4,7 +4,7 @@ from django.db import migrations
 
 
 def create_flatblock(apps, schema_editor):
-    """By saving all exchanges we automatically generate a slug."""
+    """Create home-unverified-email-address flat block."""
 
     FlatBlock = apps.get_model("flatblocks", "FlatBlock")
     if not FlatBlock.objects.filter(slug="home-unverified-email-address").exists():
