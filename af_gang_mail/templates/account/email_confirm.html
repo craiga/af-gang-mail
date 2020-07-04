@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags flatblocks %}
+
+{% block content %}
+
+{% if confirmation %}
+
+<form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+  {% flatblock "confirm-email-intro" %}
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button>Confirm {{ email }}</button>
+</form>
+
+{% else %}
+
+<div class="yellow-box">
+  {% flatblock "confirm-email-already-used" %}
+</div>
+
+{% endif %}
+
+{% endblock %}
