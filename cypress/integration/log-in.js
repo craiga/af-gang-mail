@@ -5,7 +5,7 @@ describe("Log in", () => {
     it("User can log in from the home page", () => {
       cy.visit("/");
       cy.get("[data-cy=login]")
-        .contains("E-mail")
+        .contains("Email")
         .click()
         .type("alice@afgang.co.uk");
       cy.get("[data-cy=login]")

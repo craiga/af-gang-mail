@@ -2,6 +2,7 @@ Adrock
 argparse
 ArgumentError
 Beastie
+ckeditor
 CSS
 datetime
 De
@@ -15,8 +16,8 @@ IPs
 loaddata
 Maseo
 MCA
+Mixin
 Posdnous
 pytest
 Trugoy
 Whitenoise
-ckeditor

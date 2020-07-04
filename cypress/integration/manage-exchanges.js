@@ -5,7 +5,7 @@ describe("Manage exchanges", () => {
     it("Admin can manage exchanges", () => {
       cy.visit("/");
       cy.get("[data-cy=login]")
-        .contains("E-mail")
+        .contains("Email")
         .click()
         .type("admin@afgang.co.uk");
       cy.get("[data-cy=login]")
