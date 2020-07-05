@@ -54,6 +54,18 @@ form,
   .control-group {
     margin: $baseSize / 2 0;
   }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    td,
+    th {
+      padding: $baseSize / 4;
+    }
+    th {
+      background-color: $darkYellow;
+      text-align: left;
+    }
+  }
 }
 
 .white-box {

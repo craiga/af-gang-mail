@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load flatblocks %}
+{% load flatblocks humanize %}
 
 {% block body_classes %}home{% endblock %}
 
@@ -29,7 +29,7 @@
         {% for exchange in user.get_future_exchanges %}
           <tr>
             <td>{{ exchange.name }}</td>
-            <td>{{ exchange.drawn }}</td>
+            <td title="{{ exchange.drawn }}">{{ exchange.drawn|naturalday }}</td>
           </tr>
         {% endfor %}
       </table>
