@@ -63,6 +63,13 @@ class User(AbstractUser):
         return self.emailaddress_set.filter(verified=True).exists()
 
 
+class ExchangeManager(models.Manager):
+    """Exchange manager."""
+
+    def scheduled_for_draw(self):
+        return self.filter(drawn__lt=now(), draw_started__isnull=True)
+
+
 class Exchange(models.Model):
     """Exchange"""
 
@@ -73,6 +80,9 @@ class Exchange(models.Model):
     received = models.DateTimeField(blank=False, null=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    draw_started = models.DateTimeField(blank=True, null=True)
+
+    objects = ExchangeManager()
 
     def __str__(self):
         return self.name
