@@ -12,6 +12,13 @@
   </section>
 {% endif %}
 
+{% for exchange, recipient in active_draws %}
+  <section class="white-box">
+    <p>You've been assigned {{ recipient }} in {{ exchange }}!</p>
+    <a class="button" href="">See More Details</a>
+  </section>
+{% endfor %}
+
 <div>
   <form action="{% url 'update-name-and-address' %}">
     {% flatblock "home-name-and-address-intro" %}
@@ -20,13 +27,13 @@
   </form>
   <form action="{% url 'select-exchanges' %}">
     {% flatblock "home-upcoming-exchanges-intro" %}
-    {% if user.get_future_exchanges %}
+    {% if user.exchanges.upcoming.exists %}
       <table>
         <tr>
           <th scope="col">Exchange</th>
           <th scope="col">Drawn</th>
         </tr>
-        {% for exchange in user.get_future_exchanges %}
+        {% for exchange in user.exchanges.upcoming.all %}
           <tr>
             <td>{{ exchange.name }}</td>
             <td title="{{ exchange.drawn }}">{{ exchange.drawn|naturalday }}</td>

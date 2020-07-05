@@ -30,7 +30,18 @@ class Home(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data.update({"user": self.request.user})
+
+        user = self.request.user
+        active_draws = []
+        for exchange in user.exchanges.drawn_not_sent():
+            try:
+                draw = user.draws_as_sender.get(exchange=exchange)
+                active_draws.append((exchange, draw.recipient))
+            except models.Draw.DoesNotExist:
+                pass
+
+        context_data.update({"user": user, "active_draws": active_draws})
+
         return context_data
 
 

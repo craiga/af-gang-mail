@@ -1,8 +1,12 @@
 describe("Log in", () => {
   before(() => {
-    cy.flushDatabaseAndLoadFixtures(["cypress/exchanges", "cypress/users"]);
+    cy.flushDatabaseAndLoadFixtures([
+      "cypress/exchanges",
+      "cypress/users",
+      "cypress/draws",
+    ]);
   }),
-    it("User can log in from the home page", () => {
+    it("User can log in and get details of active exchange.", () => {
       cy.visit("/");
       cy.get("[data-cy=login]")
         .contains("Email")
@@ -26,5 +30,9 @@ describe("Log in", () => {
       cy.contains("home-upcoming-exchanges-intro");
 
       cy.contains("home-past-exchanges-intro");
+
+      cy.contains(
+        "You've been assigned Bob Userson for the Cypress Test Exchange!"
+      );
     });
 });

@@ -1,0 +1,24 @@
+[
+  {
+    "model": "af_gang_mail.draw",
+    "pk": 1,
+    "fields": {
+      "sender": 1,
+      "recipient": 3,
+      "exchange": 3,
+      "created": "2020-07-03T20:19:32.552Z",
+      "updated": "2020-07-03T20:19:32.552Z"
+    }
+  },
+  {
+    "model": "af_gang_mail.draw",
+    "pk": 2,
+    "fields": {
+      "sender": 3,
+      "recipient": 1,
+      "exchange": 3,
+      "created": "2020-07-03T20:19:32.552Z",
+      "updated": "2020-07-03T20:19:32.552Z"
+    }
+  }
+]
