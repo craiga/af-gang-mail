@@ -39,7 +39,7 @@ django-tables2 = "*"
 django-autoslug = "*"
 factory-boy = "*"
 python-dateutil = "*"
-django-flatblocks = {editable = true, git = "https://github.com/jazzband/django-flatblocks"}
+django-flatblocks = {editable = true, git = "https://github.com/jazzband/django-flatblocks"}  # https://github.com/jazzband/django-flatblocks/issues/28
 django-ckeditor = "*"
 django-tz-detect = "*"
 
