@@ -41,6 +41,7 @@ factory-boy = "*"
 python-dateutil = "*"
 django-flatblocks = {editable = true, git = "https://github.com/jazzband/django-flatblocks"}
 django-ckeditor = "*"
+django-tz-detect = "*"
 
 [requires]
 python_version = "3.8"

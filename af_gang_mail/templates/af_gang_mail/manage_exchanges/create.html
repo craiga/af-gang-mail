@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <form method="post">
+    <h1>Create Exchange</h1>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button>Create Exchange</button>
+  </form>
+
+{% endblock %}

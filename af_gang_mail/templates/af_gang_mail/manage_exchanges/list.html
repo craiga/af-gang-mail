@@ -9,6 +9,12 @@
 <div class="yellow-box">
   <h1>Manage Exchanges</h1>
   {% render_table table %}
+
+  <nav>
+    {% if perms.af_gang_mail.add_exchange %}
+      <a href="{% url 'create-exchange' %}">Create</a>
+    {% endif %}
+  </nav>
 </div>
 
 {% endblock %}

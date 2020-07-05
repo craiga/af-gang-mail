@@ -54,6 +54,17 @@ class SelectExchanges(forms.ModelForm):
         ]
 
 
+class Exchange(forms.ModelForm):
+    """Manage exchange form."""
+
+    class Meta:
+        model = models.Exchange
+        widgets = {
+            "name": forms.TextInput(),
+        }
+        fields = ["name", "drawn", "sent", "received"]
+
+
 def _fix_email(value):
     return value.replace("e-mail", "email").replace("E-mail", "Email")
 

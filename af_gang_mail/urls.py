@@ -23,6 +23,7 @@ urlpatterns = [
     path(
         "select-exchanges/", views.SelectExchanges.as_view(), name="select-exchanges",
     ),
+    path("create-exchange/", views.CreateExchange.as_view(), name="create-exchange",),
     path(
         "manage-exchanges/<slug:slug>/delete/",
         views.DeleteExchange.as_view(),
@@ -51,6 +52,7 @@ urlpatterns = [
     ),
     path("welcome/exchanges/", views.SignUpStepTwo.as_view(), name="sign-up-step-two"),
     path("resend-verification/", views.resend_verification, name="resend-verification"),
+    path("tz_detect/", include("tz_detect.urls")),
     path("", views.Landing.as_view(), name="landing"),
 ]
 
