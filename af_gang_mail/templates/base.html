@@ -41,6 +41,6 @@
         Sentry.init(sentry_options);
     </script>
   {% endif %}
-  {% tz_detect %}
+  {% tz_detect nonce=request.csp_nonce %}
   {% block script %} {% endblock %}
 </html>
