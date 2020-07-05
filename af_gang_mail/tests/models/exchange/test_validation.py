@@ -1,4 +1,4 @@
-"""Exchange model tests."""
+"""Test exchange model validation."""
 
 from datetime import timedelta
 

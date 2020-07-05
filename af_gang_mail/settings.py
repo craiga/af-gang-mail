@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "django_tables2",
     "djcelery_email",
     "flatblocks",
+    "tz_detect",
     # First-party
     "af_gang_mail",
 ]
@@ -84,6 +85,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_feature_policy.FeaturePolicyMiddleware",
     "csp.middleware.CSPMiddleware",
+    "tz_detect.middleware.TimezoneMiddleware",
 ]
 
 ROOT_URLCONF = "af_gang_mail.urls"
@@ -360,10 +362,15 @@ CKEDITOR_CONFIGS = {
 }
 
 
+# django-tz-detect
+# https://github.com/adamcharnock/django-tz-detect
+
+TZ_DETECT_COUNTRIES = ["GB", "US"]
+
+
 # Draw creation
 
 CREATE_DRAW_MAX_ATTEMPTS = int(os.environ.get("CREATE_DRAW_MAX_ATTEMPTS", 100))
-
 
 # Default value based on Heroku hobby dynos. On my laptop this was 0.001.
 CREATE_DRAW_SECONDS_PER_USER = float(

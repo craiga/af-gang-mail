@@ -1,4 +1,4 @@
-{% load static %}
+{% load static tz_detect %}
 
 <!DOCTYPE html>
 <html>
@@ -41,5 +41,6 @@
         Sentry.init(sentry_options);
     </script>
   {% endif %}
+  {% tz_detect %}
   {% block script %} {% endblock %}
 </html>

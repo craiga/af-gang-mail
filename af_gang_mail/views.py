@@ -7,7 +7,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect
 from django.utils.safestring import mark_safe
-from django.views.generic import DeleteView, DetailView, TemplateView, UpdateView
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    TemplateView,
+    UpdateView,
+)
 
 from csp.decorators import csp_exempt
 from django_tables2.paginators import LazyPaginator
@@ -176,6 +182,16 @@ class ViewExchange(PermissionRequiredMixin, MultiTableMixin, DetailView):
             tables.User(exchange.users.all(), prefix="user-"),
             tables.Draw(exchange.draws.all(), prefix="draw-"),
         ]
+
+
+class CreateExchange(PermissionRequiredMixin, CreateView):
+    """Create exchange."""
+
+    permission_required = "af_gang_mail.add_exchange"
+    model = models.Exchange
+    template_name = "af_gang_mail/manage_exchanges/create.html"
+    form_class = forms.Exchange
+    success_url = urls.reverse_lazy("manage-exchanges")
 
 
 class DeleteExchange(PermissionRequiredMixin, DeleteView):

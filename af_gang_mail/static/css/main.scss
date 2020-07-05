@@ -9,6 +9,9 @@
 @use "pages/landing";
 @use "pages/manage-exchanges";
 @use "pages/select-exchanges";
+
+@use "flatpickr/dist/flatpickr.css";
+
 @use "fonts" as *;
 @use "colors" as *;
 @use "size" as *;

@@ -13,6 +13,7 @@
     "@fortawesome/fontawesome-free": "^5.13.1",
     "@sentry/browser": "^5.17.0",
     "browserify": "latest",
+    "flatpickr": "^4.6.3",
     "sass": "latest"
   },
   "devDependencies": {

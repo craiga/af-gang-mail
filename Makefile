@@ -78,10 +78,10 @@ flatblocks:  ## Write Flat Blocks fixture from production data.
 	heroku run --app af-gang-mail python manage.py dumpdata flatblocks | jq > af_gang_mail/fixtures/flatblocks.json
 
 scss:  ## Build SCSS.
-	npm run sass -- .
+	npm run sass -- . --load-path node_modules
 
 scss-continuous:  ## Build SCSS continuously.
-	npm run sass -- . --watch
+	npm run sass -- . --watch --load-path node_modules
 
 js:  ## Build JavaScript.
 	find . \( -path "./node_modules" -o -iname "bundle.*" \) -prune -o -path "*/static/*" -a -name "*.js" -print | xargs npm run browserify -- --outfile af_gang_mail/static/bundle.js
