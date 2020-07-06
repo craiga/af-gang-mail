@@ -5,15 +5,12 @@ $formWidthMin: 260px;
 $formWidthMax: 400px;
 
 .select-exchanges {
-  div.exchange {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: $baseSize 0;
+  label.checkbox {
+    padding-left: 2em;
+    position: relative;
     input {
-    }
-    label {
-      padding-left: $baseSize / 2;
+      position: absolute;
+      left: 0;
     }
   }
 }

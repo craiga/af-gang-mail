@@ -47,6 +47,22 @@
   </form>
   <form>
     {% flatblock "home-past-exchanges-intro" %}
+    {% if user.exchanges.past.exists %}
+      <table>
+        <tr>
+          <th scope="col">Exchange</th>
+          <th scope="col">Drawn</th>
+        </tr>
+        {% for exchange in user.exchanges.past.all %}
+          <tr>
+            <td>{{ exchange.name }}</td>
+            <td title="{{ exchange.drawn }}">{{ exchange.drawn|naturalday }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>No past exchanges.</p>
+    {% endif %}
   </form>
 </div>
 

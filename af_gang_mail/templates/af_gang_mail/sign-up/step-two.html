@@ -9,9 +9,7 @@
 <form method="post">
   {% flatblock "sign-up-step-two-intro" %}
   {% csrf_token %}
-  {% for exchange in exchanges %}
-    {% include "af_gang_mail/_exchange-checkbox.html" %}
-  {% endfor %}
+  {{ form|crispy }}
   <button>Join the Selected Exchanges</button>
 </form>
 

@@ -66,6 +66,9 @@ class ExchangeManager(models.Manager):
     def drawn_not_sent(self):
         return self.filter(drawn__lt=now(), sent__gt=now())
 
+    def past(self):
+        return self.filter(received__lt=now())
+
 
 class Exchange(models.Model):
     """Exchange"""
