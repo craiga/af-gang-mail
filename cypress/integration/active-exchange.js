@@ -31,8 +31,6 @@ describe("Log in", () => {
 
       cy.contains("home-past-exchanges-intro");
 
-      cy.contains(
-        "You've been assigned Bob Userson for the Cypress Test Exchange!"
-      );
+      cy.contains("You've been assigned Bob Userson in Cypress Test Exchange!");
     });
 });

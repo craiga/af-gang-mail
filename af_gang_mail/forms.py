@@ -1,7 +1,6 @@
 """Forms"""
 
 from django import forms
-from django.utils.timezone import now
 
 from allauth.account import forms as allauth_forms
 from ckeditor.widgets import CKEditorWidget

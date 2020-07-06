@@ -49,17 +49,17 @@ def draw(exchange, user, recipient):
 
 
 @pytest.mark.django_db
-def test_active_draws(view, rf, user, exchange, draw, recipient):
+def test_active_draws(view, rf, user, exchange, draw):
     """Test list of active exchanges."""
 
     request = rf.get("/")
     request.user = user
     response = view(request)
-    assert response.context_data["active_draws"] == [(exchange, recipient)]
+    assert response.context_data["active_draws"] == [(exchange, draw.recipient)]
 
 
 @pytest.mark.django_db
-def test_not_drawn(view, rf, user, exchange, recipient):
+def test_not_drawn(view, rf, user, exchange):  # pylint: disable=unused-argument
     """Test list of active exchanges when user was not drawn."""
 
     request = rf.get("/")

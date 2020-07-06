@@ -22,6 +22,7 @@ no-docstring-rgx = ^_|(Meta)
 
 [SIMILARITIES]
 ignore-imports=yes
+min-similarity-lines=5
 
 [MESSAGES CONTROL]
 disable = bad-continuation  # https://github.com/PyCQA/pylint/issues/289
