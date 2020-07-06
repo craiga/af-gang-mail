@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load flatblocks humanize %}
+
+{% block content %}
+
+<div class="yellow-box">
+  {% flatblock "draw-intro" %}
+  <dl>
+    <dt>Important Dates</dt>
+    <dd>Send by {{ exchange.sent|naturalday }} so that it's recieved by {{ exchange.received|naturalday }}.</dd>
+    <dt>Recipient Name</dt>
+    <dd>{{ recipient.get_full_name }}</dd>
+    <dt>Recipient Address</dt>
+    <dd>{{ recipient.get_full_address|linebreaksbr }}</dd>
+  </dl>
+  <a class="button" href="{% url 'home' %}">Go to Home Page</a>
+</div>
+
+{% endblock %}
