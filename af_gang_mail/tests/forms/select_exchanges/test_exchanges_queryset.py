@@ -1,4 +1,4 @@
-"""Test Select Exchanges form."""
+"""Test Select Exchanges queryset."""
 
 import pytest
 

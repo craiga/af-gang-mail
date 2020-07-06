@@ -60,6 +60,9 @@ class ExchangeManager(models.Manager):
     def upcoming(self):
         return self.filter(drawn__gt=now())
 
+    def not_upcoming(self):
+        return self.filter(drawn__lt=now())
+
     def scheduled_for_draw(self):
         return self.filter(drawn__lt=now(), draw_started__isnull=True)
 
