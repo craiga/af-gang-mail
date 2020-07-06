@@ -56,3 +56,13 @@ def test_upcoming(upcoming_exchanges, not_upcoming_exchanges):
     assert exchanges.count() == len(upcoming_exchanges)
     for exchange in exchanges:
         assert exchange in upcoming_exchanges
+
+
+@pytest.mark.django_db
+def test_not_upcoming(upcoming_exchanges, not_upcoming_exchanges):
+    """Test not_upcoming."""
+
+    exchanges = Exchange.objects.not_upcoming()
+    assert exchanges.count() == len(not_upcoming_exchanges)
+    for exchange in exchanges:
+        assert exchange in not_upcoming_exchanges

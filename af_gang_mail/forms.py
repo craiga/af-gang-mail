@@ -63,6 +63,14 @@ class SelectExchanges(forms.ModelForm):
             "exchanges",
         ]
 
+    def clean(self):
+        super().clean()
+
+        # Re-add exchanges which aren't included in this form's UI.
+        self.cleaned_data["exchanges"] |= self.instance.exchanges.not_upcoming()
+
+        return self.cleaned_data
+
 
 class Exchange(forms.ModelForm):
     """Manage exchange form."""
