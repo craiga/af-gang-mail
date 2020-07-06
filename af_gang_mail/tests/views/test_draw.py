@@ -1,5 +1,7 @@
 """Tests for draw view."""
 
+# pylint: disable=redefined-outer-name
+
 from django.core.exceptions import PermissionDenied
 
 import pytest
@@ -15,13 +17,22 @@ def view():
 
 @pytest.fixture
 def recipient(drawn_not_sent_exchange, user):
+    """Recipient."""
+
     recipient = baker.make("af_gang_mail.User")
-    baker.make("af_gang_mail.Draw", exchange=drawn_not_sent_exchange, sender=user, recipient=recipient)
+    baker.make(
+        "af_gang_mail.Draw",
+        exchange=drawn_not_sent_exchange,
+        sender=user,
+        recipient=recipient,
+    )
     return recipient
 
 
 @pytest.mark.django_db
-def test(view, rf, user, drawn_not_sent_exchange, recipient):
+def test(
+    view, rf, user, drawn_not_sent_exchange, recipient
+):  # pylint: disable=unused-argument
     """Test draw view."""
 
     request = rf.get("/")

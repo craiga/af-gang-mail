@@ -36,7 +36,7 @@ describe("Log in", () => {
 
       cy.contains("draw-intro");
       cy.contains("Bob Userson");
-      cy.contains("74-46 Johnston Street");
+      cy.contains("74-76 Johnston Street");
       cy.contains("Fitzroy");
       cy.contains("Victoria");
       cy.contains("3065");

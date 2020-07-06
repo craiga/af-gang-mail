@@ -16,7 +16,7 @@ def create_flatblock(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('af_gang_mail', '0010_exchange_draw_started'),
+        ("af_gang_mail", "0010_exchange_draw_started"),
     ]
 
     operations = [
