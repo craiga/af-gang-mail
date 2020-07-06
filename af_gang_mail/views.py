@@ -99,6 +99,31 @@ class SelectExchanges(LoginRequiredMixin, UpdateView):
         return urls.reverse("home")
 
 
+class Draw(PermissionRequiredMixin, DetailView):
+    """
+    View details of a draw for the logged in user.
+    """
+
+    model = models.Exchange
+    template_name = "af_gang_mail/draw.html"
+    context_object_name = "exchange"
+
+    def has_permission(self):
+        return models.Draw.objects.filter(
+            exchange=self.get_object(), sender=self.request.user
+        ).exists()
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        draw = models.Draw.objects.get(
+            exchange=context_data["exchange"], sender=self.request.user
+        )
+        context_data["recipient"] = draw.recipient
+
+        return context_data
+
+
 class Landing(TemplateView):
     """Landing page."""
 

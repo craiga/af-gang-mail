@@ -28,5 +28,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(create_flatblock),
+        migrations.RunPython(create_flatblock, migrations.RunPython.noop),
     ]
