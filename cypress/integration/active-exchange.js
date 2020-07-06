@@ -32,5 +32,14 @@ describe("Log in", () => {
       cy.contains("home-past-exchanges-intro");
 
       cy.contains("You've been assigned Bob Userson in Cypress Test Exchange!");
+      cy.contains("See More Details").click();
+
+      cy.contains("draw-intro");
+      cy.contains("Bob Userson");
+      cy.contains("74-46 Johnston Street");
+      cy.contains("Fitzroy");
+      cy.contains("Victoria");
+      cy.contains("3065");
+      cy.contains("Australia");
     });
 });

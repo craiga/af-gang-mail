@@ -33,29 +33,35 @@ def past_exchanges():
 
 
 @pytest.fixture
-def current_exchanges():
+def drawn_not_sent_exchange():
+    return baker.make(
+        models.Exchange,
+        name="Drawn Not Sent",
+        slug="drawn-not-sent",
+        drawn=now() - timedelta(days=1),
+        sent=now() + timedelta(days=1),
+        received=now() + timedelta(days=2),
+    )
+
+
+@pytest.fixture
+def sent_not_received_exchange():
+    return baker.make(
+        models.Exchange,
+        name="Sent Not Received",
+        slug="sent-not-received",
+        drawn=now() - timedelta(days=2),
+        sent=now() - timedelta(days=1),
+        received=now() + timedelta(days=1),
+    )
+
+
+@pytest.fixture
+def current_exchanges(drawn_not_sent_exchange, sent_not_received_exchange):
     """Exchanges which are currently running."""
 
-    exchanges = [
-        baker.make(
-            models.Exchange,
-            name="Current 1",
-            slug="current-1",
-            drawn=now() - timedelta(days=1),
-            sent=now() + timedelta(days=1),
-            received=now() + timedelta(days=2),
-        ),
-        baker.make(
-            models.Exchange,
-            name="Current 2",
-            slug="current-2",
-            drawn=now() - timedelta(days=2),
-            sent=now() - timedelta(days=1),
-            received=now() + timedelta(days=1),
-        ),
-    ]
-
-    return models.Exchange.objects.filter(id__in=[e.id for e in exchanges])
+    ids = [drawn_not_sent_exchange.id, sent_not_received_exchange.id]
+    return models.Exchange.objects.filter(id__in=ids)
 
 
 @pytest.fixture

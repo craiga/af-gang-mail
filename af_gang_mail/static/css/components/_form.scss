@@ -66,6 +66,14 @@ form,
       text-align: left;
     }
   }
+  dl {
+    dt, dd {
+      margin: $baseSize 0;
+    }
+    dt {
+      font-weight: bold;
+    }
+  }
 }
 
 .white-box {

@@ -53,6 +53,7 @@ urlpatterns = [
     path("welcome/exchanges/", views.SignUpStepTwo.as_view(), name="sign-up-step-two"),
     path("resend-verification/", views.resend_verification, name="resend-verification"),
     path("tz_detect/", include("tz_detect.urls")),
+    path("exchange/<slug:slug>/", views.Draw.as_view(), name="draw",),
     path("", views.Landing.as_view(), name="landing"),
 ]
 
