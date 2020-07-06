@@ -1,7 +1,6 @@
 """Forms"""
 
 from django import forms
-from django.utils.timezone import now
 
 from allauth.account import forms as allauth_forms
 from ckeditor.widgets import CKEditorWidget
@@ -42,7 +41,7 @@ class SelectExchanges(forms.ModelForm):
     """Update selected exchanges."""
 
     exchanges = forms.ModelMultipleChoiceField(
-        queryset=models.Exchange.objects.filter(drawn__gt=now()).order_by("drawn"),
+        queryset=models.Exchange.objects.upcoming().order_by("drawn"),
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )

@@ -20,7 +20,7 @@
       "date_joined": "2020-06-22T18:00:25.299Z",
       "groups": [],
       "user_permissions": [],
-      "exchanges": [1, 2]
+      "exchanges": [1, 2, 3]
     }
   },
   {
@@ -49,6 +49,30 @@
     }
   },
   {
+    "model": "af_gang_mail.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$180000$g89tNaWaVUfZ$8MwAYFjKmmF266mJH8gWfsA7pTAmxuhDrfPFYEzAlZU=",
+      "last_login": "2020-06-22T18:00:25.631Z",
+      "is_superuser": false,
+      "username": "bob",
+      "first_name": "Bob",
+      "last_name": "Userson",
+      "email": "bob@afgang.co.uk",
+      "address_line_1": "74 Johnston Street",
+      "address_city": "Fitzroy",
+      "address_state": "Victoria",
+      "address_postcode": "3065",
+      "address_country": "AU",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-06-22T18:00:25.299Z",
+      "groups": [],
+      "user_permissions": [],
+      "exchanges": [1, 2, 3]
+    }
+  },
+  {
     "model": "account.emailaddress",
     "pk": 1,
     "fields": {
@@ -64,6 +88,16 @@
     "fields": {
       "user": 2,
       "email": "admin@afgang.co.uk",
+      "verified": true,
+      "primary": true
+    }
+  },
+  {
+    "model": "account.emailaddress",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "email": "bob@afgang.co.uk",
       "verified": true,
       "primary": true
     }

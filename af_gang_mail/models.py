@@ -50,15 +50,6 @@ class User(AbstractUser):
         address_parts = [part for part in address_parts if part]
         return "\n".join(address_parts)
 
-    def get_past_exchanges(self):
-        return self.exchanges.filter(received__lt=now())
-
-    def get_current_exchanges(self):
-        return self.exchanges.filter(drawn__lte=now(), received__gte=now())
-
-    def get_future_exchanges(self):
-        return self.exchanges.filter(drawn__gt=now())
-
     def has_verified_email_address(self):
         return self.emailaddress_set.filter(verified=True).exists()
 
@@ -66,8 +57,14 @@ class User(AbstractUser):
 class ExchangeManager(models.Manager):
     """Exchange manager."""
 
+    def upcoming(self):
+        return self.filter(drawn__gt=now())
+
     def scheduled_for_draw(self):
         return self.filter(drawn__lt=now(), draw_started__isnull=True)
+
+    def drawn_not_sent(self):
+        return self.filter(drawn__lt=now(), sent__gt=now())
 
 
 class Exchange(models.Model):
