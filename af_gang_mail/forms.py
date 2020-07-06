@@ -1,6 +1,6 @@
 """Forms"""
 
-from django import forms
+from django import forms, template
 
 from allauth.account import forms as allauth_forms
 from ckeditor.widgets import CKEditorWidget
@@ -37,12 +37,23 @@ class UpdateNameAndAddress(forms.ModelForm):
         ]
 
 
+class SelectExchangeField(forms.ModelMultipleChoiceField):
+    """Select exchange field."""
+
+    def label_from_instance(self, obj):
+        label_template = template.loader.get_template(
+            "af_gang_mail/_exchange-label.html"
+        )
+        return label_template.render({"exchange": obj})
+
+
 class SelectExchanges(forms.ModelForm):
     """Update selected exchanges."""
 
-    exchanges = forms.ModelMultipleChoiceField(
+    exchanges = SelectExchangeField(
         queryset=models.Exchange.objects.upcoming().order_by("drawn"),
         widget=forms.CheckboxSelectMultiple,
+        label="",
         required=False,
     )
 

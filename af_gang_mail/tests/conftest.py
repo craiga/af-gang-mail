@@ -59,16 +59,16 @@ def current_exchanges():
 
 
 @pytest.fixture
-def future_exchanges():
-    """Exchanges in the future."""
+def upcoming_exchanges():
+    """Upcoming exchanges."""
 
     exchanges = []
     for i in range(2, 0, -1):
         exchanges.append(
             baker.make(
                 models.Exchange,
-                name=f"Future {i}",
-                slug=f"future-{i}",
+                name=f"Upcoming {i}",
+                slug=f"upcoming-{i}",
                 drawn=now() + timedelta(days=i * 10),
                 sent=now() + timedelta(days=i * 10 + 3),
                 received=now() + timedelta(days=i * 10 + 6),
@@ -79,7 +79,7 @@ def future_exchanges():
 
 
 @pytest.fixture
-def user(past_exchanges, current_exchanges, future_exchanges):
+def user(past_exchanges, current_exchanges, upcoming_exchanges):
     """A user signed up to all the above exchanges."""
 
     user = baker.make(
@@ -92,5 +92,25 @@ def user(past_exchanges, current_exchanges, future_exchanges):
     )
     user.exchanges.add(*past_exchanges)
     user.exchanges.add(*current_exchanges)
-    user.exchanges.add(*future_exchanges)
+    user.exchanges.add(*upcoming_exchanges)
     return user
+
+
+@pytest.fixture
+def other_upcoming_exchanges():
+    """Other upcoming exchanges."""
+
+    exchanges = []
+    for i in range(2, 0, -1):
+        exchanges.append(
+            baker.make(
+                models.Exchange,
+                name=f"Other Upcoming Exchange {i}",
+                slug=f"other-upcoming-exchange-{i}",
+                drawn=now() + timedelta(days=i * 20),
+                sent=now() + timedelta(days=i * 21),
+                received=now() + timedelta(days=i * 22),
+            )
+        )
+
+    return models.Exchange.objects.filter(id__in=[e.id for e in exchanges])

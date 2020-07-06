@@ -81,11 +81,6 @@ class SelectExchanges(LoginRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data["exchanges"] = context_data["form"].fields["exchanges"].queryset
-        return context_data
-
     def form_valid(self, form):
         """Handle valid form."""
 
