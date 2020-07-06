@@ -221,13 +221,22 @@ SECURE_REFERRER_POLICY = "same-origin"
 # https://django-csp.readthedocs.io/en/stable/configuration.html
 
 CSP_DEFAULT_SRC = []
-CSP_IMG_SRC = ["'self'", "https://maps.gstatic.com/mapfiles/api-3/images/"]
-CSP_CONNECT_SRC = ["'self'", "https://*.ingest.sentry.io"]
+CSP_IMG_SRC = [
+    "'self'",
+    "https://maps.gstatic.com/mapfiles/api-3/images/",
+    "https://*.usefathom.com",
+]
+CSP_CONNECT_SRC = ["'self'", "https://*.ingest.sentry.io", "https://*.usefathom.com"]
 CSP_STYLE_SRC = [
     "'self'",
     "'unsafe-inline'",  # required for Google places auto suggest
 ]
-CSP_SCRIPT_SRC = ["'self'", "https://maps.googleapis.com", "'unsafe-inline'"]
+CSP_SCRIPT_SRC = [
+    "'self'",
+    "'unsafe-inline'",  # required for Google places auto suggest
+    "https://maps.googleapis.com",
+    "https://cdn.usefathom.com",
+]
 CSP_INCLUDE_NONCE_IN = ["script-src"]
 CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", None)
 
