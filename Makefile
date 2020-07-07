@@ -84,10 +84,10 @@ scss-continuous:  ## Build SCSS continuously.
 	npm run sass -- . --watch --load-path node_modules
 
 js:  ## Build JavaScript.
-	find . \( -path "./node_modules" -o -iname "bundle.*" \) -prune -o -path "*/static/*" -a -name "*.js" -print | xargs npm run browserify -- --outfile af_gang_mail/static/bundle.js
+	find . \( -path "./node_modules" -o -iname "bundle.*" -o -path "./.apt" \) -prune -o -path "*/static/*" -a -name "*.js" -print | xargs npm run browserify -- --outfile af_gang_mail/static/bundle.js
 
 js-continuous:  ## Build JavaScript continuously.
-	find . \( -path "./node_modules" -o -iname "bundle.*" \) -prune -o -path "*/static/*" -a -name "*.js" -print | xargs npm run watchify -- --outfile af_gang_mail/static/bundle.js --verbose
+	find . \( -path "./node_modules" -o -iname "bundle.*" -o -path "./.apt" \) -prune -o -path "*/static/*" -a -name "*.js" -print | xargs npm run watchify -- --outfile af_gang_mail/static/bundle.js --verbose
 
 lint-python:  ## Lint Python.
 	pipenv run isort --check-only
