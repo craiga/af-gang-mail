@@ -2,6 +2,9 @@
   "name": "af-gang-mail",
   "buildpacks": [
     {
+      "url": "https://github.com/DataDog/heroku-buildpack-datadog.git"
+    },
+    {
       "url": "heroku/nodejs"
     },
     {
@@ -14,6 +17,9 @@
       "generator": "secret"
     },
     "NPM_CONFIG_PRODUCTION": {
+      "value": "true"
+    },
+    "DISABLE_DATADOG_AGENT": {
       "value": "true"
     }
   },
