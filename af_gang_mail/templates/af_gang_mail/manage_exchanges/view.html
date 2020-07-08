@@ -30,6 +30,9 @@
     {% if perms.af_gang_mail.add_draw %}
       <a href="{% url 'draw-exchange' slug=exchange.slug %}">Draw</a>
     {% endif %}
+    {% if perms.af_gang_mail.delete_draw %}
+      <a href="{% url 'delete-draws-for-exchange' slug=exchange.slug %}">Delete Draws for Exchange</a>
+    {% endif %}
   </nav>
 </div>
 

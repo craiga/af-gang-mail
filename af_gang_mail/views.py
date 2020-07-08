@@ -258,7 +258,30 @@ class DrawExchange(PermissionRequiredMixin, DetailView):
             fail_silently=True,
         )
 
-        return HttpResponseRedirect(urls.reverse("manage-exchanges"))
+        return HttpResponseRedirect(urls.reverse("view-exchange", kwargs={"slug": exchange.slug}))
+
+
+class DeleteDrawsForExchange(PermissionRequiredMixin, DetailView):
+    """Delete existing draws for an exchange."""
+
+    permission_required = "af_gang_mail.delete_draw"
+    model = models.Exchange
+    template_name = "af_gang_mail/manage_exchanges/delete-draws-for-exchange.html"
+    context_object_name = "exchange"
+
+    def post(self, request, slug):  # pylint: disable=unused-argument
+        """Delete draws."""
+
+        exchange = self.get_object()
+        exchange.draws.all().delete()
+
+        messages.info(
+            self.request,
+            f"Draws for { exchange.name } deleted.",
+            fail_silently=True,
+        )
+
+        return HttpResponseRedirect(urls.reverse("view-exchange", kwargs={"slug": exchange.slug}))
 
 
 class StyleGallery(PermissionRequiredMixin, TemplateView):
