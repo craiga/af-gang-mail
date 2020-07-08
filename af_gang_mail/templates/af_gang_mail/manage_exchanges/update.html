@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <form method="post">
+    <h1>Edit {{ exchange.name }}</h1>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button>Save Changes to Exchange</button>
+    <a class="button secondary" href="{% url 'view-exchange' slug=exchange.slug %}">Back to {{ exchange.name }}</a>
+  </form>
+
+{% endblock %}

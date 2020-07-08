@@ -1,0 +1,16 @@
+{% load humanize %}Hi {{ draw.sender.get_full_name }},
+
+Thanks for taking part in the {{ draw.exchange.name }} AF GANG mail exchange!
+
+You've been assigned … (drum roll…)
+
+{{ draw.recipient.get_full_name }}
+{{ draw.recipient.get_full_address }}
+
+Please send a gift to this person before {{ draw.exchange.sent|naturalday }}.
+
+You can also get this information at https://{{ site.domain }}{% url "draw" slug=draw.exchange.slug %}.
+
+xo
+
+{{ site.name }}

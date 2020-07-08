@@ -3,8 +3,12 @@
 import logging
 import random
 
+from django import template
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
+from django.core.mail import EmailMessage
 from django.db import models
 from django.utils.timezone import now
 
@@ -84,6 +88,7 @@ class Exchange(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     draw_started = models.DateTimeField(blank=True, null=True)
+    send_emails = models.BooleanField(default=False)
 
     objects = ExchangeManager()
 
@@ -204,3 +209,19 @@ class Draw(models.Model):
                 fields=["exchange", "recipient"], name="receive_once_per_exchange"
             ),
         ]
+
+    def as_email_message(self, **kwargs):
+        """Construct an EmailMessage for this draw."""
+
+        subject_template = template.loader.get_template(
+            "af_gang_mail/draw-email-subject.txt"
+        )
+        body_template = template.loader.get_template("af_gang_mail/draw-email-body.txt")
+        context = {"draw": self, "site": Site.objects.get_current()}
+        return EmailMessage(
+            subject=subject_template.render(context),
+            body=body_template.render(context),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[self.sender.email],
+            **kwargs,
+        )

@@ -1,11 +1,14 @@
 """Views"""
 
-from django import urls
+import logging
+from pathlib import Path
+
+from django import http, urls
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms.models import model_to_dict
-from django.http import HttpResponseRedirect
 from django.utils.safestring import mark_safe
 from django.views.generic import (
     CreateView,
@@ -21,6 +24,8 @@ from django_tables2.views import MultiTableMixin, SingleTableView
 from flatblocks import views as flatblocks_views
 
 from af_gang_mail import forms, models, tables, tasks
+
+logger = logging.getLogger(__name__)
 
 
 class Home(LoginRequiredMixin, TemplateView):
@@ -155,7 +160,7 @@ class Landing(TemplateView):
                 )
 
             else:
-                return HttpResponseRedirect(redirect_url)
+                return http.HttpResponseRedirect(redirect_url)
 
         return super().get(request, *args, **kwargs)
 
@@ -222,7 +227,21 @@ class CreateExchange(PermissionRequiredMixin, CreateView):
     model = models.Exchange
     template_name = "af_gang_mail/manage_exchanges/create.html"
     form_class = forms.Exchange
-    success_url = urls.reverse_lazy("manage-exchanges")
+
+    def get_success_url(self):
+        return urls.reverse("view-exchange", kwargs={"slug": self.get_object().slug})
+
+
+class UpdateExchange(PermissionRequiredMixin, UpdateView):
+    """Modify exchange."""
+
+    permission_required = "af_gang_mail.change_exchange"
+    model = models.Exchange
+    template_name = "af_gang_mail/manage_exchanges/update.html"
+    form_class = forms.Exchange
+
+    def get_success_url(self):
+        return urls.reverse("view-exchange", kwargs={"slug": self.get_object().slug})
 
 
 class DeleteExchange(PermissionRequiredMixin, DeleteView):
@@ -258,7 +277,9 @@ class DrawExchange(PermissionRequiredMixin, DetailView):
             fail_silently=True,
         )
 
-        return HttpResponseRedirect(urls.reverse("view-exchange", kwargs={"slug": exchange.slug}))
+        return http.HttpResponseRedirect(
+            urls.reverse("view-exchange", kwargs={"slug": exchange.slug})
+        )
 
 
 class DeleteDrawsForExchange(PermissionRequiredMixin, DetailView):
@@ -276,12 +297,12 @@ class DeleteDrawsForExchange(PermissionRequiredMixin, DetailView):
         exchange.draws.all().delete()
 
         messages.info(
-            self.request,
-            f"Draws for { exchange.name } deleted.",
-            fail_silently=True,
+            self.request, f"Draws for { exchange.name } deleted.", fail_silently=True,
         )
 
-        return HttpResponseRedirect(urls.reverse("view-exchange", kwargs={"slug": exchange.slug}))
+        return http.HttpResponseRedirect(
+            urls.reverse("view-exchange", kwargs={"slug": exchange.slug})
+        )
 
 
 class StyleGallery(PermissionRequiredMixin, TemplateView):
@@ -336,4 +357,22 @@ def edit_flatblock(request, pk, **kwargs):
 def resend_verification(request):
     request.user.emailaddress_set.first().send_confirmation(request)
     messages.success(request, "A verification email is on its way!", fail_silently=True)
-    return HttpResponseRedirect(urls.reverse("home"))
+    return http.HttpResponseRedirect(urls.reverse("home"))
+
+
+def last_email(request):
+    """
+    Expose the last sent email when using Django's file system mail back end.
+
+    For end-to-end testing purposes only.
+    """
+    try:
+        latest_file = max(
+            Path(settings.EMAIL_FILE_PATH).iterdir(), key=lambda f: f.stat().st_ctime
+        )
+        return http.FileResponse(latest_file.open("rb"))
+    except (ValueError, FileNotFoundError, AttributeError) as error:
+        logger.warning(
+            "%s was raised when attepting to get last email.", error.__class__.__name__
+        )
+        return http.HttpResponseNotFound()

@@ -9,6 +9,7 @@
     {% csrf_token %}
     {{ form|crispy }}
     <button>Create Exchange</button>
+    <a class="button secondary" href="{% url 'manage-exchanges' %}">Back to List</a>
   </form>
 
 {% endblock %}
