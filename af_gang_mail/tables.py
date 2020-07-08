@@ -12,41 +12,20 @@ class Exchange(tables.Table):
 
     name = columns.LinkColumn(viewname="view-exchange", kwargs={"slug": A("slug")},)
     users = tables.Column(verbose_name="Users")
-    delete = columns.LinkColumn(
-        viewname="delete-exchange",
-        kwargs={"slug": A("slug")},
-        text="Delete",
-        orderable=False,
-    )
-    draw = columns.LinkColumn(
-        viewname="draw-exchange",
-        kwargs={"slug": A("slug")},
-        text="Draw",
-        orderable=False,
-    )
 
     class Meta:
         model = models.Exchange
         fields = [
             "name",
             "users",
+            "send_emails",
             "drawn",
             "sent",
             "received",
             "created",
             "updated",
             "draw_started",
-            "delete",
-            "draw",
         ]
-
-    def before_render(self, request):
-        """Hide columns based on user permission."""
-
-        if not request.user.has_perm("af_gang_mail.delete_exchange"):
-            self.columns.hide("delete")
-
-        return super().before_render(request)
 
     def render_users(self, value):  # pylint: disable=no-self-use
         return value.count()

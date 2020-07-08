@@ -18,6 +18,7 @@ argh = "*"    # required by watchdog; https://github.com/gorakhargosh/watchdog/i
 flower = "*"
 model-bakery = "*"
 pytest-repeat = "*"
+pyfakefs = "*"
 
 [packages]
 django = "*"

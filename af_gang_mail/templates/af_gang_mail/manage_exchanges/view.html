@@ -24,6 +24,9 @@
 
   <nav>
     <a href="{% url 'manage-exchanges' %}">Back to List</a>
+    {% if perms.af_gang_mail.change_exchange %}
+      <a href="{% url 'update-exchange' slug=exchange.slug %}">Edit</a>
+    {% endif %}
     {% if perms.af_gang_mail.delete_exchange %}
       <a href="{% url 'delete-exchange' slug=exchange.slug %}">Delete</a>
     {% endif %}

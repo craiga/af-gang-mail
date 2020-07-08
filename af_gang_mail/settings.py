@@ -313,7 +313,11 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@mail.afgang.c
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 EMAIL_BACKEND = "djcelery_email.backends.CeleryEmailBackend"
 
-if "SENDINBLUE_API_KEY" in os.environ:
+if os.environ.get("DO_NOT_SEND_EMAIL", False):
+    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR, "emailfiles")
+
+elif "SENDINBLUE_API_KEY" in os.environ:
     CELERY_EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
     ANYMAIL = {"SENDINBLUE_API_KEY": os.environ["SENDINBLUE_API_KEY"]}
 

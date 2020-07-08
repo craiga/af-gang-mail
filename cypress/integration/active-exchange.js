@@ -39,4 +39,21 @@ describe("Log in", () => {
     cy.contains("3065");
     cy.contains("Australia");
   });
+  it("User can get details of active exchange from email.", () => {
+    cy.visitUrlInEmail();
+
+    cy.contains("Email").click().type("alice@afgang.co.uk");
+    cy.contains("Password").click().type("This snowflake's an avalanche");
+    cy.contains("Log In").click();
+
+    cy.contains("Welcome back Alice McUserFace!");
+
+    cy.contains("draw-intro");
+    cy.contains("Bob Userson");
+    cy.contains("74-76 Johnston Street");
+    cy.contains("Fitzroy");
+    cy.contains("Victoria");
+    cy.contains("3065");
+    cy.contains("Australia");
+  });
 });
