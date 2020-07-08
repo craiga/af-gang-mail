@@ -13,6 +13,12 @@ Cypress.Commands.add("loadFixture", (fixture) => {
   cy.exec(Cypress.env("DJANGO_MANAGE_COMMAND") + " loaddata " + fixture);
 });
 
+Cypress.Commands.add("doDraw", (fixture) => {
+  cy.exec(
+    Cypress.env("DJANGO_MANAGE_COMMAND") + " enqueue-scheduled-exchange-draws"
+  );
+});
+
 Cypress.Commands.add("showMenu", (fixture) => {
   cy.get("nav section ul").invoke("show");
 });
