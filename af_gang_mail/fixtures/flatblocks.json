@@ -32,7 +32,7 @@
     "fields": {
       "slug": "footer",
       "header": "",
-      "content": "Built by Nadia Saad, Jodie Fox, and <a href=\"https://www.craiga.id.au\">Craig Anderson</a> for <a href=\"https://www.afgang.co.uk\">AF GANG</a>. Maintained by <a href=\"https://www.uhf62.co.uk\">UHF 62</a>. This site is open source; <a href=\"https://github.com/craiga/af-gang-mail\">check out the code on GitHub</a>. Background image by <a href=\"https://unsplash.com/photos/pqtOMmZBpM8\">Geordanna Cordero</a>."
+      "content": "<p>Built by Nadia Saad, Jodie Fox, and <a href=\"https://www.craiga.id.au\">Craig Anderson</a> for <a href=\"https://www.afgang.co.uk\">AF GANG</a>. <a href=\"https://www.uhf62.co.uk\">Run by UHF 62</a>.</p>\r\n\r\n<p><a href=\"https://unsplash.com/photos/pqtOMmZBpM8\">Background image by Geordanna Cordero</a>.</p>\r\n\r\n<p><a href=\"https://github.com/craiga/af-gang-mail\">This site is open source; check it out on GitHub</a>.&nbsp;<a href=\"https://usefathom.com/ref/UIMQVW\">Ethical, cookie-free analytics provided by Fathom</a>. <a href=\"https://sentry.io/\">Error reporting and tracking provided by Sentry</a>.</p>"
     }
   },
   {
@@ -131,7 +131,7 @@
     "fields": {
       "slug": "password_reset_intro",
       "header": "Forgotten Your Password?",
-      "content": "<p>Enter your e-mail address below, and we'll send you an e-mail with instructions on how to reset your password.</p>"
+      "content": "<p>Enter your email address below, and we'll send you an email with instructions on how to reset your password.</p>"
     }
   },
   {
@@ -139,8 +139,8 @@
     "pk": 16,
     "fields": {
       "slug": "password_reset_done_intro",
-      "header": "An e-mail is on it's way!",
-      "content": "<p>You should recieve an e-mail from AF GANG Mail Exchange shortly.</p><p>Remember to check your spam folder too!</p>"
+      "header": "An email is on it's way!",
+      "content": "<p>You should recieve an email from AF GANG Mail Exchange shortly.</p><p>Remember to check your spam folder too!</p>"
     }
   },
   {
@@ -177,6 +177,42 @@
       "slug": "signup_intro",
       "header": "Enter an email address and choose a password to get started",
       "content": "<p>If you already have an account, <a href=\"/\">log in</a>.</p>"
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 21,
+    "fields": {
+      "slug": "home-unverified-email-address",
+      "header": "In order to participate in exchanges, you need to verify your email address.",
+      "content": "<p>We sent you an email when you signed up with instructions on how to do this.</p><p>If you haven't received this email check your spam folder, or <a href='/resend-verification'>request another email</a>.</p>"
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 22,
+    "fields": {
+      "slug": "confirm-email-intro",
+      "header": "Confirm Email Address",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 23,
+    "fields": {
+      "slug": "confirm-email-already-used",
+      "header": "Confirm Email Address",
+      "content": "<p>This email confirmation link has expired or is invalid.</p><p><a href='/resend-verification'>Send a new verification email.</a></p>"
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 24,
+    "fields": {
+      "slug": "draw-intro",
+      "header": "Draw Details",
+      "content": ""
     }
   }
 ]
