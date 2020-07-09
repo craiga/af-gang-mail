@@ -1,10 +1,6 @@
 """Views"""
 
-import logging
-from pathlib import Path
-
 from django import http, urls
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -24,8 +20,6 @@ from django_tables2.views import MultiTableMixin, SingleTableView
 from flatblocks import views as flatblocks_views
 
 from af_gang_mail import forms, models, tables, tasks
-
-logger = logging.getLogger(__name__)
 
 
 class Home(LoginRequiredMixin, TemplateView):
@@ -360,21 +354,3 @@ def resend_verification(request):
     request.user.emailaddress_set.first().send_confirmation(request)
     messages.success(request, "A verification email is on its way!", fail_silently=True)
     return http.HttpResponseRedirect(urls.reverse("home"))
-
-
-def last_email(request):
-    """
-    Expose the last sent email when using Django's file system mail back end.
-
-    For end-to-end testing purposes only.
-    """
-    try:
-        latest_file = max(
-            Path(settings.EMAIL_FILE_PATH).iterdir(), key=lambda f: f.stat().st_ctime
-        )
-        return http.FileResponse(latest_file.open("rb"))
-    except (ValueError, FileNotFoundError, AttributeError) as error:
-        logger.warning(
-            "%s was raised when attepting to get last email.", error.__class__.__name__
-        )
-        return http.HttpResponseNotFound()

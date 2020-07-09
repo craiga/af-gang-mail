@@ -24,12 +24,31 @@ Cypress.Commands.add("showMenu", (fixture) => {
   cy.get("nav section ul").invoke("show");
 });
 
-Cypress.Commands.add("visitUrlInEmail", () => {
+Cypress.Commands.add("visitUrlInEmail", (messageSearch) => {
+  const mailtrapHeaders = {
+    "Api-Token": Cypress.env("MAILTRAP_API_TOKEN"),
+  };
   cy.request({
-    url: "/__lastemail__",
-    retryOnStatusCodeFailure: true,
-  }).then((response) => {
-    const url = response.body.match(/(https?:[^\s]+)/)[0];
-    return cy.visit(url);
-  });
+    url: "https://mailtrap.io/api/v1/inboxes/",
+    headers: mailtrapHeaders,
+  })
+    .its("body.0")
+    .then((inbox) => {
+      const url =
+        "https://mailtrap.io/api/v1/inboxes/" +
+        inbox.id +
+        "/messages?search=" +
+        messageSearch;
+      cy.request({ url: url, headers: mailtrapHeaders })
+        .its("body.0")
+        .then((message) => {
+          cy.request({
+            url: "https://mailtrap.io" + message.txt_path,
+            headers: mailtrapHeaders,
+          }).then((response) => {
+            const url = response.body.match(/(https?:[^\s]+)/)[0];
+            return cy.visit(url);
+          });
+        });
+    });
 });

@@ -40,7 +40,7 @@ describe("Log in", () => {
     cy.contains("Australia");
   });
   it("User can get details of active exchange from email.", () => {
-    cy.visitUrlInEmail();
+    cy.visitUrlInEmail("alice@afgang.co.uk");
 
     cy.contains("Email").click().type("alice@afgang.co.uk");
     cy.contains("Password").click().type("This snowflake's an avalanche");
