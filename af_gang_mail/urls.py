@@ -10,6 +10,7 @@ from af_gang_mail import views
 urlpatterns = [
     path("in-case-of-emergency/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
+    path("su/", include("django_su.urls")),
     path(
         "__edit__/<pk>/",
         permission_required("flatblocks.change_flatblock")(views.edit_flatblock),

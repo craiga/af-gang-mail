@@ -1,11 +1,14 @@
 """Admin"""
 
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from django.contrib import admin, auth
 
 from af_gang_mail import models
 
-admin.site.register(models.User, UserAdmin)
+
+@admin.register(models.User)
+class UserAdmin(auth.admin.UserAdmin):
+    change_form_template = "admin/auth/user/change_form.html"
+    change_list_template = "admin/auth/user/change_list.html"
 
 
 @admin.register(models.Draw)

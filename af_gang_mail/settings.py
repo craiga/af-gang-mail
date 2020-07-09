@@ -50,7 +50,6 @@ ENFORCE_HOST = os.environ.get("CANONICAL_HOST")
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
@@ -58,6 +57,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.staticfiles",
+    # Required ordering (https://github.com/adamcharnock/django-su)
+    "django_su",
+    "django.contrib.admin",
     # Third-party
     "allauth",
     "allauth.account",
@@ -263,6 +265,7 @@ AUTH_USER_MODEL = "af_gang_mail.User"
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
+    "django_su.backends.SuBackend",
 ]
 LOGIN_REDIRECT_URL = "home"
 ACCOUNT_AUTHENTICATION_METHOD = "email"
