@@ -34,6 +34,7 @@ jobs:
         run: |
           HEROKU_APP_NAME="af-gang-mail-${{ github.run_id }}-${{ github.run_number }}"
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku labs:enable runtime-dyno-metadata --app $HEROKU_APP_NAME
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku drains:add ${{ secrets.HEROKU_DRAIN_URL }} --app $HEROKU_APP_NAME
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set SENTRY_DSN=${{ secrets.SENTRY_DSN }} --app $HEROKU_APP_NAME
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} --app $HEROKU_APP_NAME
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set DO_NOT_SEND_EMAIL=true --app $HEROKU_APP_NAME
