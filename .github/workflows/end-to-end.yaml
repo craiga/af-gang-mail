@@ -34,8 +34,12 @@ jobs:
         run: |
           HEROKU_APP_NAME="af-gang-mail-${{ github.run_id }}-${{ github.run_number }}"
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku labs:enable runtime-dyno-metadata --app $HEROKU_APP_NAME
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku drains:add ${{ secrets.HEROKU_DRAIN_URL }} --app $HEROKU_APP_NAME
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set SENTRY_DSN=${{ secrets.SENTRY_DSN }} --app $HEROKU_APP_NAME
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} --app $HEROKU_APP_NAME
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set SMTP_SERVER=smtp.mailtrap.io --app $HEROKU_APP_NAME
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set SMTP_USERNAME=${{ secrets.MAILTRAP_SMTP_USERNAME }} --app $HEROKU_APP_NAME
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set SMTP_PASSWORD=${{ secrets.MAILTRAP_SMTP_PASSWORD }} --app $HEROKU_APP_NAME
       - name: Install Cypress
         run: npm install cypress@`cat package-lock.json | jq ".dependencies.cypress.version" --raw-output`
       - name: Wait for Heroku
@@ -46,6 +50,7 @@ jobs:
         run: npm run cypress run -- --config baseUrl=https://af-gang-mail-${{ github.run_id }}-${{ github.run_number }}.herokuapp.com execTimeout=120000
         env:
           CYPRESS_DJANGO_MANAGE_COMMAND: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku run --app af-gang-mail-${{ github.run_id }}-${{ github.run_number }} --exit-code python manage.py
+          CYPRESS_MAILTRAP_API_TOKEN: ${{ secrets.MAILTRAP_API_TOKEN }}
       - name: Destroy Heroku Deployment
         if: ${{ always() }}
         run: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku apps:destroy af-gang-mail-${{ github.run_id }}-${{ github.run_number }} --confirm af-gang-mail-${{ github.run_id }}-${{ github.run_number }}

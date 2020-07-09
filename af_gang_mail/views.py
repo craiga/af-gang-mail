@@ -1,11 +1,10 @@
 """Views"""
 
-from django import urls
+from django import http, urls
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms.models import model_to_dict
-from django.http import HttpResponseRedirect
 from django.utils.safestring import mark_safe
 from django.views.generic import (
     CreateView,
@@ -99,7 +98,7 @@ class SelectExchanges(LoginRequiredMixin, UpdateView):
         return urls.reverse("home")
 
 
-class Draw(PermissionRequiredMixin, DetailView):
+class Draw(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     View details of a draw for the logged in user.
     """
@@ -155,7 +154,7 @@ class Landing(TemplateView):
                 )
 
             else:
-                return HttpResponseRedirect(redirect_url)
+                return http.HttpResponseRedirect(redirect_url)
 
         return super().get(request, *args, **kwargs)
 
@@ -181,7 +180,7 @@ class SignUpStepTwo(SelectExchanges):
         return f"Thanks { self.request.user.get_full_name() }!"
 
 
-class ManageExchanges(PermissionRequiredMixin, SingleTableView):
+class ManageExchanges(LoginRequiredMixin, PermissionRequiredMixin, SingleTableView):
     """List exchanges."""
 
     permission_required = "af_gang_mail.view_exchange"
@@ -191,7 +190,9 @@ class ManageExchanges(PermissionRequiredMixin, SingleTableView):
     paginator_class = LazyPaginator
 
 
-class ViewExchange(PermissionRequiredMixin, MultiTableMixin, DetailView):
+class ViewExchange(
+    LoginRequiredMixin, PermissionRequiredMixin, MultiTableMixin, DetailView
+):
     """View exchange."""
 
     permission_required = "af_gang_mail.view_exchange"
@@ -215,17 +216,31 @@ class ViewExchange(PermissionRequiredMixin, MultiTableMixin, DetailView):
         ]
 
 
-class CreateExchange(PermissionRequiredMixin, CreateView):
+class CreateExchange(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """Create exchange."""
 
     permission_required = "af_gang_mail.add_exchange"
     model = models.Exchange
     template_name = "af_gang_mail/manage_exchanges/create.html"
     form_class = forms.Exchange
-    success_url = urls.reverse_lazy("manage-exchanges")
+
+    def get_success_url(self):
+        return urls.reverse("view-exchange", kwargs={"slug": self.get_object().slug})
 
 
-class DeleteExchange(PermissionRequiredMixin, DeleteView):
+class UpdateExchange(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    """Modify exchange."""
+
+    permission_required = "af_gang_mail.change_exchange"
+    model = models.Exchange
+    template_name = "af_gang_mail/manage_exchanges/update.html"
+    form_class = forms.Exchange
+
+    def get_success_url(self):
+        return urls.reverse("view-exchange", kwargs={"slug": self.get_object().slug})
+
+
+class DeleteExchange(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     """Delete exchange."""
 
     permission_required = "af_gang_mail.delete_exchange"
@@ -234,7 +249,7 @@ class DeleteExchange(PermissionRequiredMixin, DeleteView):
     success_url = urls.reverse_lazy("manage-exchanges")
 
 
-class DrawExchange(PermissionRequiredMixin, DetailView):
+class DrawExchange(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Manually run the draw for an exchange.
 
@@ -258,10 +273,35 @@ class DrawExchange(PermissionRequiredMixin, DetailView):
             fail_silently=True,
         )
 
-        return HttpResponseRedirect(urls.reverse("manage-exchanges"))
+        return http.HttpResponseRedirect(
+            urls.reverse("view-exchange", kwargs={"slug": exchange.slug})
+        )
 
 
-class StyleGallery(PermissionRequiredMixin, TemplateView):
+class DeleteDrawsForExchange(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    """Delete existing draws for an exchange."""
+
+    permission_required = "af_gang_mail.delete_draw"
+    model = models.Exchange
+    template_name = "af_gang_mail/manage_exchanges/delete-draws-for-exchange.html"
+    context_object_name = "exchange"
+
+    def post(self, request, slug):  # pylint: disable=unused-argument
+        """Delete draws."""
+
+        exchange = self.get_object()
+        exchange.draws.all().delete()
+
+        messages.info(
+            self.request, f"Draws for { exchange.name } deleted.", fail_silently=True,
+        )
+
+        return http.HttpResponseRedirect(
+            urls.reverse("view-exchange", kwargs={"slug": exchange.slug})
+        )
+
+
+class StyleGallery(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     """Style gallery."""
 
     template_name = "af_gang_mail/style-gallery.html"
@@ -284,7 +324,7 @@ class StyleGallery(PermissionRequiredMixin, TemplateView):
         return super().get(*args, **kwargs)
 
 
-class PageIndex(PermissionRequiredMixin, TemplateView):
+class PageIndex(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     """Page index."""
 
     template_name = "af_gang_mail/page-index.html"
@@ -313,4 +353,4 @@ def edit_flatblock(request, pk, **kwargs):
 def resend_verification(request):
     request.user.emailaddress_set.first().send_confirmation(request)
     messages.success(request, "A verification email is on its way!", fail_silently=True)
-    return HttpResponseRedirect(urls.reverse("home"))
+    return http.HttpResponseRedirect(urls.reverse("home"))

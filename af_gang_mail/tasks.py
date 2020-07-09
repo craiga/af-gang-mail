@@ -3,6 +3,7 @@
 import logging
 
 from django.conf import settings
+from django.core import mail
 
 from af_gang_mail import celery, models
 
@@ -66,3 +67,15 @@ def draw_exchange(exchange_id, max_attempts):
 
     exchange = models.Exchange.objects.get(id=exchange_id)
     models.Draw.objects.bulk_create_from_exchange(exchange, max_attempts=max_attempts)
+
+    if exchange.send_emails:
+        send_draw_emails.delay(exchange.id)
+
+
+@celery.app.task
+def send_draw_emails(exchange_id):
+    """Send emails for a draw."""
+
+    exchange = models.Exchange.objects.get(id=exchange_id)
+    connection = mail.get_connection()
+    connection.send_messages([d.as_email_message() for d in exchange.draws.all()])
