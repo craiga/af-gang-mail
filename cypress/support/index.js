@@ -1,11 +1,12 @@
 // Custom Commands
 // https://docs.cypress.io/api/cypress-api/custom-commands.html
 
-Cypress.Commands.add("flushDatabaseAndLoadFixtures", (fixtures) => {
+Cypress.Commands.add("resetAndLoadFixtures", (fixtures) => {
   cy.exec(
     Cypress.env("DJANGO_MANAGE_COMMAND") +
-      " flush-and-loaddata --no-input " +
-      fixtures.join(" ")
+      " cypress-reset --no-input " +
+      fixtures.join(" "),
+    { env: { CYPRESS_BASE_URL: Cypress.config().baseUrl } }
   );
 });
 

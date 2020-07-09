@@ -104,7 +104,7 @@ class SelectExchanges(LoginRequiredMixin, UpdateView):
         return urls.reverse("home")
 
 
-class Draw(PermissionRequiredMixin, DetailView):
+class Draw(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     View details of a draw for the logged in user.
     """
@@ -186,7 +186,7 @@ class SignUpStepTwo(SelectExchanges):
         return f"Thanks { self.request.user.get_full_name() }!"
 
 
-class ManageExchanges(PermissionRequiredMixin, SingleTableView):
+class ManageExchanges(LoginRequiredMixin, PermissionRequiredMixin, SingleTableView):
     """List exchanges."""
 
     permission_required = "af_gang_mail.view_exchange"
@@ -196,7 +196,9 @@ class ManageExchanges(PermissionRequiredMixin, SingleTableView):
     paginator_class = LazyPaginator
 
 
-class ViewExchange(PermissionRequiredMixin, MultiTableMixin, DetailView):
+class ViewExchange(
+    LoginRequiredMixin, PermissionRequiredMixin, MultiTableMixin, DetailView
+):
     """View exchange."""
 
     permission_required = "af_gang_mail.view_exchange"
@@ -220,7 +222,7 @@ class ViewExchange(PermissionRequiredMixin, MultiTableMixin, DetailView):
         ]
 
 
-class CreateExchange(PermissionRequiredMixin, CreateView):
+class CreateExchange(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """Create exchange."""
 
     permission_required = "af_gang_mail.add_exchange"
@@ -232,7 +234,7 @@ class CreateExchange(PermissionRequiredMixin, CreateView):
         return urls.reverse("view-exchange", kwargs={"slug": self.get_object().slug})
 
 
-class UpdateExchange(PermissionRequiredMixin, UpdateView):
+class UpdateExchange(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """Modify exchange."""
 
     permission_required = "af_gang_mail.change_exchange"
@@ -244,7 +246,7 @@ class UpdateExchange(PermissionRequiredMixin, UpdateView):
         return urls.reverse("view-exchange", kwargs={"slug": self.get_object().slug})
 
 
-class DeleteExchange(PermissionRequiredMixin, DeleteView):
+class DeleteExchange(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     """Delete exchange."""
 
     permission_required = "af_gang_mail.delete_exchange"
@@ -253,7 +255,7 @@ class DeleteExchange(PermissionRequiredMixin, DeleteView):
     success_url = urls.reverse_lazy("manage-exchanges")
 
 
-class DrawExchange(PermissionRequiredMixin, DetailView):
+class DrawExchange(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Manually run the draw for an exchange.
 
@@ -282,7 +284,7 @@ class DrawExchange(PermissionRequiredMixin, DetailView):
         )
 
 
-class DeleteDrawsForExchange(PermissionRequiredMixin, DetailView):
+class DeleteDrawsForExchange(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """Delete existing draws for an exchange."""
 
     permission_required = "af_gang_mail.delete_draw"
@@ -305,7 +307,7 @@ class DeleteDrawsForExchange(PermissionRequiredMixin, DetailView):
         )
 
 
-class StyleGallery(PermissionRequiredMixin, TemplateView):
+class StyleGallery(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     """Style gallery."""
 
     template_name = "af_gang_mail/style-gallery.html"
@@ -328,7 +330,7 @@ class StyleGallery(PermissionRequiredMixin, TemplateView):
         return super().get(*args, **kwargs)
 
 
-class PageIndex(PermissionRequiredMixin, TemplateView):
+class PageIndex(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     """Page index."""
 
     template_name = "af_gang_mail/page-index.html"

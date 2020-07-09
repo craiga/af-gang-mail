@@ -1,6 +1,6 @@
 describe("Sign up", () => {
   before(() => {
-    cy.flushDatabaseAndLoadFixtures(["cypress/exchanges"]);
+    cy.resetAndLoadFixtures(["cypress/exchanges"]);
   });
   it("You can sign up from the home page", () => {
     cy.visit("/");

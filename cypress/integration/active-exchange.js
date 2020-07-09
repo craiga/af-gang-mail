@@ -1,6 +1,6 @@
 describe("Log in", () => {
   before(() => {
-    cy.flushDatabaseAndLoadFixtures(["cypress/exchanges", "cypress/users"]);
+    cy.resetAndLoadFixtures(["cypress/exchanges", "cypress/users"]);
     cy.doDraw();
   });
   it("User can log in and get details of active exchange.", () => {
