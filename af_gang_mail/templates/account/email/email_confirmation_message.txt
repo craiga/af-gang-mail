@@ -1,0 +1,8 @@
+{% load account %}{% autoescape off %}Hello from {{ current_site.name }}!
+
+You're receiving this email because user {% user_display user %} has given yours as an email address to connect their account.
+
+To confirm this is correct, go to {{ activate_url }}
+
+Thank you from {{ current_site.name }}!
+{{ current_site.domain }}{% endautoescape %}
