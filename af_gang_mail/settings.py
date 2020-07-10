@@ -239,6 +239,7 @@ CSP_SCRIPT_SRC = [
     "https://maps.googleapis.com",
     "https://cdn.usefathom.com",
 ]
+CSP_FONT_SRC = ["'self'"]
 CSP_INCLUDE_NONCE_IN = ["script-src"]
 CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", None)
 
