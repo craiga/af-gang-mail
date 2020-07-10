@@ -1,0 +1,13 @@
+{% extends 'email_base.html' %}
+
+{% load account %}
+
+{% block content %}
+
+<p>Hello from {{ current_site.name }}!</p>
+<p>You're receiving this email because user {% user_display user %} has given yours as an email address to connect their account.</p>
+<p>To confirm this is correct, go to <a href="{{ activate_url }}">{{ activate_url }}</a>.</p>
+<p>Thank you from {{ current_site.name }}!</p>
+<p>{{ current_site.domain }}</p>
+
+{% endblock %}

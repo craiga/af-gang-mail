@@ -3,12 +3,12 @@
 import logging
 import random
 
-from django import template
+from django import template, urls
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.db import models
 from django.utils.timezone import now
 
@@ -216,12 +216,27 @@ class Draw(models.Model):
         subject_template = template.loader.get_template(
             "af_gang_mail/draw-email-subject.txt"
         )
-        body_template = template.loader.get_template("af_gang_mail/draw-email-body.txt")
-        context = {"draw": self, "site": Site.objects.get_current()}
-        return EmailMessage(
+        body_text_template = template.loader.get_template(
+            "af_gang_mail/draw-email-body.txt"
+        )
+        body_html_template = template.loader.get_template(
+            "af_gang_mail/draw-email-body.html"
+        )
+
+        site = Site.objects.get_current()
+        scheme = "https" if settings.SECURE_SSL_REDIRECT else "http"
+        exchange_url = f"{ scheme }://{ site.domain }" + urls.reverse(
+            "draw", kwargs={"slug": self.exchange.slug}
+        )
+        context = {"draw": self, "site": site, "exchange_url": exchange_url}
+
+        msg = EmailMultiAlternatives(
             subject=subject_template.render(context),
-            body=body_template.render(context),
+            body=body_text_template.render(context),
             from_email=settings.DEFAULT_FROM_EMAIL,
             to=[self.sender.email],
             **kwargs,
         )
+        msg.attach_alternative(body_html_template.render(context), "text/html")
+
+        return msg

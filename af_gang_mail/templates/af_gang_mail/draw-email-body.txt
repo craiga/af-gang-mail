@@ -9,7 +9,7 @@ You've been assigned … (drum roll…)
 
 Please send a gift to this person before {{ draw.exchange.sent|naturalday }}.
 
-You can also get this information at http{% if "localhost" not in site.domain %}s{% endif %}://{{ site.domain }}{% url "draw" slug=draw.exchange.slug %}
+You can also get this information at {{ exchange_url }}
 
 xo
 
