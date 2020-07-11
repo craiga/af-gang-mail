@@ -10,6 +10,7 @@ from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
 from django.db import models
+from django.db.models import Q
 from django.utils.timezone import now
 
 from autoslug import AutoSlugField
@@ -147,7 +148,11 @@ class DrawManager(models.Manager):
 
         logger.info("Preparing set of draws for %s.", exchange.name)
 
-        users = list(exchange.users.filter(emailaddress__verified=True))
+        users = list(
+            exchange.users.filter(emailaddress__verified=True).exclude(
+                Q(first_name="") & Q(last_name="")
+            )
+        )
         logger.info("%d users.", len(users))
 
         # Run through some iterations and try to generate a perfect result.
