@@ -12,6 +12,13 @@
   </section>
 {% endif %}
 
+{% if not user.get_full_name %}
+  <section class="white-box">
+    {% flatblock "home-no-name" %}
+    <a class="button" href="{% url 'update-name-and-address' %}">Enter Your Name</a>
+  </section>
+{% endif %}
+
 {% for exchange, recipient in active_draws %}
   <section class="white-box">
     <p>You've been assigned {{ recipient }} in {{ exchange }}!</p>
@@ -20,11 +27,11 @@
 {% endfor %}
 
 <div>
-  <form action="{% url 'update-name-and-address' %}">
+  <div class="yellow-box">
     {% flatblock "home-name-and-address-intro" %}
     <div>{{ user.get_full_address|linebreaksbr }}</div>
-    <button>Edit Name &amp; Address</button>
-  </form>
+    <a class="button" href="{% url 'update-name-and-address' %}">Edit Name &amp; Address</a>
+  </div>
   <form action="{% url 'select-exchanges' %}">
     {% flatblock "home-upcoming-exchanges-intro" %}
     {% if user.exchanges.upcoming.exists %}

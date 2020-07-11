@@ -140,18 +140,24 @@ def test_draw_with_past_exchange(exchange):
     mike_d = baker.make(
         "af_gang_mail.User",
         username="mike_d",
+        first_name="Michael",
+        last_name="Diamond",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
     mike_d.exchanges.add(exchange, past_exchange)
     adrock = baker.make(
         "af_gang_mail.User",
         username="adrock",
+        first_name="Adam",
+        last_name="Horovitz",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
     adrock.exchanges.add(exchange, past_exchange)
     mca = baker.make(
         "af_gang_mail.User",
         username="mca",
+        first_name="Adam",
+        last_name="Yauch",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
     mca.exchanges.add(exchange, past_exchange)
@@ -195,18 +201,24 @@ def test_impossible_draw(exchange):
     posdnuos = baker.make(
         "af_gang_mail.User",
         username="posdnuos",
+        first_name="Kelvin",
+        last_name="Mercer",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
     posdnuos.exchanges.add(exchange, past_exchange_1, past_exchange_2)
     trugoy = baker.make(
         "af_gang_mail.User",
         username="trugoy",
+        first_name="David",
+        last_name="Jolicoeur",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
     trugoy.exchanges.add(exchange, past_exchange_1, past_exchange_2)
     maseo = baker.make(
         "af_gang_mail.User",
         username="maseo",
+        first_name="Vincent",
+        last_name="Mason",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
     maseo.exchanges.add(exchange, past_exchange_1, past_exchange_2)
