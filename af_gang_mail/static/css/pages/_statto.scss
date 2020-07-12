@@ -1,0 +1,22 @@
+@use "../colors" as *;
+@use "../size" as *;
+
+.statto {
+  .stat-container {
+    width: 100%;
+    border: 1px solid $black;
+    background-color: $yellow;
+    margin: $baseSize 0;
+  }
+
+  .stat {
+    padding: $baseSize;
+    background-color: $darkYellow;
+    box-sizing: border-box;
+  }
+
+  .stat-label {
+    position: absolute;
+    padding: $baseSize;
+  }
+}
