@@ -24,6 +24,21 @@ Cypress.Commands.add("showMenu", (fixture) => {
   cy.get("nav section ul").invoke("show");
 });
 
+Cypress.Commands.add("cleanEmail", (messageSearch) => {
+  const mailtrapHeaders = {
+    "Api-Token": Cypress.env("MAILTRAP_API_TOKEN"),
+  };
+  cy.request({
+    url: "https://mailtrap.io/api/v1/inboxes/",
+    headers: mailtrapHeaders,
+  })
+    .its("body.0")
+    .then((inbox) => {
+      const url = "https://mailtrap.io/api/v1/inboxes/" + inbox.id + "/clean";
+      cy.request({ url: url, headers: mailtrapHeaders, method: "PATCH" });
+    });
+});
+
 Cypress.Commands.add("visitUrlInEmail", (messageSearch) => {
   const mailtrapHeaders = {
     "Api-Token": Cypress.env("MAILTRAP_API_TOKEN"),
