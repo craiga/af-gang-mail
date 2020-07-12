@@ -58,6 +58,11 @@ class User(AbstractUser):
     def has_verified_email_address(self):
         return self.emailaddress_set.filter(verified=True).exists()
 
+    class Meta:
+        permissions = [
+            ("statto", "Can view statto"),
+        ]
+
 
 class ExchangeManager(models.Manager):
     """Exchange manager."""

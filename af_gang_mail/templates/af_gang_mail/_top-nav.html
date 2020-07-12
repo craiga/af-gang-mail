@@ -19,6 +19,9 @@
         {% if perms.af_gang_mail.view_style_gallery %}
           <li><a href="{% url 'style-gallery' %}">🖼 Style Gallery</a></li>
         {% endif %}
+        {% if perms.af_gang_mail.view_statto %}
+          <li><a href="{% url 'statto' %}">📊 Statto</a></li>
+        {% endif %}
         {% if perms.flatblocks.change_flatblock %}
           {% if edit_mode %}
             <li><a href="{{ request.path }}">🙅 Exit Edit</a></li>
