@@ -1,4 +1,4 @@
-"""User exchange get method tests."""
+"""User has_verified_email_address tests."""
 
 import pytest
 from allauth.account.models import EmailAddress

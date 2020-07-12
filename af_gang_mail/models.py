@@ -41,8 +41,8 @@ class User(AbstractUser):
 
         return super().__str__()
 
-    def get_full_address(self):
-        """Get full address."""
+    def get_address_parts(self):
+        """Get the parts of the address."""
 
         address_parts = [
             self.address_line_1,
@@ -52,8 +52,13 @@ class User(AbstractUser):
             self.address_postcode,
             self.address_country.name,
         ]
-        address_parts = [part for part in address_parts if part]
-        return "\n".join(address_parts)
+        return [part for part in address_parts if part]
+
+    def get_full_address(self):
+        return "\n".join(self.get_address_parts())
+
+    def has_short_address(self):
+        return len(self.get_address_parts()) < 3
 
     def has_verified_email_address(self):
         return self.emailaddress_set.filter(verified=True).exists()
