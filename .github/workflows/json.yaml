@@ -1,8 +1,5 @@
 name: JSON
 on:
-  pull_request:
-    branches:
-      - "*"
   push:
     paths:
       - "**/*.json"

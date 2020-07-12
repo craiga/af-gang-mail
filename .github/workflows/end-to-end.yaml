@@ -13,47 +13,70 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - name: Clone Repo
-        uses: actions/checkout@v2
       - name: Deploy to Heroku
         run: |
-          ARCHIVE_URL=`curl --head https://api.github.com/repos/${{ github.repository }}/tarball/${{ github.sha }} --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" --silent --fail | grep -i "^Location" | sed "s/^Location: *//i" | sed "s/[^[:print:]]//g"`
+          ARCHIVE_URL=`curl \
+            --head https://api.github.com/repos/${{ github.repository }}/tarball/${{ github.sha }} \
+            --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            --silent \
+            --fail \
+            | grep -i "^Location" | sed "s/^Location: *//i" | sed "s/[^[:print:]]//g"`
           echo "Archive URL: $ARCHIVE_URL"
           HEROKU_APP_NAME="af-gang-mail-${{ github.run_id }}-${{ github.run_number }}"
           echo "App name: $HEROKU_APP_NAME"
-          RESPONSE=`curl --request POST https://api.heroku.com/app-setups --header "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3" --data "{\"source_blob\": {\"url\": \"$ARCHIVE_URL\"}, \"app\": {\"name\": \"$HEROKU_APP_NAME\", \"organization\": \"uhf62\"}}" --silent`
+          RESPONSE=`curl \
+            --request POST https://api.heroku.com/app-setups \
+            --header "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" \
+            --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3" \
+            --data "{\"source_blob\": {\"url\": \"$ARCHIVE_URL\"}, \"app\": {\"name\": \"$HEROKU_APP_NAME\", \"organization\": \"uhf62\"}}" \
+            --silent`
           echo "Heroku App Setup API Response: $RESPONSE"
-          SETUP_ID=`echo "$RESPONSE" | jq ".id" -r`
-          echo "Setup ID: $SETUP_ID"
-          until [ `curl https://api.heroku.com/app-setups/$SETUP_ID --header "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3"  --silent | jq ".status" -r` != "pending" ]
-          do
-            curl https://api.heroku.com/app-setups/$SETUP_ID --header "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3"  --silent | jq ".status"
-            sleep 1
-          done
+          export HEROKU_SETUP_ID=`echo "$RESPONSE" | jq ".id" -r`
+          echo "Setup ID: $HEROKU_SETUP_ID"
+          echo "::set-env name=HEROKU_SETUP_ID::$HEROKU_SETUP_ID"
+      - name: Clone Repo
+        uses: actions/checkout@v2
+      - name: Install Cypress
+        run: npm install cypress@`cat package-lock.json | jq ".dependencies.cypress.version" --raw-output`
       - name: Configure Heroku
         run: |
           HEROKU_APP_NAME="af-gang-mail-${{ github.run_id }}-${{ github.run_number }}"
-          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku labs:enable runtime-dyno-metadata --app $HEROKU_APP_NAME
-          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku drains:add ${{ secrets.HEROKU_DRAIN_URL }} --app $HEROKU_APP_NAME
-          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set SENTRY_DSN=${{ secrets.SENTRY_DSN }} --app $HEROKU_APP_NAME
-          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} --app $HEROKU_APP_NAME
-          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set SMTP_SERVER=smtp.mailtrap.io --app $HEROKU_APP_NAME
-          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set SMTP_USERNAME=${{ secrets.MAILTRAP_SMTP_USERNAME }} --app $HEROKU_APP_NAME
-          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku config:set SMTP_PASSWORD=${{ secrets.MAILTRAP_SMTP_PASSWORD }} --app $HEROKU_APP_NAME
-      - name: Install Cypress
-        run: npm install cypress@`cat package-lock.json | jq ".dependencies.cypress.version" --raw-output`
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
+            heroku labs:enable runtime-dyno-metadata --app $HEROKU_APP_NAME
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
+            heroku drains:add ${{ secrets.HEROKU_DRAIN_URL }} --app $HEROKU_APP_NAME
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
+            heroku config:set --app $HEROKU_APP_NAME \
+            SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
+            GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
+            SMTP_SERVER=smtp.mailtrap.io \
+            SMTP_USERNAME=${{ secrets.MAILTRAP_SMTP_USERNAME }} \
+            SMTP_PASSWORD=${{ secrets.MAILTRAP_SMTP_PASSWORD }}
       - name: Wait for Heroku
         run: |
-          HEROKU_APP_NAME="af-gang-mail-${{ github.run_id }}-${{ github.run_number }}"
-          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku ps:wait --app $HEROKU_APP_NAME
+          until [ `curl \
+            https://api.heroku.com/app-setups/$HEROKU_SETUP_ID \
+            --header "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" \
+            --header "Content-Type: application/json" \
+            --header "Accept: application/vnd.heroku+json; version=3"  \
+            --silent | jq ".status" -r` != "pending" ]
+          do
+            sleep 1
+          done
       - name: Run Tests
-        run: npm run cypress run -- --config baseUrl=https://af-gang-mail-${{ github.run_id }}-${{ github.run_number }}.herokuapp.com execTimeout=120000
+        run: npm run cypress run -- --config
+          baseUrl=https://af-gang-mail-${{ github.run_id }}-${{ github.run_number }}.herokuapp.com
+          execTimeout=120000
         env:
           CYPRESS_DJANGO_MANAGE_COMMAND: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku run --app af-gang-mail-${{ github.run_id }}-${{ github.run_number }} --exit-code python manage.py
           CYPRESS_MAILTRAP_API_TOKEN: ${{ secrets.MAILTRAP_API_TOKEN }}
       - name: Destroy Heroku Deployment
         if: ${{ always() }}
-        run: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku apps:destroy af-gang-mail-${{ github.run_id }}-${{ github.run_number }} --confirm af-gang-mail-${{ github.run_id }}-${{ github.run_number }}
+        run: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }}
+          heroku apps:destroy
+          af-gang-mail-${{ github.run_id }}-${{ github.run_number }}
+          --confirm
+          af-gang-mail-${{ github.run_id }}-${{ github.run_number }}
       - name: Save Video
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
