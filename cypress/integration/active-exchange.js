@@ -1,6 +1,7 @@
-describe("Log in", () => {
+describe("Active Exchange", () => {
   before(() => {
     cy.resetAndLoadFixtures(["cypress/exchanges", "cypress/users"]);
+    cy.cleanEmail();
     cy.doDraw();
   });
   it("User can log in and get details of active exchange.", () => {
