@@ -64,7 +64,6 @@ class User(AbstractUser):
         ]
 
 
-
 class ExchangeManager(models.Manager):
     """Exchange manager."""
 
