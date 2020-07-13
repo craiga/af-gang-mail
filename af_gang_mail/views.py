@@ -352,10 +352,8 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = "af_gang_mail/statto.html"
     permission_required = "af_gang_mail.statto"
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-
-        percentages = {}
+    def _get_user_percentages(self):  # pylint: disable=no-self-use
+        """User percentages."""
 
         users = models.User.objects.count()
         user_stats = {
@@ -384,15 +382,41 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
             ).count(),
         }
 
+        return {k: floor(n / users * 100) for k, n in user_stats.items()}
+
+    def _get_exchange_percentages(self):  # pylint: disable=no-self-use
+        """Exchange percentages."""
+
+        percentages = {}
+
+        users = models.User.objects.count()
         for exchange in models.Exchange.objects.all():
-            user_stats[f"Users in { exchange.name }"] = exchange.users.count()
+            users_in_exchange = exchange.users.count()
+            eligible_users_in_exchange = exchange.users.eligible_for_draw().count()
+            percentages[f"Users in { exchange.name }"] = floor(
+                users_in_exchange / users * 100
+            )
+            try:
+                percentages[f"Eligible Users in { exchange.name }"] = floor(
+                    eligible_users_in_exchange / users_in_exchange * 100
+                )
+                percentages[f"Ineligible Users in { exchange.name }"] = floor(
+                    (users_in_exchange - eligible_users_in_exchange)
+                    / users_in_exchange
+                    * 100
+                )
+            except ZeroDivisionError:
+                pass
 
-        percentages = {
-            k: floor(user_stat / users * 100) for k, user_stat in user_stats.items()
-        }
+        return percentages
 
-        context_data["percentages"] = percentages
-        context_data["users"] = users
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        context_data["percentages"] = dict(
+            **self._get_user_percentages(), **self._get_exchange_percentages()
+        )
+        context_data["users"] = models.User.objects.count()
 
         return context_data
 
