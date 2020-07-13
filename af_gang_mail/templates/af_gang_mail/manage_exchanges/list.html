@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 
-{% block body_classes %}statto{% endblock %}
+{% load render_table from django_tables2 %}
+
+{% block body_classes %}manage-exchanges{% endblock %}
 
 {% block content %}
 
 <div class="yellow-box">
-  <h1>Stattos</h1>
-  <div class="stat-container">
-    <div class="stat">Users with Verified Email Address ({{ users_with_verified_email }})</div>
-  </div>
+  <h1>Manage Exchanges</h1>
+  {% render_table table %}
+
+  <nav>
+     {% if perms.af_gang_mail.add_exchange %}
+       <a href="{% url 'create-exchange' %}">Create</a>
+     {% endif %}
+   </nav>
 </div>
 
 {% endblock %}
