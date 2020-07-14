@@ -62,6 +62,11 @@ cypress-web:  ## Build and serve the web site for Cypress.
 		DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress \
 		pipenv run python manage.py runserver 8001
 
+cypress-worker:  ## Build and serve the web site for Cypress.
+	PIPENV_DONT_LOAD_ENV=1 \
+		DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress \
+		pipenv run celery worker --app af_gang_mail --loglevel INFO
+
 cypress-db:  ## Create database for Cypress.
 	createuser af_gang_mail_cypress --createdb
 	psql --command "alter user af_gang_mail_cypress with encrypted password 'security_is_important';"

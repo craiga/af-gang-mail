@@ -1,11 +1,9 @@
 name: YAML
 on:
-  pull_request:
-    branches:
-      - "*"
   push:
     paths:
       - "**/*.yaml"
+      - ".github/workflows/yaml.yaml"
       - "Makefile"
 
 jobs:

@@ -10,6 +10,7 @@ from af_gang_mail import views
 urlpatterns = [
     path("in-case-of-emergency/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
+    path("su/", include("django_su.urls")),
     path(
         "__edit__/<pk>/",
         permission_required("flatblocks.change_flatblock")(views.edit_flatblock),
@@ -23,7 +24,12 @@ urlpatterns = [
     path(
         "select-exchanges/", views.SelectExchanges.as_view(), name="select-exchanges",
     ),
-    path("create-exchange/", views.CreateExchange.as_view(), name="create-exchange",),
+    path("create-exchange/", views.CreateExchange.as_view(), name="create-exchange"),
+    path(
+        "manage-exchanges/<slug:slug>/edit/",
+        views.UpdateExchange.as_view(),
+        name="update-exchange",
+    ),
     path(
         "manage-exchanges/<slug:slug>/delete/",
         views.DeleteExchange.as_view(),
@@ -33,6 +39,11 @@ urlpatterns = [
         "manage-exchanges/<slug:slug>/draw/",
         views.DrawExchange.as_view(),
         name="draw-exchange",
+    ),
+    path(
+        "manage-exchanges/<slug:slug>/delete-draws/",
+        views.DeleteDrawsForExchange.as_view(),
+        name="delete-draws-for-exchange",
     ),
     path(
         "manage-exchanges/<slug:slug>/",
@@ -53,7 +64,8 @@ urlpatterns = [
     path("welcome/exchanges/", views.SignUpStepTwo.as_view(), name="sign-up-step-two"),
     path("resend-verification/", views.resend_verification, name="resend-verification"),
     path("tz_detect/", include("tz_detect.urls")),
-    path("exchange/<slug:slug>/", views.Draw.as_view(), name="draw",),
+    path("exchange/<slug:slug>/", views.Draw.as_view(), name="draw"),
+    path("statto/", views.Statto.as_view(), name="statto"),
     path("", views.Landing.as_view(), name="landing"),
 ]
 

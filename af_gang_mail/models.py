@@ -3,9 +3,14 @@
 import logging
 import random
 
-from django.contrib.auth.models import AbstractUser
+from django import template, urls
+from django.conf import settings
+from django.contrib import auth
+from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
+from django.core.mail import EmailMultiAlternatives
 from django.db import models
+from django.db.models import Q
 from django.utils.timezone import now
 
 from autoslug import AutoSlugField
@@ -14,7 +19,16 @@ from django_countries.fields import CountryField
 logger = logging.getLogger(__name__)
 
 
-class User(AbstractUser):
+class UserManager(auth.models.UserManager):
+    """User manager."""
+
+    def eligible_for_draw(self):
+        return self.filter(emailaddress__verified=True).exclude(
+            Q(first_name="") & Q(last_name="")
+        )
+
+
+class User(auth.models.AbstractUser):
     """User"""
 
     address_line_1 = models.TextField("Address line 1", blank=True, null=False)
@@ -24,6 +38,8 @@ class User(AbstractUser):
     address_postcode = models.TextField("Postcode", blank=True, null=False)
     address_country = CountryField("Country", blank=True, null=False)
     exchanges = models.ManyToManyField("Exchange", related_name="users")
+
+    objects = UserManager()
 
     def __str__(self):
         """Full name or email address."""
@@ -52,6 +68,11 @@ class User(AbstractUser):
 
     def has_verified_email_address(self):
         return self.emailaddress_set.filter(verified=True).exists()
+
+    class Meta:
+        permissions = [
+            ("statto", "Can view statto"),
+        ]
 
 
 class ExchangeManager(models.Manager):
@@ -84,6 +105,7 @@ class Exchange(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     draw_started = models.DateTimeField(blank=True, null=True)
+    send_emails = models.BooleanField(default=False)
 
     objects = ExchangeManager()
 
@@ -142,7 +164,7 @@ class DrawManager(models.Manager):
 
         logger.info("Preparing set of draws for %s.", exchange.name)
 
-        users = list(exchange.users.filter(emailaddress__verified=True))
+        users = list(exchange.users.eligible_for_draw())
         logger.info("%d users.", len(users))
 
         # Run through some iterations and try to generate a perfect result.
@@ -204,3 +226,34 @@ class Draw(models.Model):
                 fields=["exchange", "recipient"], name="receive_once_per_exchange"
             ),
         ]
+
+    def as_email_message(self, **kwargs):
+        """Construct an EmailMessage for this draw."""
+
+        subject_template = template.loader.get_template(
+            "af_gang_mail/draw-email-subject.txt"
+        )
+        body_text_template = template.loader.get_template(
+            "af_gang_mail/draw-email-body.txt"
+        )
+        body_html_template = template.loader.get_template(
+            "af_gang_mail/draw-email-body.html"
+        )
+
+        site = Site.objects.get_current()
+        scheme = "https" if settings.SECURE_SSL_REDIRECT else "http"
+        exchange_url = f"{ scheme }://{ site.domain }" + urls.reverse(
+            "draw", kwargs={"slug": self.exchange.slug}
+        )
+        context = {"draw": self, "site": site, "exchange_url": exchange_url}
+
+        msg = EmailMultiAlternatives(
+            subject=subject_template.render(context),
+            body=body_text_template.render(context),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[self.sender.email],
+            **kwargs,
+        )
+        msg.attach_alternative(body_html_template.render(context), "text/html")
+
+        return msg

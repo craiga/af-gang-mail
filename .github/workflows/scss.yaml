@@ -1,8 +1,5 @@
 name: SCSS
 on:
-  pull_request:
-    branches:
-      - "*"
   push:
     paths:
       - "**/*.scss"

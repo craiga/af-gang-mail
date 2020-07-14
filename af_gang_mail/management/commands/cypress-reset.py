@@ -1,13 +1,18 @@
-"""Flush the database and load fixtures in a single command."""
+"""Reset the database for Cypress."""
 
 # pylint: disable=invalid-name
 
+import os
+from urllib.parse import urlparse
+
+from django.conf import settings
+from django.contrib.sites.models import Site
 from django.core.management.base import BaseCommand
 from django.core.management.commands import flush, loaddata
 
 
 class Command(flush.Command, loaddata.Command, BaseCommand):
-    """Flush the database and load fixtures in a single command."""
+    """Reset the database for Cypress."""
 
     help = __doc__
 
@@ -28,5 +33,20 @@ class Command(flush.Command, loaddata.Command, BaseCommand):
         loaddata.Command.add_arguments(self, parser)
 
     def handle(self, *args, **kwargs):
+        """Handle a call to the command."""
+
         flush.Command.handle(self, **kwargs)
         loaddata.Command.handle(self, *args, **kwargs)
+
+        # Rename the example.com site.
+        domain = "mail.afgang.co.uk"
+        if "CYPRESS_BASE_URL" in os.environ:
+            url = urlparse(os.environ["CYPRESS_BASE_URL"])
+            domain = url.netloc
+        elif settings.ALLOWED_HOSTS:
+            domain = settings.ALLOWED_HOSTS[0]
+
+        site = Site.objects.get(domain="example.com")
+        site.name = "AF GANG Mail Exchange"
+        site.domain = domain
+        site.save()

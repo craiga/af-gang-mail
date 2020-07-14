@@ -7,7 +7,8 @@ $formWidthMax: 400px;
 .home {
   main {
     & > div {
-      form {
+      form,
+      .yellow-box {
         margin: $baseSize 0;
       }
     }
@@ -18,7 +19,8 @@ $formWidthMax: 400px;
         flex-wrap: wrap;
         align-items: stretch;
         justify-content: center;
-        form {
+        form,
+        .yellow-box {
           flex-grow: 1;
           flex-basis: auto;
           width: $formWidthMin;
