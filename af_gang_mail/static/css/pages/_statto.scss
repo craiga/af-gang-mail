@@ -10,9 +10,8 @@
   }
 
   .stat {
-    padding: $baseSize;
     background-color: $darkYellow;
-    box-sizing: border-box;
+    height: $baseSize * 3;
   }
 
   .stat-label {
