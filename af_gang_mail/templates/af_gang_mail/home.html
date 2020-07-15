@@ -29,7 +29,8 @@
 <div>
   <div class="yellow-box">
     {% flatblock "home-name-and-address-intro" %}
-    <div>{{ user.get_full_address|linebreaksbr }}</div>
+    <p>{{ user.get_full_name }}</p>
+    <p>{{ user.get_full_address|linebreaksbr }}</p>
     <a class="button" href="{% url 'update-name-and-address' %}">Edit Name &amp; Address</a>
   </div>
   <form action="{% url 'select-exchanges' %}">
