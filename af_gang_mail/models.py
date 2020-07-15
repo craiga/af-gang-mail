@@ -5,7 +5,7 @@ import random
 
 from django import template, urls
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
+from django.contrib import auth
 from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
@@ -19,7 +19,16 @@ from django_countries.fields import CountryField
 logger = logging.getLogger(__name__)
 
 
-class User(AbstractUser):
+class UserManager(auth.models.UserManager):
+    """User manager."""
+
+    def eligible_for_draw(self):
+        return self.filter(emailaddress__verified=True).exclude(
+            Q(first_name="") & Q(last_name="")
+        )
+
+
+class User(auth.models.AbstractUser):
     """User"""
 
     address_line_1 = models.TextField("Address line 1", blank=True, null=False)
@@ -29,6 +38,8 @@ class User(AbstractUser):
     address_postcode = models.TextField("Postcode", blank=True, null=False)
     address_country = CountryField("Country", blank=True, null=False)
     exchanges = models.ManyToManyField("Exchange", related_name="users")
+
+    objects = UserManager()
 
     def __str__(self):
         """Full name or email address."""
@@ -62,6 +73,11 @@ class User(AbstractUser):
 
     def has_verified_email_address(self):
         return self.emailaddress_set.filter(verified=True).exists()
+
+    class Meta:
+        permissions = [
+            ("statto", "Can view statto"),
+        ]
 
 
 class ExchangeManager(models.Manager):
@@ -153,11 +169,7 @@ class DrawManager(models.Manager):
 
         logger.info("Preparing set of draws for %s.", exchange.name)
 
-        users = list(
-            exchange.users.filter(emailaddress__verified=True).exclude(
-                Q(first_name="") & Q(last_name="")
-            )
-        )
+        users = list(exchange.users.eligible_for_draw())
         logger.info("%d users.", len(users))
 
         # Run through some iterations and try to generate a perfect result.

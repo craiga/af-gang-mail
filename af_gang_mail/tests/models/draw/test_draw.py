@@ -34,95 +34,21 @@ def users(exchange):
     return users
 
 
-@pytest.fixture
-def unverified_users(exchange):
-    """A number of unverified users belonging to exchange."""
-
-    users = []
-    for _ in range(0, 2):
-        user = baker.make(
-            "af_gang_mail.User",
-            emailaddress_set=baker.prepare(EmailAddress, verified=False, _quantity=1),
-            _fill_optional=["first_name", "last_name"],
-        )
-        assert not user.has_verified_email_address()
-        user.exchanges.add(exchange)
-        users.append(user)
-
-    return users
-
-
-@pytest.fixture
-def no_name_users(exchange):
-    """A number of users with no name belonging to exchange."""
-
-    users = []
-    for _ in range(0, 5):
-        user = baker.make(
-            "af_gang_mail.User",
-            first_name="",
-            last_name="",
-            emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
-        )
-        assert user.has_verified_email_address()
-        user.exchanges.add(exchange)
-        users.append(user)
-
-    return users
-
-
-@pytest.fixture
-def first_name_user(exchange):
-    """A user with no last name belonging to exchange."""
-    user = baker.make(
-        "af_gang_mail.User",
-        last_name="",
-        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
-        _fill_optional=["first_name"],
-    )
-    assert user.has_verified_email_address()
-    user.exchanges.add(exchange)
-    return user
-
-
-@pytest.fixture
-def last_name_user(exchange):
-    """A user with no first name belonging to exchange."""
-    user = baker.make(
-        "af_gang_mail.User",
-        first_name="",
-        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
-        _fill_optional=["last_name"],
-    )
-    assert user.has_verified_email_address()
-    user.exchanges.add(exchange)
-    return user
-
-
 @pytest.mark.django_db
-# pylint: disable=unused-argument, too-many-arguments
 def test_draw(
-    exchange,
-    users,
-    first_name_user,
-    last_name_user,
-    unverified_users,
-    no_name_users,
-    django_assert_max_num_queries,
+    exchange, users, django_assert_max_num_queries,
 ):
     """Test a simple draw."""
 
-    expected_users = users + [first_name_user, last_name_user]
-
-    with django_assert_max_num_queries(2 + len(expected_users)):
+    with django_assert_max_num_queries(2 + len(users)):
         draws = Draw.objects.bulk_create_from_exchange(exchange)
 
-    assert len(draws) == len(expected_users)
+    assert len(draws) == len(users)
 
     for draw in draws:
         assert draw.sender != draw.recipient
-        assert draw.sender in expected_users
-        assert draw.recipient in expected_users
+        assert draw.sender in users
+        assert draw.recipient in users
 
 
 @pytest.mark.repeat(10)

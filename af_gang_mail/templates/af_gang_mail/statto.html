@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block body_classes %}statto{% endblock %}
+
+{% block content %}
+
+<div class="yellow-box">
+  <h1>Statto</h1>
+  <p>There are {{ users|intcomma }} users.</p>
+  {% for label, percentage in percentages.items %}
+    <div class="stat-container">
+      <div class="stat-label">{{ label }} ({{ percentage }}%)</div>
+      <div class="stat" style="width: {{ percentage }}%"></div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
