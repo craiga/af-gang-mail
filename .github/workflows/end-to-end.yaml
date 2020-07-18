@@ -34,13 +34,13 @@ jobs:
           export HEROKU_SETUP_ID=`echo "$RESPONSE" | jq ".id" -r`
           echo "Setup ID: $HEROKU_SETUP_ID"
           echo "::set-env name=HEROKU_SETUP_ID::$HEROKU_SETUP_ID"
+          echo "::set-env name=HEROKU_APP_NAME::$HEROKU_APP_NAME"
       - name: Clone Repo
         uses: actions/checkout@v2
       - name: Install Cypress
         run: npm install cypress@`cat package-lock.json | jq ".dependencies.cypress.version" --raw-output`
       - name: Configure Heroku
         run: |
-          HEROKU_APP_NAME="af-gang-mail-${{ github.run_id }}-${{ github.run_number }}"
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
             heroku labs:enable runtime-dyno-metadata --app $HEROKU_APP_NAME
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
@@ -64,19 +64,15 @@ jobs:
             sleep 1
           done
       - name: Run Tests
-        run: npm run cypress run -- --config
-          baseUrl=https://af-gang-mail-${{ github.run_id }}-${{ github.run_number }}.herokuapp.com
+        run:
+          npm run cypress run -- --config baseUrl=https://$HEROKU_APP_NAME.herokuapp.com
           execTimeout=120000
         env:
-          CYPRESS_DJANGO_MANAGE_COMMAND: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku run --app af-gang-mail-${{ github.run_id }}-${{ github.run_number }} --exit-code python manage.py
+          CYPRESS_DJANGO_MANAGE_COMMAND: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku run --app $HEROKU_APP_NAME --exit-code python manage.py
           CYPRESS_MAILTRAP_API_TOKEN: ${{ secrets.MAILTRAP_API_TOKEN }}
       - name: Destroy Heroku Deployment
         if: ${{ always() }}
-        run: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }}
-          heroku apps:destroy
-          af-gang-mail-${{ github.run_id }}-${{ github.run_number }}
-          --confirm
-          af-gang-mail-${{ github.run_id }}-${{ github.run_number }}
+        run: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku apps:destroy $HEROKU_APP_NAME --confirm $HEROKU_APP_NAME
       - name: Save Video
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
