@@ -88,6 +88,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_feature_policy.FeaturePolicyMiddleware",
     "csp.middleware.CSPMiddleware",
+    "django.contrib.sites.middleware.CurrentSiteMiddleware",
     "tz_detect.middleware.TimezoneMiddleware",
 ]
 
