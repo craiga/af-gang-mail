@@ -111,7 +111,18 @@ class ResetPasswordForm(AllauthFormWithEmailMixin, allauth_forms.ResetPasswordFo
 
 
 class SignupForm(AllauthFormWithEmailMixin, allauth_forms.SignupForm):
-    pass
+    agree = forms.BooleanField(
+        label="Yes, this site can store my data",
+        required=True,
+        help_text=(
+            "In order to participate in the mail exchange, we require your email address, name, "
+            "and postal address. <a href='/privacy'>Our privacy document explains how we  store "
+            "and use this information</a>. Without those details, we're not able to run the mail "
+            "exchange. Sorry!"
+        ),
+    )
+
+    field_order = ["email", "password1", "agree"]
 
 
 class FlatBlock(flatblock_forms.FlatBlockForm):
