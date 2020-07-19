@@ -30,9 +30,14 @@ body {
   color: $black;
   display: flex;
   flex-direction: column;
+  line-height: 1.5;
 
   main {
     flex-grow: 1;
     padding: 1em;
   }
+}
+
+.asteriskField {
+  display: none;
 }
