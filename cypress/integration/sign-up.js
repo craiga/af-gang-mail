@@ -12,6 +12,7 @@ describe("Sign up", () => {
       .contains("Password")
       .click()
       .type("This snowflake's an avalanche");
+    cy.contains("Yes, this site can store my data").click();
     cy.get("[data-cy=signup]").contains("Get Started").click();
 
     cy.contains("Hello zane@afgang.co.uk!");
