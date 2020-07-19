@@ -60,12 +60,26 @@ cypress-web:  ## Build and serve the web site for Cypress.
 	PIPENV_DONT_LOAD_ENV=1 \
 		DEBUG=1 \
 		DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress \
+		GOOGLE_API_KEY=`cat .env | grep GOOGLE_API_KEY | sed "s/GOOGLE_API_KEY=//"` \
 		pipenv run python manage.py runserver 8001
 
 cypress-worker:  ## Build and serve the web site for Cypress.
 	PIPENV_DONT_LOAD_ENV=1 \
 		DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress \
+		SMTP_SERVER=smtp.mailtrap.io \
+		SMTP_USERNAME=`cat .env | grep MAILTRAP_SMTP_USERNAME | sed "s/MAILTRAP_SMTP_USERNAME=//"` \
+		SMTP_PASSWORD=`cat .env | grep MAILTRAP_SMTP_PASSWORD | sed "s/MAILTRAP_SMTP_PASSWORD=//"` \
 		pipenv run celery worker --app af_gang_mail --loglevel INFO
+
+cypress:  ## Run the Cypress test runner.
+	CYPRESS_DJANGO_MANAGE_COMMAND="PIPENV_DONT_LOAD_ENV=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py" \
+		CYPRESS_MAILTRAP_API_TOKEN=`cat .env | grep MAILTRAP_API_TOKEN | sed "s/MAILTRAP_API_TOKEN=//"` \
+		$$(npm bin)/cypress run
+
+cypress-interactive:  ## Open the interactive Cypress test runner.
+	CYPRESS_DJANGO_MANAGE_COMMAND="PIPENV_DONT_LOAD_ENV=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py" \
+		CYPRESS_MAILTRAP_API_TOKEN=`cat .env | grep MAILTRAP_API_TOKEN | sed "s/MAILTRAP_API_TOKEN=//"` \
+		$$(npm bin)/cypress open --config watchForFileChanges=false
 
 cypress-db:  ## Create database for Cypress.
 	createuser af_gang_mail_cypress --createdb
@@ -132,3 +146,5 @@ images: ## Resize and optimize images.
 
 help: ## Display this help screen.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+.PHONY: cypress
