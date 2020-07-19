@@ -32,7 +32,7 @@
     "fields": {
       "slug": "footer",
       "header": "",
-      "content": "<p>Built by Nadia Saad, Jodie Fox, and <a href=\"https://www.craiga.id.au\">Craig Anderson</a> for <a href=\"https://www.afgang.co.uk\">AF GANG</a>. <a href=\"https://www.uhf62.co.uk\">Run by UHF 62</a>.</p>\r\n\r\n<p><a href=\"https://unsplash.com/photos/pqtOMmZBpM8\">Background image by Geordanna Cordero</a>.</p>\r\n\r\n<p><a href=\"https://github.com/craiga/af-gang-mail\">This site is open source; check it out on GitHub</a>.&nbsp;<a href=\"https://usefathom.com/ref/UIMQVW\">Ethical, cookie-free analytics provided by Fathom</a>. <a href=\"https://sentry.io/\">Error reporting and tracking provided by Sentry</a>.</p>"
+      "content": "<p>Built by Nadia Saad, Jodie Fox, and <a href=\"https://www.craiga.id.au\">Craig Anderson</a> for <a href=\"https://www.afgang.co.uk\">AF GANG</a>. <a href=\"https://www.uhf62.co.uk\">Sponsored by UHF 62</a>.</p>\r\n\r\n<p><a href=\"https://unsplash.com/photos/pqtOMmZBpM8\">Background image by Geordanna Cordero</a>.</p>\r\n\r\n<p><a href=\"/privacy/\">Read our privacy and data security policy</a>.&nbsp;<a href=\"https://github.com/craiga/af-gang-mail\">This site is open source; check it out on GitHub</a>.&nbsp;<a href=\"https://usefathom.com/ref/UIMQVW\">Ethical, cookie-free analytics provided by Fathom</a>. <a href=\"https://sentry.io/\">Error reporting and tracking provided by Sentry</a>.</p>"
     }
   },
   {
@@ -213,6 +213,24 @@
       "slug": "draw-intro",
       "header": "Draw Details",
       "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 25,
+    "fields": {
+      "slug": "home-no-name",
+      "header": "In order to participate in exchanges, you need to enter your name.",
+      "content": ""
+    }
+  },
+  {
+    "model": "flatblocks.flatblock",
+    "pk": 26,
+    "fields": {
+      "slug": "privacy",
+      "header": "Privacy & Data Security",
+      "content": "<p>We collect and store:</p>\r\n\r\n<ul>\r\n\t<li><strong>Your email address</strong> so that we can send you notifications and log you in.</li>\r\n\t<li><strong>Your password</strong> so that we can identify you. <a href=\"https://docs.djangoproject.com/en/stable/topics/auth/passwords/#how-django-stores-passwords\">This password is securely hashed</a>.</li>\r\n\t<li><strong>Your name and address</strong> so that other users can send you gifts.</li>\r\n</ul>\r\n\r\n<p>This information is stored in a PostgreSQL database hosted by <a href=\"https://www.heroku.com/policy/security\">Heroku</a>. Emails containing your name and address are sent using <a href=\"https://help.sendinblue.com/hc/en-us/sections/360000396424-Privacy-and-confidentiality-of-your-personal-information\">Sendinblue</a>.</p>\r\n\r\n<p>We also track user behaviour using <a href=\"https://usefathom.com\">Fathom</a>&nbsp;and errors using <a href=\"https://sentry.io\">Sentry</a>. No personally identifying information is recoded by those systems.</p>\r\n\r\n<p>When you participage in an exchange, your name and address will be shared with one person. That person will recieve your name and address in an email, and will be able to view your name and address on the site.</p>\r\n\r\n<p><strong>Cookies</strong></p>\r\n\r\n<p>We store <a href=\"https://docs.djangoproject.com/en/stable/topics/http/sessions/\">session ID</a> and a <a href=\"https://docs.djangoproject.com/en/stable/ref/csrf/\">cross-site request forgery (CSRF)</a> cookies in your browser, both of which are required for the proper functioning of this site.</p>\r\n\r\n<p><strong>Controlling Your Data</strong></p>\r\n\r\n<p>You&#39;re able to change your password and edit your name and address via the web site. If you&#39;d like to change your email address or remove yourself completely from the site, <a href=\"http://craiga.id.au\">please get in touch with Craig Anderson</a>.</p>"
     }
   }
 ]

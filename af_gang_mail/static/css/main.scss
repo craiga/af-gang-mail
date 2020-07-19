@@ -3,6 +3,7 @@
 @use "components/footer";
 @use "components/form";
 @use "components/header";
+@use "components/help-block";
 @use "components/messages";
 @use "components/top-nav";
 @use "pages/home";
@@ -29,9 +30,14 @@ body {
   color: $black;
   display: flex;
   flex-direction: column;
+  line-height: 1.5;
 
   main {
     flex-grow: 1;
     padding: 1em;
   }
+}
+
+.asteriskField {
+  display: none;
 }
