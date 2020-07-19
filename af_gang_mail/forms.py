@@ -111,6 +111,8 @@ class ResetPasswordForm(AllauthFormWithEmailMixin, allauth_forms.ResetPasswordFo
 
 
 class SignupForm(AllauthFormWithEmailMixin, allauth_forms.SignupForm):
+    """Sign up form."""
+
     agree = forms.BooleanField(
         label="Yes, this site can store my data",
         required=True,
