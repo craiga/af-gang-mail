@@ -9,7 +9,7 @@ $formWidthMax: 400px;
     & > div {
       form,
       .yellow-box {
-        margin: $baseSize 0;
+        margin: $baseSize auto;
       }
     }
     @media (min-width: $formWidthMin * 3 + $baseSize * 9) {
