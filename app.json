@@ -18,9 +18,6 @@
     },
     "NPM_CONFIG_PRODUCTION": {
       "value": "true"
-    },
-    "DISABLE_DATADOG_AGENT": {
-      "value": "true"
     }
   },
   "formation": {
