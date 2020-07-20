@@ -421,6 +421,12 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         return context_data
 
 
+class Privacy(TemplateView):
+    """Privacy document."""
+
+    template_name = "af_gang_mail/privacy.html"
+
+
 @csp_exempt
 def edit_flatblock(request, pk, **kwargs):
     return flatblocks_views.edit(request, pk, modelform_class=forms.FlatBlock, **kwargs)

@@ -1,0 +1,8 @@
+@use "../colors" as *;
+@use "../fonts" as *;
+@use "../size" as *;
+
+.help-block {
+  padding: $baseSize / 2 $baseSize;
+  font-size: $baseSize * 0.9;
+}

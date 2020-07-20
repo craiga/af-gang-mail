@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{% block title %}AF GANG Mail Exchange{% endblock %}</title>
+    <title>{% block title %}{{ request.site.name }}{% endblock %}</title>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -15,7 +15,7 @@
   <body class="{% block body_classes %}{% endblock %}">
     {% include "af_gang_mail/_top-nav.html" %}
 
-    <header><h1>AF GANG Mail Exchange</h1></header>
+    <header><h1>{{ request.site.name }}</h1></header>
 
     {% include "af_gang_mail/_messages.html" %}
 

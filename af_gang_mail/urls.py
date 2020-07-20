@@ -66,6 +66,7 @@ urlpatterns = [
     path("tz_detect/", include("tz_detect.urls")),
     path("exchange/<slug:slug>/", views.Draw.as_view(), name="draw"),
     path("statto/", views.Statto.as_view(), name="statto"),
+    path("privacy/", views.Privacy.as_view(), name="privacy"),
     path("", views.Landing.as_view(), name="landing"),
 ]
 
