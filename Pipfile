@@ -45,6 +45,7 @@ django-ckeditor = "*"
 django-tz-detect = "*"
 tqdm = "*"
 django-su = "*"
+newrelic = "*"
 
 [requires]
 python_version = "3.8"
