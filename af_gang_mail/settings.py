@@ -1,6 +1,7 @@
 """Settings."""
 
 import ipaddress
+import logging
 import os
 
 from django.contrib.messages import constants as message_constants
@@ -10,6 +11,7 @@ import django_feature_policy
 import sentry_sdk
 from sentry_sdk.integrations import celery as sentry_celery
 from sentry_sdk.integrations import django as sentry_django
+from sentry_sdk.integrations import logging as sentry_logging
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -197,7 +199,6 @@ DEBUG_TOOLBAR_CONFIG = {"SHOW_COLLAPSED": True}
 # Sentry
 # https://sentry.io/data-power/data-power/getting-started/python-django/
 
-
 SENTRY_DSN = os.environ.get("SENTRY_DSN")
 SENTRY_ENVIRONMENT = os.environ.get(
     "SENTRY_ENVIRONMENT", os.environ.get("HEROKU_APP_NAME")
@@ -208,6 +209,9 @@ sentry_sdk.init(
     integrations=[
         sentry_celery.CeleryIntegration(),
         sentry_django.DjangoIntegration(),
+        sentry_logging.LoggingIntegration(
+            level=logging.INFO, event_level=logging.WARNING
+        ),
     ],
     environment=SENTRY_ENVIRONMENT,
     release=SENTRY_RELEASE,

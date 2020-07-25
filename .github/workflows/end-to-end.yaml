@@ -39,7 +39,8 @@ jobs:
                 \"SENTRY_RELEASE\": \"$GITHUB_SHA\", \
                 \"SMTP_SERVER\": \"smtp.mailtrap.io\", \
                 \"SMTP_USERNAME\": \"${{ secrets.MAILTRAP_SMTP_USERNAME }}\", \
-                \"SMTP_PASSWORD\": \"${{ secrets.MAILTRAP_SMTP_PASSWORD }}\" \
+                \"SMTP_PASSWORD\": \"${{ secrets.MAILTRAP_SMTP_PASSWORD }}\", \
+                \"GOOGLE_API_KEY\": \"${{ secrets.GOOGLE_API_KEY }}\" \
               }} \
             }" \
             --silent`
