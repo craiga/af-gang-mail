@@ -14,10 +14,10 @@
       "generator": "secret"
     },
     "DJANGO_SUPERUSER_USERNAME": {
-      "generator": "admin"
+      "value": "admin"
     },
     "DJANGO_SUPERUSER_EMAIL": {
-      "generator": "admin@example.com"
+      "value": "admin@example.com"
     },
     "DJANGO_SUPERUSER_PASSWORD": {
       "generator": "secret"
