@@ -13,7 +13,7 @@ def setup_default_site(apps, schema_editor):
     """
     Site = apps.get_model("sites", "Site")
 
-    name = "AF GANG Mail"
+    name = "AF GANG Mail Exchange"
     domain = "mail.afgang.co.uk"
     if settings.ALLOWED_HOSTS:
         domain = settings.ALLOWED_HOSTS[0]
