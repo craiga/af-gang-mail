@@ -41,7 +41,23 @@ class Home(LoginRequiredMixin, TemplateView):
             except models.Draw.DoesNotExist:
                 pass
 
-        context_data.update({"user": user, "active_draws": active_draws})
+        upcoming_exchanges = []
+        user_upcoming_exchanges = user.exchanges.all()
+        for exchange in models.Exchange.objects.upcoming():
+            upcoming_exchanges.append((exchange in user_upcoming_exchanges, exchange))
+
+        user_eligible_for_draws = (
+            user.has_verified_email_address() and not user.get_full_name()
+        )
+
+        context_data.update(
+            {
+                "user": user,
+                "active_draws": active_draws,
+                "upcoming_exchanges": upcoming_exchanges,
+                "user_eligible_for_draws": user_eligible_for_draws,
+            }
+        )
 
         return context_data
 

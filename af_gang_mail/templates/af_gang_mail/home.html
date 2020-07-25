@@ -42,14 +42,28 @@
   </div>
   <form action="{% url 'select-exchanges' %}">
     {% flatblock "home-upcoming-exchanges-intro" %}
-    {% if user.exchanges.upcoming.exists %}
+    {% if upcoming_exchanges %}
       <table>
         <tr>
+          <th scope="col">Taking Part?</th>
           <th scope="col">Exchange</th>
           <th scope="col">Drawn</th>
         </tr>
-        {% for exchange in user.exchanges.upcoming.all %}
+        {% for in_exchange, exchange in upcoming_exchanges %}
           <tr>
+            <td>
+              {% if in_exchange %}
+                {% if not user.has_verified_email_address %}
+                  ⁉️ Verify Email
+                {% elif not user.get_full_name %}
+                  ⁉️ Enter Name
+                {% else %}
+                  ✅
+                {% endif %}
+              {% else %}
+                ❌
+              {% endif %}
+            </td>
             <td>{{ exchange.name }}</td>
             <td title="{{ exchange.drawn }}">{{ exchange.drawn|naturalday }}</td>
           </tr>
