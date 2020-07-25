@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -ex
+
+python manage.py createsuperuser --no-input
+python manage.py loaddata flatblocks
