@@ -62,7 +62,8 @@ def draw_exchange(exchange_id, max_attempts):
     """
     Draw an exchange.
 
-    To enqueue this task, call enqueue_draw_exchange_task which will set an appropriate time limit.
+    To enqueue this task, call enqueue_draw_exchange_task which will set an appropriate
+    time limit.
     """
 
     exchange = models.Exchange.objects.get(id=exchange_id)

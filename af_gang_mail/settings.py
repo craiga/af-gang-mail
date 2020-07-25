@@ -35,8 +35,8 @@ if "HEROKU_APP_NAME" in os.environ:
     ALLOWED_HOSTS.append(f"{os.environ['HEROKU_APP_NAME']}.herokuapp.com")
 
 # ALLOWED_HOSTS cannot pass Django's system check when empty.
-# We set a placeholder value here so we can successfully deploy the app to Heroku before dyno
-# metadata is enabled.
+# We set a placeholder value here so we can successfully deploy the app to Heroku
+# before dyno metadata is enabled.
 if not ALLOWED_HOSTS and not DEBUG:
     ALLOWED_HOSTS.append("127.0.0.1")
 
@@ -125,12 +125,21 @@ WSGI_APPLICATION = "af_gang_mail.wsgi.application"
 DATABASES = {"default": dj_database_url.config(conn_max_age=600)}
 
 
-# Password validation
-# https://docs.djangoproject.com/en/stable/ref/settings/#auth-password-validators
+# Passwords
+# https://docs.djangoproject.com/en/stable/ref/settings/
+
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        ),
     },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
