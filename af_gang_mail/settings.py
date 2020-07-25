@@ -245,7 +245,6 @@ CSP_STYLE_SRC = [
 ]
 CSP_SCRIPT_SRC = [
     "'self'",
-    "'unsafe-inline'",  # required for Google places auto suggest
     "https://maps.googleapis.com",
     "https://cdn.usefathom.com",
 ]

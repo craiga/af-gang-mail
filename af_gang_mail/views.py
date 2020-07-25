@@ -379,11 +379,8 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
             ).count(),
             "Users with First Name": models.User.objects.exclude(first_name="").count(),
             "Users with Last Name": models.User.objects.exclude(last_name="").count(),
-            "Users with Address Line 1": models.User.objects.exclude(
-                address_line_1=""
-            ).count(),
-            "Users with Address Line 2": models.User.objects.exclude(
-                address_line_2=""
+            "Users with Street Address": models.User.objects.exclude(
+                street_address=""
             ).count(),
             "Users with Address City": models.User.objects.exclude(
                 address_city=""

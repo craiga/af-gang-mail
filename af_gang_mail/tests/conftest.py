@@ -92,7 +92,7 @@ def user(past_exchanges, current_exchanges, upcoming_exchanges):
         "af_gang_mail.User",
         first_name="Joe",
         last_name="Talbot",
-        address_line_1="1049 Gotho Road",
+        street_address="1049 Gotho Road",
         address_city="Bristol",
         address_country="GB",
     )

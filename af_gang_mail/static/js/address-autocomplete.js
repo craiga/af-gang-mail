@@ -2,36 +2,46 @@
 // https://developers.google.com/maps/documentation/javascript/reference/places-widget
 
 document.addEventListener("DOMContentLoaded", function (event) {
-  const addressSearchField = document.getElementById("id_address_search");
+  const addressSearchField = document.getElementById("id_street_address");
   if (addressSearchField) {
     let autocomplete = new google.maps.places.Autocomplete(addressSearchField, {
-      // "types": ["address"],
-      fields: ["address_components", "type"],
+      fields: ["address_components"],
+    });
+
+    const countrySelect = document.getElementById("id_address_country");
+    const country = countrySelect[countrySelect.selectedIndex].value;
+    if (country) {
+      autocomplete.setComponentRestrictions({ country: country });
+    }
+
+    countrySelect.addEventListener("change", (event) => {
+      const country = countrySelect[countrySelect.selectedIndex].value;
+      if (country) {
+        autocomplete.setComponentRestrictions({ country: country });
+      }
     });
 
     autocomplete.addListener("place_changed", function () {
       const place = autocomplete.getPlace();
       const address = {};
-      console.log(place);
 
       for (let addressComponent of place["address_components"]) {
         const types = addressComponent["types"];
-        console.log(addressComponent);
 
         if (types.includes("street_number")) {
-          if (!("address_line_1" in address)) {
-            address["address_line_1"] = "";
+          if (!("street_address" in address)) {
+            address["street_address"] = "";
           }
-          address["address_line_1"] =
-            addressComponent["long_name"] + " " + address["address_line_1"];
+          address["street_address"] =
+            addressComponent["long_name"] + " " + address["street_address"];
         }
 
         if (types.includes("route")) {
-          if (!("address_line_1" in address)) {
-            address["address_line_1"] = "";
+          if (!("street_address" in address)) {
+            address["street_address"] = "";
           }
-          address["address_line_1"] =
-            address["address_line_1"] + addressComponent["long_name"];
+          address["street_address"] =
+            address["street_address"] + addressComponent["long_name"];
         }
 
         if (types.includes("locality") || types.includes("postal_town")) {
@@ -51,15 +61,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
       }
 
-      console.log(address);
-
       for (let fieldName in address) {
         for (const field of document.getElementsByName(fieldName)) {
           field.value = address[fieldName];
         }
       }
-
-      addressSearchField.value = "";
     });
   }
 });

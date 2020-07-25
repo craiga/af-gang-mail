@@ -12,28 +12,28 @@ from af_gang_mail import models
 class UpdateNameAndAddress(forms.ModelForm):
     """Update name and address."""
 
-    address_search = forms.CharField(required=False)
-
     class Meta:
         model = models.User
         widgets = {
-            "address_search": forms.TextInput(),
-            "address_line_1": forms.TextInput(),
-            "address_line_2": forms.TextInput(),
-            "address_city": forms.TextInput(),
-            "address_state": forms.TextInput(),
-            "address_postcode": forms.TextInput(),
+            # Autocomplete values taken from
+            # https://html.spec.whatwg.org/multipage/form-control-infrastructure.html
+            "first_name": forms.TextInput(attrs={"autocomplete": "given-name"}),
+            "last_name": forms.TextInput(attrs={"autocomplete": "family-name"}),
+            "street_address": forms.Textarea(
+                attrs={"rows": 3, "autocomplete": "street-address"}
+            ),
+            "address_city": forms.TextInput(attrs={"autocomplete": "address-level2"}),
+            "address_state": forms.TextInput(attrs={"autocomplete": "address-level1"}),
+            "address_postcode": forms.TextInput(attrs={"autocomplete": "postal-code"}),
         }
         fields = [
             "first_name",
             "last_name",
-            "address_search",
-            "address_line_1",
-            "address_line_2",
+            "address_country",
+            "street_address",
             "address_city",
             "address_state",
             "address_postcode",
-            "address_country",
         ]
 
 

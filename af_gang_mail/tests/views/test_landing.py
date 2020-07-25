@@ -30,7 +30,7 @@ def user_name_kwargs():
 @pytest.fixture
 def user_address_kwargs():
     return {
-        "address_line_1": "1049 Gotho Road",
+        "street_address": "1049 Gotho Road",
         "address_city": "Bristol",
         "address_country": "GB",
     }

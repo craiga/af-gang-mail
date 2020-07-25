@@ -31,8 +31,7 @@ class UserManager(auth.models.UserManager):
 class User(auth.models.AbstractUser):
     """User"""
 
-    address_line_1 = models.TextField("Address line 1", blank=True, null=False)
-    address_line_2 = models.TextField("Address line 2", blank=True, null=False)
+    street_address = models.TextField("Street Address", blank=True, null=False)
     address_city = models.TextField("City", blank=True, null=False)
     address_state = models.TextField("State", blank=True, null=False)
     address_postcode = models.TextField("Postcode", blank=True, null=False)
@@ -56,8 +55,7 @@ class User(auth.models.AbstractUser):
         """Get the parts of the address."""
 
         address_parts = [
-            self.address_line_1,
-            self.address_line_2,
+            self.street_address,
             self.address_city,
             self.address_state,
             self.address_postcode,

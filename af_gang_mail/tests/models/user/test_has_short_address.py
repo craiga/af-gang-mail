@@ -7,22 +7,21 @@ from model_bakery import baker
 
 
 @pytest.mark.parametrize(
-    "line1, line2, city, state, postcode, country",
+    "street_address, city, state, postcode, country",
     [
-        ("", "", "", "", "", ""),
-        ("1049 Gotho Road", "", "", "", "", ""),
-        ("", "", "", "", "BS4 4AR", ""),
-        ("1049 Gotho Road", "", "", "", "BS4 4AR", ""),
-        ("", "", "", "", "BS4 4AR", "GB"),
+        ("", "", "", "", ""),
+        ("1049 Gotho Road", "", "", "", ""),
+        ("", "", "", "BS4 4AR", ""),
+        ("1049 Gotho Road", "", "", "BS4 4AR", ""),
+        ("", "", "", "BS4 4AR", "GB"),
     ],
 )
-def test_short_address(line1, line2, city, state, postcode, country):
+def test_short_address(street_address, city, state, postcode, country):
     """Test has_short_address."""
 
     user = baker.prepare(
         "af_gang_mail.User",
-        address_line_1=line1,
-        address_line_2=line2,
+        street_address=street_address,
         address_city=city,
         address_state=state,
         address_postcode=postcode,
@@ -32,16 +31,15 @@ def test_short_address(line1, line2, city, state, postcode, country):
 
 
 @pytest.mark.parametrize(
-    "line1, line2, city, state, postcode, country",
-    [("1049 Gotho Road", "", "Bristol", "", "", "GB"),],
+    "street_address, city, state, postcode, country",
+    [("1049 Gotho Road", "Bristol", "", "", "GB"),],
 )
-def test_long_address(line1, line2, city, state, postcode, country):
+def test_long_address(street_address, city, state, postcode, country):
     """Test has_short_address with long address."""
 
     user = baker.prepare(
         "af_gang_mail.User",
-        address_line_1=line1,
-        address_line_2=line2,
+        street_address=street_address,
         address_city=city,
         address_state=state,
         address_postcode=postcode,
