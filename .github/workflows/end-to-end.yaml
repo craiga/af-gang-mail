@@ -27,8 +27,21 @@ jobs:
           RESPONSE=`curl \
             --request POST https://api.heroku.com/app-setups \
             --header "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" \
-            --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3" \
-            --data "{\"source_blob\": {\"url\": \"$ARCHIVE_URL\"}, \"app\": {\"name\": \"$HEROKU_APP_NAME\", \"organization\": \"uhf62\"}}" \
+            --header "Content-Type: application/json" \
+            --header "Accept: application/vnd.heroku+json; version=3" \
+            --data \
+            "{\
+              \"source_blob\": {\"url\": \"$ARCHIVE_URL\"}, \
+              \"app\": {\"name\": \"$HEROKU_APP_NAME\", \"organization\": \"uhf62\"}, \
+              \"overrides\": {\"env\": { \
+                \"SENTRY_DSN\": \"${{ secrets.SENTRY_DSN }}\", \
+                \"SENTRY_ENVIRONMENT\": \"$HEROKU_APP_NAME\", \
+                \"SENTRY_RELEASE\": \"$GITHUB_SHA\", \
+                \"SMTP_SERVER\": \"smtp.mailtrap.io\", \
+                \"SMTP_USERNAME\": \"${{ secrets.MAILTRAP_SMTP_USERNAME }}\", \
+                \"SMTP_PASSWORD\": \"${{ secrets.MAILTRAP_SMTP_PASSWORD }}\" \
+              }} \
+            }" \
             --silent`
           echo "Heroku App Setup API Response: $RESPONSE"
           export HEROKU_SETUP_ID=`echo "$RESPONSE" | jq ".id" -r`
@@ -43,15 +56,6 @@ jobs:
         run: |
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
             heroku labs:enable runtime-dyno-metadata --app $HEROKU_APP_NAME
-          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
-            heroku drains:add ${{ secrets.HEROKU_DRAIN_URL }} --app $HEROKU_APP_NAME
-          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
-            heroku config:set --app $HEROKU_APP_NAME \
-            SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
-            GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
-            SMTP_SERVER=smtp.mailtrap.io \
-            SMTP_USERNAME=${{ secrets.MAILTRAP_SMTP_USERNAME }} \
-            SMTP_PASSWORD=${{ secrets.MAILTRAP_SMTP_PASSWORD }}
       - name: Wait for Heroku
         run: |
           until [ `curl \
