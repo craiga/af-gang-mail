@@ -21,7 +21,7 @@ pytest-repeat = "*"
 pyfakefs = "*"
 
 [packages]
-django = "*"
+django = {extras = ["argon2"], version = "*"}
 gunicorn = "*"
 dj-database-url = "*"
 psycopg2 = "*"

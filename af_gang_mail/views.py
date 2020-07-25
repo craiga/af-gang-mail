@@ -138,7 +138,7 @@ class Landing(TemplateView):
         return context_data
 
     def get(self, request, *args, **kwargs):
-        """If logged in user doesn't have name or address, redirect them to enter those details."""
+        """If user is logged in, redirect them to home."""
 
         user = request.user
         if user.is_authenticated:
@@ -149,8 +149,8 @@ class Landing(TemplateView):
                     mark_safe(
                         "Normally you would be redirected to "
                         f"<a href='{ redirect_url }'>{ redirect_url }</a>, "
-                        "but as you're logged in as a user with edit permissions you can stay "
-                        "on this page to update it's content."
+                        "but as you're logged in as a user with edit permissions you "
+                        "can stay on this page to update it's content."
                     ),
                     fail_silently=True,
                 )
@@ -271,7 +271,8 @@ class DrawExchange(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 
         messages.info(
             self.request,
-            f"Task to draw { exchange.name } has been submitted. Refresh this page to see results.",
+            f"Task to draw { exchange.name } has been submitted. "
+            "Refresh this page to see results.",
             fail_silently=True,
         )
 
@@ -317,9 +318,9 @@ class StyleGallery(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
             write_message(
                 self.request,
                 (
-                    f"Quite an unnecessarily long { tag } message with lots of verbose waffling "
-                    "detail about not much at all. In fact, you might suspect that it's "
-                    "completely, 100 percent contrieved."
+                    f"Quite an unnecessarily long { tag } message with lots of verbose "
+                    "waffling detail about not much at all. In fact, you might suspect "
+                    "that it's completely, 100 percent contrieved."
                 ),
             )
 

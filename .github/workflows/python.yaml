@@ -24,3 +24,5 @@ jobs:
           pipenv install --dev
       - name: Lint Python Code
         run: make lint-python
+        env:
+          DJANGO_SETTINGS_MODULE: af_gang_mail.settings

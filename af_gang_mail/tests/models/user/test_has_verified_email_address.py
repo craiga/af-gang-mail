@@ -17,7 +17,9 @@ def test_has_verified_email_address(user):
 
 @pytest.mark.django_db
 def test_does_not_have_verified_email_address(user):
-    """Test has_verified_email_address when user doesn't have a verified email address."""
+    """
+    Test has_verified_email_address when user doesn't have a verified email address.
+    """
 
     baker.make(EmailAddress, user=user, verified=False)
     baker.make(EmailAddress, user=user, verified=False)

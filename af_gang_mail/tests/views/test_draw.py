@@ -42,7 +42,9 @@ def test(
 
 @pytest.mark.django_db
 def test_not_drawn(view, rf, user, drawn_not_sent_exchange):
-    """User is in the exchange but didn't validate their email address so wasn't drawn."""
+    """
+    User is in the exchange but didn't validate their email address so wasn't drawn.
+    """
 
     request = rf.get("/")
     request.user = user
