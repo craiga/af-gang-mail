@@ -144,6 +144,11 @@ fix-js: ## Attempt to fix JavaScript issues reported by the linter.
 images: ## Resize and optimize images.
 	./make-images.sh
 
+sort:  ## Sort files.
+	sort .dictionary --ignore-case --output .dictionary
+	sort .gitignore --ignore-case --output .gitignore
+	sort .prettierignore --ignore-case --output .prettierignore
+
 help: ## Display this help screen.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
