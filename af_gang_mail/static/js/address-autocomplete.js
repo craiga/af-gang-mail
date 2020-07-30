@@ -5,8 +5,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
   const addressSearchField = document.getElementById("id_address_search");
   if (addressSearchField) {
     let autocomplete = new google.maps.places.Autocomplete(addressSearchField, {
-      // "types": ["address"],
-      fields: ["address_components", "type"],
+      fields: ["address_components"],
+    });
+
+    const countrySelect = document.getElementById("id_address_country");
+    const country = countrySelect[countrySelect.selectedIndex].value;
+    if (country) {
+      autocomplete.setComponentRestrictions({ country: country });
+    }
+
+    countrySelect.addEventListener("change", (event) => {
+      const country = countrySelect[countrySelect.selectedIndex].value;
+      if (country) {
+        autocomplete.setComponentRestrictions({ country: country });
+      }
     });
 
     autocomplete.addListener("place_changed", function () {
@@ -51,15 +63,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
       }
 
-      console.log(address);
-
       for (let fieldName in address) {
         for (const field of document.getElementsByName(fieldName)) {
           field.value = address[fieldName];
         }
       }
-
-      addressSearchField.value = "";
     });
   }
 });
