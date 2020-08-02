@@ -243,7 +243,7 @@ class CreateExchange(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = forms.Exchange
 
     def get_success_url(self):
-        return urls.reverse("view-exchange", kwargs={"slug": self.get_object().slug})
+        return urls.reverse("view-exchange", kwargs={"slug": self.object.slug})
 
 
 class UpdateExchange(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
