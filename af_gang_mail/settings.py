@@ -392,7 +392,15 @@ CKEDITOR_CONFIGS = {
 # django-tz-detect
 # https://github.com/adamcharnock/django-tz-detect
 
-TZ_DETECT_COUNTRIES = ["GB", "US"]
+TZ_DETECT_COUNTRIES = ["GB", "US", "CA", "FR", "DE", "AU", "NZ"]
+
+
+# django-countries
+# https://github.com/SmileyChris/django-countries
+
+COUNTRIES_FIRST = TZ_DETECT_COUNTRIES
+COUNTRIES_FIRST_SORT = False
+COUNTRIES_FIRST_REPEAT = True
 
 
 # Draw creation

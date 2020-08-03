@@ -27,13 +27,13 @@ class UpdateNameAndAddress(forms.ModelForm):
         fields = [
             "first_name",
             "last_name",
+            "address_country",
             "address_search",
             "address_line_1",
             "address_line_2",
             "address_city",
             "address_state",
             "address_postcode",
-            "address_country",
         ]
 
 
