@@ -125,6 +125,9 @@ class Exchange(models.Model):
 
         return super().clean()
 
+    class Meta:
+        ordering = ["drawn"]
+
 
 class DrawManager(models.Manager):
     """Draw manager."""
