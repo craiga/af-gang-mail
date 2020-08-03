@@ -67,6 +67,9 @@ jobs:
           do
             sleep 1
           done
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
+            heroku ps:wait --type web --app $HEROKU_APP_NAME
+          curl https://$HEROKU_APP_NAME.herokuapp.com --head --fail
       - name: Run Tests
         run: npm run cypress run -- --config baseUrl=https://$HEROKU_APP_NAME.herokuapp.com,execTimeout=120000
         env:
