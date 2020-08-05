@@ -1,0 +1,167 @@
+[
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 1,
+    "fields": {
+      "name": "July",
+      "slug": "july",
+      "drawn": "2020-07-01T00:00:00Z",
+      "sent": "2020-07-08T00:00:00Z",
+      "received": "2020-07-15T00:00:00Z",
+      "created": "2020-06-25T17:05:28.045Z",
+      "updated": "2020-07-05T15:23:42.671Z",
+      "draw_started": "2020-07-05T15:23:42.663Z",
+      "send_emails": false
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 3,
+    "fields": {
+      "name": "September",
+      "slug": "september",
+      "drawn": "2020-09-01T00:00:00Z",
+      "sent": "2020-09-14T00:00:00Z",
+      "received": "2020-09-28T00:00:00Z",
+      "created": "2020-06-25T17:07:09.380Z",
+      "updated": "2020-08-02T12:49:09.026Z",
+      "draw_started": null,
+      "send_emails": true
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 5,
+    "fields": {
+      "name": "July",
+      "slug": "mid-july",
+      "drawn": "2020-07-14T11:00:00Z",
+      "sent": "2020-07-16T11:00:00Z",
+      "received": "2020-07-18T11:00:00Z",
+      "created": "2020-07-06T22:16:28.107Z",
+      "updated": "2020-07-14T11:04:38.410Z",
+      "draw_started": "2020-07-14T11:04:38.407Z",
+      "send_emails": true
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 6,
+    "fields": {
+      "name": "Test 7 July",
+      "slug": "test-7-july",
+      "drawn": "2020-07-07T12:00:00Z",
+      "sent": "2020-07-08T11:00:00Z",
+      "received": "2020-07-09T11:00:00Z",
+      "created": "2020-07-07T11:35:10.136Z",
+      "updated": "2020-07-07T12:05:37.687Z",
+      "draw_started": "2020-07-07T12:05:37.683Z",
+      "send_emails": false
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 7,
+    "fields": {
+      "name": "Test 8 July",
+      "slug": "test-8-july",
+      "drawn": "2020-07-08T19:10:00Z",
+      "sent": "2020-07-09T11:00:00Z",
+      "received": "2020-07-10T11:00:00Z",
+      "created": "2020-07-08T19:05:40.774Z",
+      "updated": "2020-07-08T19:11:41.007Z",
+      "draw_started": "2020-07-08T19:11:41.004Z",
+      "send_emails": false
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 8,
+    "fields": {
+      "name": "First Email Test Exchange",
+      "slug": "first-email-test-exchange",
+      "drawn": "2020-07-09T17:00:00Z",
+      "sent": "2020-07-10T11:00:00Z",
+      "received": "2020-07-11T11:00:00Z",
+      "created": "2020-07-09T16:15:50.547Z",
+      "updated": "2020-07-09T17:10:28.704Z",
+      "draw_started": "2020-07-09T17:10:28.694Z",
+      "send_emails": true
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 9,
+    "fields": {
+      "name": "October",
+      "slug": "october",
+      "drawn": "2020-10-01T11:00:00Z",
+      "sent": "2020-10-14T11:00:00Z",
+      "received": "2020-10-28T12:00:00Z",
+      "created": "2020-08-02T12:41:32.110Z",
+      "updated": "2020-08-02T12:41:32.110Z",
+      "draw_started": null,
+      "send_emails": true
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 10,
+    "fields": {
+      "name": "November",
+      "slug": "november",
+      "drawn": "2020-11-01T12:00:00Z",
+      "sent": "2020-11-14T12:00:00Z",
+      "received": "2020-11-28T12:00:00Z",
+      "created": "2020-08-03T18:37:54.110Z",
+      "updated": "2020-08-03T18:37:54.110Z",
+      "draw_started": null,
+      "send_emails": true
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 11,
+    "fields": {
+      "name": "Glitter Fest 3 ✨",
+      "slug": "glitter-fest-3",
+      "drawn": "2020-12-01T12:00:00Z",
+      "sent": "2020-12-14T12:00:00Z",
+      "received": "2020-12-28T12:00:00Z",
+      "created": "2020-08-03T19:01:59.068Z",
+      "updated": "2020-08-03T19:01:59.068Z",
+      "draw_started": null,
+      "send_emails": true
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 12,
+    "fields": {
+      "name": "January",
+      "slug": "january",
+      "drawn": "2021-01-01T12:00:00Z",
+      "sent": "2021-01-14T12:00:00Z",
+      "received": "2021-01-28T12:00:00Z",
+      "created": "2020-08-03T19:03:12.317Z",
+      "updated": "2020-08-03T19:03:12.317Z",
+      "draw_started": null,
+      "send_emails": true
+    }
+  },
+  {
+    "model": "af_gang_mail.exchange",
+    "pk": 13,
+    "fields": {
+      "name": "February",
+      "slug": "february",
+      "drawn": "2021-02-01T12:00:00Z",
+      "sent": "2021-02-14T12:00:00Z",
+      "received": "2021-02-28T12:00:00Z",
+      "created": "2020-08-03T19:10:21.958Z",
+      "updated": "2020-08-03T19:10:21.958Z",
+      "draw_started": null,
+      "send_emails": true
+    }
+  }
+]

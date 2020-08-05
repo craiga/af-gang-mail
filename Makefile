@@ -96,6 +96,9 @@ dump:  ## Write a Django data dump to dump.json.
 flatblocks:  ## Write Flat Blocks fixture from production data.
 	heroku run --app af-gang-mail python manage.py dumpdata flatblocks | jq > af_gang_mail/fixtures/flatblocks.json
 
+exchanges:  ## Write Exchanges fixture from production data.
+	heroku run --app af-gang-mail python manage.py dumpdata af_gang_mail.exchange | jq > af_gang_mail/fixtures/exchanges.json
+
 scss:  ## Build SCSS.
 	npm run sass -- . --load-path node_modules
 
