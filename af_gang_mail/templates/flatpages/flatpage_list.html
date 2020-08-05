@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load render_table from django_tables2 %}
+
+{% block content %}
+
+<div class="yellow-box">
+  <h1>Manage Pages</h1>
+  {% render_table table %}
+  <nav>
+     {% if perms.flatpages.add_flatpage %}
+       <a href="{% url 'create-flatpage' %}">Create</a>
+     {% endif %}
+   </nav>
+</div>
+
+{% endblock %}

@@ -3,10 +3,11 @@
 from math import floor
 
 from django import http, urls
-from django.contrib import messages
+from django.contrib import flatpages, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms.models import model_to_dict
+from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
 from django.views.generic import (
     CreateView,
@@ -438,10 +439,37 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         return context_data
 
 
-class Privacy(TemplateView):
-    """Privacy document."""
+class ManageFlatPages(LoginRequiredMixin, PermissionRequiredMixin, SingleTableView):
+    """List flat pages."""
 
-    template_name = "af_gang_mail/privacy.html"
+    permission_required = "af_gang_mail.view_flat_page"
+    model = flatpages.models.FlatPage
+    table_class = tables.FlatPage
+    paginator_class = LazyPaginator
+
+
+@method_decorator(csp_exempt, name="dispatch")
+class CreateFlatPage(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    """Create flat page."""
+
+    permission_required = "flatpage.add_flatpage"
+    model = flatpages.models.FlatPage
+    form_class = forms.FlatPage
+
+    def get_success_url(self):
+        return urls.reverse("manage-flatpages")
+
+
+@method_decorator(csp_exempt, name="dispatch")
+class UpdateFlatPage(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    """Modify flat page."""
+
+    permission_required = "flatpage.change_flatpage"
+    model = flatpages.models.FlatPage
+    form_class = forms.FlatPage
+
+    def get_success_url(self):
+        return urls.reverse("manage-flatpages")
 
 
 @csp_exempt

@@ -1,5 +1,7 @@
 """Tables"""
 
+from django.contrib import flatpages
+
 import django_tables2 as tables
 from django_tables2 import columns
 from django_tables2.utils import A
@@ -51,4 +53,17 @@ class Draw(tables.Table):
         fields = [
             "sender",
             "recipient",
+        ]
+
+
+class FlatPage(tables.Table):
+    """Flat page table."""
+
+    title = columns.LinkColumn(viewname="update-flatpage", kwargs={"pk": A("id")},)
+
+    class Meta:
+        model = flatpages.models.FlatPage
+        fields = [
+            "title",
+            "url",
         ]

@@ -54,6 +54,7 @@ ENFORCE_HOST = os.environ.get("CANONICAL_HOST")
 INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
+    "django.contrib.flatpages",
     "django.contrib.humanize",
     "django.contrib.messages",
     "django.contrib.sessions",
@@ -67,6 +68,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "ckeditor",
+    "ckeditor_uploader",
     "crispy_forms",
     "debug_toolbar",
     "django_countries",
@@ -172,6 +174,18 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
+# Media
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "af-gang-mail")
+AWS_QUERYSTRING_AUTH = (
+    False  # https://django-ckeditor.readthedocs.io/en/latest/#using-s3
+)
+
+
 # Internal IPs (required for Django Debug Toolbar)
 # https://docs.djangoproject.com/en/stable/ref/settings/#internal-ips
 
@@ -241,6 +255,8 @@ CSP_IMG_SRC = [
     "'self'",
     "https://maps.gstatic.com/mapfiles/api-3/images/",
     "https://*.usefathom.com",
+    "https://af-gang-mail.s3.amazonaws.com/",
+    "https://af-gang-mail.s3-eu-west-1.amazonaws.com/",
 ]
 CSP_CONNECT_SRC = ["'self'", "https://*.ingest.sentry.io", "https://*.usefathom.com"]
 CSP_STYLE_SRC = [
@@ -266,7 +282,7 @@ FEATURE_POLICY = {
 
 
 # Sites
-# https://docs.djangoproject.com/en/3.0/ref/contrib/sites/
+# https://docs.djangoproject.com/en/stable/ref/contrib/sites/
 
 SITE_ID = 1
 
@@ -383,10 +399,12 @@ CKEDITOR_CONFIGS = {
             ["Bold", "Italic"],
             ["NumberedList", "BulletedList"],
             ["Link", "Unlink"],
+            ["Image"],
             ["RemoveFormat", "Source"],
         ],
     },
 }
+CKEDITOR_UPLOAD_PATH = "/"
 
 
 # django-tz-detect

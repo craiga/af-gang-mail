@@ -3,7 +3,8 @@
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.decorators import permission_required
-from django.urls import include, path
+from django.contrib.flatpages.views import flatpage
+from django.urls import include, path, re_path
 
 from af_gang_mail import views
 
@@ -53,6 +54,15 @@ urlpatterns = [
     path(
         "manage-exchanges/", views.ManageExchanges.as_view(), name="manage-exchanges",
     ),
+    path("create-flatpage/", views.CreateFlatPage.as_view(), name="create-flatpage"),
+    path(
+        "manage-flatpages/<int:pk>/edit/",
+        views.UpdateFlatPage.as_view(),
+        name="update-flatpage",
+    ),
+    path(
+        "manage-flatpages/", views.ManageFlatPages.as_view(), name="manage-flatpages",
+    ),
     path("style-gallery/", views.StyleGallery.as_view(), name="style-gallery"),
     path("page-index/", views.PageIndex.as_view(), name="page-index"),
     path("home/", views.Home.as_view(), name="home"),
@@ -66,7 +76,8 @@ urlpatterns = [
     path("tz_detect/", include("tz_detect.urls")),
     path("exchange/<slug:slug>/", views.Draw.as_view(), name="draw"),
     path("statto/", views.Statto.as_view(), name="statto"),
-    path("privacy/", views.Privacy.as_view(), name="privacy"),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
+    re_path(r"^(?P<url>.*/)$", flatpage),
     path("", views.Landing.as_view(), name="landing"),
 ]
 

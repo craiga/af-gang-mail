@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "868b4855d0206a800460bb466af4841c97d9601b69e4ca08a75d173580b884a8"
+            "sha256": "b68726081129e0e8cc91ba37563ff455d7286b31cab0d74ad4d793a990dc6d15"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -59,6 +59,21 @@
                 "sha256:d91725ce6425f33a97dfa72fb6bfef0e47d4652acd98a032bd1a7fbf06d5fa6a"
             ],
             "version": "==3.6.3.0"
+        },
+        "boto3": {
+            "hashes": [
+                "sha256:cbafcae500bbffcf723c6b34bfede0eb5bb04cf41788fc732ce95d08fcf90a62",
+                "sha256:df19f35e2d73e77c72f756f98805785f45dd26c608b704b105e9f8fec6992c1e"
+            ],
+            "index": "pypi",
+            "version": "==1.14.35"
+        },
+        "botocore": {
+            "hashes": [
+                "sha256:0f69698a59e7829d34851ea5025338bddc4352300ba7df619842eac173bc4a4e",
+                "sha256:8b55eb0d5ea82e383649eca3129ae0979781a97ac51c0375dfcb300178e5f2fb"
+            ],
+            "version": "==1.17.35"
         },
         "celery": {
             "hashes": [
@@ -247,6 +262,14 @@
             ],
             "version": "==1.2.2"
         },
+        "django-storages": {
+            "hashes": [
+                "sha256:3103991c2ee8cef8a2ff096709973ffe7106183d211a79f22cf855f33533d924",
+                "sha256:a59e9923cbce7068792f75344ed7727021ee4ac20f227cf17297d0d03d141e91"
+            ],
+            "index": "pypi",
+            "version": "==1.9.1"
+        },
         "django-su": {
             "hashes": [
                 "sha256:8f624aed76bd93febe75554b5f14230be56a741d1cf8375673232f0e161af6c5",
@@ -270,6 +293,15 @@
             ],
             "index": "pypi",
             "version": "==0.3.0"
+        },
+        "docutils": {
+            "hashes": [
+                "sha256:6c4f696463b79f1fb8ba0c594b63840ebd41f059e92b31957c46b74a4599b6d0",
+                "sha256:9e4d7ecfc600058e07ba661411a2b7de2fd0fafa17d1a7f7361cd47b1175c827",
+                "sha256:a2aeea129088da402665e92e0b25b04b073c04b2dce4ab65caaa38b7ce2e1a99"
+            ],
+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "version": "==0.15.2"
         },
         "factory-boy": {
             "hashes": [
@@ -302,6 +334,14 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.10"
+        },
+        "jmespath": {
+            "hashes": [
+                "sha256:b85d0567b8666149a93172712e68920734333c0ce7e89b78b3e987f71e5ed4f9",
+                "sha256:cdf6525904cc597730141d61b36f2e4b8ecc257c420fa2f4549bac2c2d0cb72f"
+            ],
+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "version": "==0.10.0"
         },
         "kombu": {
             "hashes": [
@@ -391,6 +431,13 @@
             ],
             "version": "==1.3.0"
         },
+        "s3transfer": {
+            "hashes": [
+                "sha256:2482b4259524933a022d59da830f51bd746db62f047d6eb213f2f8855dcb8a13",
+                "sha256:921a37e2aefc64145e7b73d50c71bb4f26f46e4c9f414dc648c6245ff92cf7db"
+            ],
+            "version": "==0.3.3"
+        },
         "sentry-sdk": {
             "hashes": [
                 "sha256:21b17d6aa064c0fb703a7c00f77cf6c9c497cf2f83345c28892980a5e742d116",
@@ -435,7 +482,7 @@
                 "sha256:91056c15fa70756691db97756772bb1eb9678fa585d9184f24534b100dc60f4a",
                 "sha256:e7983572181f5e1522d9c98453462384ee92a0be7fac5f1413a1e35c56cc0461"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
+            "markers": "python_version != '3.4'",
             "version": "==1.25.10"
         },
         "vine": {
@@ -797,11 +844,11 @@
         },
         "pylint-django": {
             "hashes": [
-                "sha256:20e4d5f3987e96d29ce51ef24f13187f0d23f37a0558b6eed9b5571487ba3f4c",
-                "sha256:d47f278f2ef9244decc006a7412d0ea6bebe1594e6b5402703febbac036ba401"
+                "sha256:770e0c55fb054c6378e1e8bb3fe22c7032a2c38ba1d1f454206ee9c6591822d7",
+                "sha256:b8dcb6006ae9fa911810aba3bec047b9410b7d528f89d5aca2506b03c9235a49"
             ],
             "index": "pypi",
-            "version": "==2.2.0"
+            "version": "==2.3.0"
         },
         "pylint-plugin-utils": {
             "hashes": [
