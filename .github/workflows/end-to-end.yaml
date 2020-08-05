@@ -37,8 +37,6 @@ jobs:
                 \"SENTRY_ENVIRONMENT\": \"$HEROKU_APP_NAME\", \
                 \"SENTRY_RELEASE\": \"$GITHUB_SHA\", \
                 \"SMTP_SERVER\": \"smtp.mailtrap.io\", \
-                \"SMTP_USERNAME\": \"${{ secrets.MAILTRAP_SMTP_USERNAME }}\", \
-                \"SMTP_PASSWORD\": \"${{ secrets.MAILTRAP_SMTP_PASSWORD }}\", \
                 \"GOOGLE_API_KEY\": \"${{ secrets.GOOGLE_API_KEY }}\" \
               }} \
             }" \
@@ -56,6 +54,23 @@ jobs:
         run: |
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
             heroku labs:enable runtime-dyno-metadata --app $HEROKU_APP_NAME
+      - name: Create Inbox
+        run: |
+          RESPONSE=`curl \
+            --request "POST" \
+            "https://mailtrap.io/api/v1/companies/${{ secrets.MAILTRAP_COMPANY_ID }}/inboxes" \
+            --header 'Content-Type: application/json' \
+            --header 'Api-Token: ${{ secrets.MAILTRAP_API_TOKEN }}' \
+            --data "{\"inbox\": {\"name\": \"$HEROKU_APP_NAME\"}}" \
+            --silent`
+          export MAILTRAP_INBOX_ID=`echo "$RESPONSE" | jq ".id" -r`
+          echo "Inbox ID: $MAILTRAP_INBOX_ID"
+          echo "::set-env name=MAILTRAP_INBOX_ID::$MAILTRAP_INBOX_ID"
+          HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
+            heroku config:set --app $HEROKU_APP_NAME \
+            SMTP_USERNAME=`echo "$RESPONSE" | jq ".username" -r` \
+            SMTP_PASSWORD=`echo "$RESPONSE" | jq ".password" -r` \
+            SMTP_SERVER=`echo "$RESPONSE" | jq ".domain" -r`
       - name: Wait for Heroku
         run: |
           until [ `curl \
@@ -71,13 +86,23 @@ jobs:
             heroku ps:wait --type web --app $HEROKU_APP_NAME
           curl https://$HEROKU_APP_NAME.herokuapp.com --head --fail
       - name: Run Tests
-        run: npm run cypress run -- --config baseUrl=https://$HEROKU_APP_NAME.herokuapp.com,execTimeout=120000
+        run: |
+          CYPRESS_MAILTRAP_INBOX_ID=$MAILTRAP_INBOX_ID \
+            npm run cypress run -- \
+            --config baseUrl=https://$HEROKU_APP_NAME.herokuapp.com,execTimeout=120000
         env:
           CYPRESS_DJANGO_MANAGE_COMMAND: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku run --app $HEROKU_APP_NAME --exit-code python manage.py
           CYPRESS_MAILTRAP_API_TOKEN: ${{ secrets.MAILTRAP_API_TOKEN }}
       - name: Destroy Heroku Deployment
         if: ${{ always() }}
         run: HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} heroku apps:destroy $HEROKU_APP_NAME --confirm $HEROKU_APP_NAME
+      - name: Destroy Inbox
+        if: ${{ always() }}
+        run: |
+          curl \
+            --request "DELETE" \
+            "https://mailtrap.io/api/v1/$MAILTRAP_INBOX_ID/inboxes" \
+            --header 'Api-Token: ${{ secrets.MAILTRAP_API_TOKEN }}'
       - name: Save Video
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
