@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ request.site.name }} — {{ flatpage.title }}{% endblock %}
+
+{% block content %}
+  <section class="yellow-box">
+    <h1>{{ flatpage.title }}</h1>
+    {{ flatpage.content }}
+  </section>
+{% endblock %}

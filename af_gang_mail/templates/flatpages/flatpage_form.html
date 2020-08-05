@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags static %}
+
+{% block content %}
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button>Save</button>
+    <a class="button secondary" href="{% url 'manage-flatpages' %}">Back to List</a>
+  </form>
+
+{% endblock %}
+
+{% block script %}
+  <script nonce="{{ request.csp_nonce }}">window.CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/";</script>
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+{% endblock %}

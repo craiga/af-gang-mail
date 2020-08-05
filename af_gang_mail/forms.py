@@ -1,9 +1,10 @@
 """Forms"""
 
 from django import forms, template
+from django.contrib import flatpages
 
 from allauth.account import forms as allauth_forms
-from ckeditor.widgets import CKEditorWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from flatblocks import forms as flatblock_forms
 
 from af_gang_mail import models
@@ -129,4 +130,9 @@ class SignupForm(AllauthFormWithEmailMixin, allauth_forms.SignupForm):
 
 class FlatBlock(flatblock_forms.FlatBlockForm):
     class Meta(flatblock_forms.FlatBlockForm.Meta):
-        widgets = {"content": CKEditorWidget()}
+        widgets = {"content": CKEditorUploadingWidget()}
+
+
+class FlatPage(flatpages.forms.FlatpageForm):
+    class Meta(flatpages.forms.FlatpageForm.Meta):
+        widgets = {"content": CKEditorUploadingWidget()}
