@@ -65,6 +65,7 @@ cypress-web:  ## Build and serve the web site for Cypress.
 
 cypress-worker:  ## Build and serve the web site for Cypress.
 	PIPENV_DONT_LOAD_ENV=1 \
+		DEBUG=1 \
 		DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress \
 		SMTP_SERVER=smtp.mailtrap.io \
 		SMTP_USERNAME=`cat .env | grep MAILTRAP_SMTP_USERNAME | sed "s/MAILTRAP_SMTP_USERNAME=//"` \
@@ -74,11 +75,13 @@ cypress-worker:  ## Build and serve the web site for Cypress.
 cypress:  ## Run the Cypress test runner.
 	CYPRESS_DJANGO_MANAGE_COMMAND="PIPENV_DONT_LOAD_ENV=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py" \
 		CYPRESS_MAILTRAP_API_TOKEN=`cat .env | grep MAILTRAP_API_TOKEN | sed "s/MAILTRAP_API_TOKEN=//"` \
+		CYPRESS_MAILTRAP_INBOX_ID=`cat .env | grep MAILTRAP_INBOX_ID | sed "s/MAILTRAP_INBOX_ID=//"` \
 		$$(npm bin)/cypress run
 
 cypress-interactive:  ## Open the interactive Cypress test runner.
 	CYPRESS_DJANGO_MANAGE_COMMAND="PIPENV_DONT_LOAD_ENV=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py" \
 		CYPRESS_MAILTRAP_API_TOKEN=`cat .env | grep MAILTRAP_API_TOKEN | sed "s/MAILTRAP_API_TOKEN=//"` \
+		CYPRESS_MAILTRAP_INBOX_ID=`cat .env | grep MAILTRAP_INBOX_ID | sed "s/MAILTRAP_INBOX_ID=//"` \
 		$$(npm bin)/cypress open --config watchForFileChanges=false
 
 cypress-db:  ## Create database for Cypress.
