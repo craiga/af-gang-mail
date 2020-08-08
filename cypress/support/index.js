@@ -32,7 +32,7 @@ Cypress.Commands.add("visitUrlInEmail", (messageSearch) => {
     "https://mailtrap.io/api/v1/inboxes/" +
     Cypress.env("MAILTRAP_INBOX_ID") +
     "/messages?search=" +
-    messageSearch;
+    encodeURIComponent(messageSearch);
   cy.request({ url: url, headers: mailtrapHeaders })
     .its("body.0")
     .then((message) => {

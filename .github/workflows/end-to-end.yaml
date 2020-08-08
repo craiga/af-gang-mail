@@ -36,7 +36,6 @@ jobs:
                 \"SENTRY_DSN\": \"${{ secrets.SENTRY_DSN }}\", \
                 \"SENTRY_ENVIRONMENT\": \"$HEROKU_APP_NAME\", \
                 \"SENTRY_RELEASE\": \"$GITHUB_SHA\", \
-                \"SMTP_SERVER\": \"smtp.mailtrap.io\", \
                 \"GOOGLE_API_KEY\": \"${{ secrets.GOOGLE_API_KEY }}\" \
               }} \
             }" \
