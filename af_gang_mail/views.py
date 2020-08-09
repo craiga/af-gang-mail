@@ -38,7 +38,7 @@ class Home(LoginRequiredMixin, TemplateView):
         for exchange in user.exchanges.drawn_not_sent():
             try:
                 draw = user.draws_as_sender.get(exchange=exchange)
-                active_draws.append((exchange, draw.recipient))
+                active_draws.append((exchange, draw.recipient, draw.sender))
             except models.Draw.DoesNotExist:
                 pass
 
@@ -133,12 +133,9 @@ class Draw(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-
-        draw = models.Draw.objects.get(
+        context_data["draw"] = models.Draw.objects.get(
             exchange=context_data["exchange"], sender=self.request.user
         )
-        context_data["recipient"] = draw.recipient
-
         return context_data
 
 
@@ -319,6 +316,21 @@ class DeleteDrawsForExchange(LoginRequiredMixin, PermissionRequiredMixin, Detail
         return http.HttpResponseRedirect(
             urls.reverse("view-exchange", kwargs={"slug": exchange.slug})
         )
+
+
+class ViewDraw(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    """View draw."""
+
+    permission_required = "af_gang_mail.view_draw"
+    model = models.Draw
+    template_name = "af_gang_mail/manage_exchanges/view-draw.html"
+    context_object_name = "draw"
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["draw_data"] = model_to_dict(self.get_object())
+        context_data["draw_email_message"] = self.get_object().as_email_message()
+        return context_data
 
 
 class StyleGallery(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):

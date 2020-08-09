@@ -48,6 +48,9 @@ class User(tables.Table):
 class Draw(tables.Table):
     """Draw table."""
 
+    sender = columns.LinkColumn(viewname="view-draw", kwargs={"pk": A("id")},)
+    recipient = columns.LinkColumn(viewname="view-draw", kwargs={"pk": A("id")},)
+
     class Meta:
         model = models.Draw
         fields = [

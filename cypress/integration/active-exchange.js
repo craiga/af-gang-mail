@@ -28,16 +28,19 @@ describe("Active Exchange", () => {
 
     cy.contains("home-past-exchanges-intro");
 
-    cy.contains("You've been assigned Bob Userson in Cypress Test Exchange!");
+    cy.contains("You've drawn Bob Userson in Cypress Test Exchange!");
+    cy.contains("Bob Userson has drawn you!");
     cy.contains("See More Details").click();
 
     cy.contains("draw-intro");
+    cy.contains("You've drawn Bob Userson!");
     cy.contains("Bob Userson");
     cy.contains("74-76 Johnston Street");
     cy.contains("Fitzroy");
     cy.contains("Victoria");
     cy.contains("3065");
     cy.contains("Australia");
+    cy.contains("Bob Userson has drawn you!");
   });
   it("User can get details of active exchange from email.", () => {
     cy.visitUrlInEmail("alice@afgang.co.uk");

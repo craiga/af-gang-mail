@@ -26,9 +26,10 @@
   </section>
 {% endif %}
 
-{% for exchange, recipient in active_draws %}
+{% for exchange, recipient, sender in active_draws %}
   <section class="white-box">
-    <p>You've been assigned {{ recipient }} in {{ exchange }}!</p>
+    <p>You've drawn {{ recipient }} in {{ exchange }}!</p>
+    <p>{{ sender }} has drawn you!</p>
     <a class="button" href="{% url 'draw' exchange.slug %}">See More Details</a>
   </section>
 {% endfor %}

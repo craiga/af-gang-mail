@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="yellow-box">
+  <dl>
+    {% for field, value in draw_data.items %}
+      <dt>{{ field }}</dt>
+      <dd>{{ value }}</dd>
+    {% endfor %}
+    <dt>Drawn Email Subject</dt>
+    <dd>{{ draw_email_message.subject }}</dd>
+    <dt>Drawn Email Body (Plain Text)</dt>
+    <dd><pre>{{ draw_email_message.body }}</pre></dd>
+    {% for email_body, mime_type in draw_email_message.alternatives %}
+      <dt>Drawn Email Body ({{ mime_type }})</dt>
+      <dd>{{ email_body }}</dd>
+    {% endfor %}
+  </dl>
+
+  <nav>
+    <a href="{% url 'view-exchange' slug=draw.exchange.slug %}">Back to {{ draw.exchange }}</a>
+  </nav>
+</div>
+
+{% endblock %}
