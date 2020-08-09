@@ -37,15 +37,8 @@ def user(exchange):
 
 
 @pytest.fixture
-def recipient():
-    return baker.make("af_gang_mail.User")
-
-
-@pytest.fixture
-def draw(exchange, user, recipient):
-    return baker.make(
-        "af_gang_mail.Draw", exchange=exchange, sender=user, recipient=recipient
-    )
+def draw(exchange, user):
+    return baker.make("af_gang_mail.Draw", exchange=exchange, sender=user)
 
 
 @pytest.mark.django_db

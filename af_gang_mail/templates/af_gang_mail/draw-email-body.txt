@@ -2,12 +2,7 @@
 
 Thanks for taking part in the {{ draw.exchange.name }} AF GANG mail exchange!
 
-You've been assigned … (drum roll…)
-
-{{ draw.recipient.get_full_name }}
-{{ draw.recipient.get_full_address }}
-
-Please send a gift to this person before {{ draw.exchange.sent|naturalday }}.
+{% include "af_gang_mail/_draw-details.txt" %}
 
 You can also get this information at {{ exchange_url }}
 

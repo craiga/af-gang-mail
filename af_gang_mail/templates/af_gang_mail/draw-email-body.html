@@ -6,10 +6,7 @@
 
 <p>Hi {{ draw.sender.get_full_name }},</p>
 <p>Thanks for taking part in the {{ draw.exchange.name }} AF GANG mail exchange!</p>
-<p>You've been assigned … (drum roll…)</p>
-<p>{{ draw.recipient.get_full_name }}</p>
-<p>{{ draw.recipient.get_full_address|linebreaksbr }}</p>
-<p>Please send a gift to this person before {{ draw.exchange.sent|naturalday }}.</p>
+{% include "af_gang_mail/_draw-details.html" %}
 <p>You can also get this information at <a href="{{ exchange_url }}">{{ exchange_url }}</a>.</p>
 <p>xo</p>
 <p>{{ site.name }}</p>
