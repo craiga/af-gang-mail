@@ -55,7 +55,9 @@ def test_active_draws(view, rf, user, exchange, draw):
     request = rf.get("/")
     request.user = user
     response = view(request)
-    assert response.context_data["active_draws"] == [(exchange, draw.recipient)]
+    assert response.context_data["active_draws"] == [
+        (exchange, draw.recipient, draw.sender)
+    ]
 
 
 @pytest.mark.django_db
