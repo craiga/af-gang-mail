@@ -40,7 +40,8 @@ jobs:
                 \"GOOGLE_API_KEY\": \"${{ secrets.GOOGLE_API_KEY }}\" \
               }} \
             }" \
-            --silent`
+            --silent \
+            --fail`
           echo "Heroku App Setup API Response: $RESPONSE"
           export HEROKU_SETUP_ID=`echo "$RESPONSE" | jq ".id" -r`
           echo "Setup ID: $HEROKU_SETUP_ID"
@@ -62,7 +63,8 @@ jobs:
             --header 'Content-Type: application/json' \
             --header 'Api-Token: ${{ secrets.MAILTRAP_API_TOKEN }}' \
             --data "{\"inbox\": {\"name\": \"$HEROKU_APP_NAME\"}}" \
-            --silent`
+            --silent \
+            --fail`
           export MAILTRAP_INBOX_ID=`echo "$RESPONSE" | jq ".id" -r`
           echo "Inbox ID: $MAILTRAP_INBOX_ID"
           echo "::set-env name=MAILTRAP_INBOX_ID::$MAILTRAP_INBOX_ID"
@@ -101,8 +103,9 @@ jobs:
         run: |
           curl \
             --request "DELETE" \
-            "https://mailtrap.io/api/v1/$MAILTRAP_INBOX_ID/inboxes" \
-            --header 'Api-Token: ${{ secrets.MAILTRAP_API_TOKEN }}'
+            "https://mailtrap.io/api/v1/inboxes/$MAILTRAP_INBOX_ID" \
+            --header 'Api-Token: ${{ secrets.MAILTRAP_API_TOKEN }}' \
+            --fail
       - name: Save Video
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
