@@ -236,7 +236,7 @@ class Draw(models.Model):
         ]
 
     def get_context_data(self):
-        """Get context to render information about this Ì©"""
+        """Get context data to render information about this draw."""
 
         try:
             sender = self.exchange.draws.get(recipient=self.sender).sender

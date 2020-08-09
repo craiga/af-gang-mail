@@ -37,11 +37,8 @@ class Home(LoginRequiredMixin, TemplateView):
         active_draws = []
         for exchange in user.exchanges.drawn_not_sent():
             try:
-                draw_as_sender = user.draws_as_sender.get(exchange=exchange)
-                draw_as_recipient = user.draws_as_recipient.get(exchange=exchange)
-                active_draws.append(
-                    (exchange, draw_as_sender.recipient, draw_as_recipient.sender)
-                )
+                draw = user.draws_as_sender.get(exchange=exchange)
+                active_draws.append((exchange, draw.recipient))
             except models.Draw.DoesNotExist:
                 pass
 
