@@ -1,10 +1,10 @@
-{% load humanize %}You've drawn {{ draw.recipient.get_full_name }}!
+{% load humanize %}You've drawn {{ recipient.get_full_name }}!
 
-You should try to send your gift before {{ draw.exchange.sent|naturalday }}.
+You should try to send your gift before {{ exchange.sent|naturalday }}.
 
 Their address is:
-{{ draw.recipient.get_full_address }}
+{{ recipient.get_full_address }}
 
-{{ draw.sender.get_full_name }} has drawn you!
+{{ sender.get_full_name }} has drawn you!
 
-Hopefully you'll receive a gift by {{ draw.exchange.received|naturalday }}.
+Hopefully you'll receive a gift by {{ exchange.received|naturalday }}.

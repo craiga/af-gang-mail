@@ -1,8 +1,8 @@
 {% load humanize %}
 
-<p><strong>You've drawn {{ draw.recipient.get_full_name }}!</strong></p>
-<p>You should try to send your gift before {{ draw.exchange.sent|naturalday }}.</p>
+<p><strong>You've drawn {{ recipient.get_full_name }}!</strong></p>
+<p>You should try to send your gift before {{ exchange.sent|naturalday }}.</p>
 <p>Their address is:</p>
-<p>{{ draw.recipient.get_full_address|linebreaksbr }}</p>
-<p><strong>{{ draw.sender.get_full_name }} has drawn you!</strong></p>
-<p>Hopefully you'll receive a gift by {{ draw.exchange.received|naturalday }}.</p>
+<p>{{ recipient.get_full_address|linebreaksbr }}</p>
+<p><strong>{{ sender.get_full_name }} has drawn you!</strong></p>
+<p>Hopefully you'll receive a gift by {{ exchange.received|naturalday }}.</p>

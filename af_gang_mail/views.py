@@ -37,8 +37,11 @@ class Home(LoginRequiredMixin, TemplateView):
         active_draws = []
         for exchange in user.exchanges.drawn_not_sent():
             try:
-                draw = user.draws_as_sender.get(exchange=exchange)
-                active_draws.append((exchange, draw.recipient, draw.sender))
+                draw_as_sender = user.draws_as_sender.get(exchange=exchange)
+                draw_as_recipient = user.draws_as_recipient.get(exchange=exchange)
+                active_draws.append(
+                    (exchange, draw_as_sender.recipient, draw_as_recipient.sender)
+                )
             except models.Draw.DoesNotExist:
                 pass
 
@@ -133,9 +136,10 @@ class Draw(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data["draw"] = models.Draw.objects.get(
+        draw = models.Draw.objects.get(
             exchange=context_data["exchange"], sender=self.request.user
         )
+        context_data.update(draw.get_context_data())
         return context_data
 
 

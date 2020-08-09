@@ -1,6 +1,6 @@
 """Home page tests."""
 
-# pylint: disable=redefined-outer-name
+# pylint: disable=redefined-outer-name, too-many-arguments
 
 from datetime import timedelta
 
@@ -37,26 +37,24 @@ def user(exchange):
 
 
 @pytest.fixture
-def recipient():
-    return baker.make("af_gang_mail.User")
+def draw_as_sender(exchange, user):
+    return baker.make("af_gang_mail.Draw", exchange=exchange, sender=user)
 
 
 @pytest.fixture
-def draw(exchange, user, recipient):
-    return baker.make(
-        "af_gang_mail.Draw", exchange=exchange, sender=user, recipient=recipient
-    )
+def draw_as_recipient(exchange, user):
+    return baker.make("af_gang_mail.Draw", exchange=exchange, recipient=user)
 
 
 @pytest.mark.django_db
-def test_active_draws(view, rf, user, exchange, draw):
+def test_active_draws(view, rf, user, exchange, draw_as_sender, draw_as_recipient):
     """Test list of active exchanges."""
 
     request = rf.get("/")
     request.user = user
     response = view(request)
     assert response.context_data["active_draws"] == [
-        (exchange, draw.recipient, draw.sender)
+        (exchange, draw_as_sender.recipient, draw_as_recipient.sender)
     ]
 
 

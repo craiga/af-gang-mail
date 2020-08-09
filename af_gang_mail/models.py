@@ -235,6 +235,33 @@ class Draw(models.Model):
             ),
         ]
 
+    def get_context_data(self):
+        """Get context to render information about this Ì©"""
+
+        try:
+            sender = self.exchange.draws.get(recipient=self.sender).sender
+        except Draw.DoesNotExist:
+            logger.warning(
+                "Sender not found for exchange ID %s and recipient ID %s",
+                self.exchange_id,
+                self.sender_id,
+            )
+            sender = None
+
+        site = Site.objects.get_current()
+        scheme = "https" if settings.SECURE_SSL_REDIRECT else "http"
+        exchange_url = f"{ scheme }://{ site.domain }" + urls.reverse(
+            "draw", kwargs={"slug": self.exchange.slug}
+        )
+        return {
+            "draw": self,
+            "recipient": self.recipient,
+            "sender": sender,
+            "exchange": self.exchange,
+            "site": site,
+            "exchange_url": exchange_url,
+        }
+
     def as_email_message(self, **kwargs):
         """Construct an EmailMessage for this draw."""
 
@@ -248,13 +275,7 @@ class Draw(models.Model):
             "af_gang_mail/draw-email-body.html"
         )
 
-        site = Site.objects.get_current()
-        scheme = "https" if settings.SECURE_SSL_REDIRECT else "http"
-        exchange_url = f"{ scheme }://{ site.domain }" + urls.reverse(
-            "draw", kwargs={"slug": self.exchange.slug}
-        )
-        context = {"draw": self, "site": site, "exchange_url": exchange_url}
-
+        context = self.get_context_data()
         msg = EmailMultiAlternatives(
             subject=subject_template.render(context),
             body=body_text_template.render(context),
