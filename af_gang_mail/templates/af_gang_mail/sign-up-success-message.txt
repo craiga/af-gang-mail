@@ -1,0 +1,5 @@
+Thanks {{ name }}!
+
+Welcome to the AF GANG Mail Exchange!
+
+[![](https://media.giphy.com/media/YqzhWu7404WQel4BD5/giphy-downsized.gif)](https://giphy.com/gifs/bbcglastonbury-glastonbury-glastonbury2019-idles-YqzhWu7404WQel4BD5)

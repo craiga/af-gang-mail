@@ -2,7 +2,7 @@
 
 from math import floor
 
-from django import http, urls
+from django import http, template, urls
 from django.contrib import flatpages, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -194,7 +194,12 @@ class SignUpStepTwo(SelectExchanges):
     template_name = "af_gang_mail/sign-up/step-two.html"
 
     def get_success_message(self):
-        return f"Thanks { self.request.user.get_full_name() }!"
+        sign_up_success_template = template.loader.get_template(
+            "af_gang_mail/sign-up-success-message.txt"
+        )
+        return sign_up_success_template.render(
+            {"name": self.request.user.get_full_name()}
+        )
 
 
 class ManageExchanges(LoginRequiredMixin, PermissionRequiredMixin, SingleTableView):

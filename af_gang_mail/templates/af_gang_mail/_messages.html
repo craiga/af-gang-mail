@@ -1,8 +1,10 @@
+{% load md2 %}
+
 {% if messages %}
   <ul id="messages">
     {% for message in messages %}
       <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
-        {{ message }}
+        {{ message.message|markdown }}
       </li>
     {% endfor %}
   </ul>
