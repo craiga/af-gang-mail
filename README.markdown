@@ -1,6 +1,6 @@
 # AF GANG Mail Exchange
 
-Just an idea we're working on.
+💖 https://mail.afgang.co.uk 💖
 
 ## Getting Started
 
