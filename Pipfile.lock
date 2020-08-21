@@ -68,10 +68,10 @@
         },
         "botocore": {
             "hashes": [
-                "sha256:2f15a755b990db13a7a9e06a124c6ca5fa1c4470d76672363024d7f2a6c2566c",
-                "sha256:6b134681c938f00b28424abf4b46fa6034b516d8add3a3f524e2292db61aa070"
+                "sha256:42b320b449df22cdb1232913e4a066919d127feb8e58ad98898831e6255ccfe0",
+                "sha256:eca25f01c503c2b86b394497f875a0eb0d3fe367dbc032f3a02851ba7e827109"
             ],
-            "version": "==1.17.46"
+            "version": "==1.17.47"
         },
         "celery": {
             "hashes": [
@@ -357,10 +357,20 @@
         },
         "newrelic": {
             "hashes": [
-                "sha256:5d45260693c0e4e098bcf20be8322a710009701076cd1d65ae4c8b4898bc29bc"
+                "sha256:0238d7584524110fd636db8b5cb5f2a8b62e3017642c91cb2042c299c398879c",
+                "sha256:2436cf6381a4873f864ed74e11f04b3076fd74267b9fe69de460d64130218022",
+                "sha256:339b5762fc8dd75bc432971b6b2d659f7c82a89b0db0dbb37eac81bca3767772",
+                "sha256:3b8085b4871319142381f143f25bdc5b6df034853b7cc660e30c0f89080fd7cc",
+                "sha256:3c3de765382abf40b04176785dca0473e2fdce24ee6ecfb698bcd4bfed02cf24",
+                "sha256:7190be5e59ce3b84554aab7137cbb9b8aa8e1eb4ea0d7ea4f64503a0c0d7ac98",
+                "sha256:7a20dc84f9b907f4bdfbb49d1b1dcae983644dbae8c3c217f759ad9287303f69",
+                "sha256:7d98b996b3fad2ca30d30ecb22484c81798b7b58a9fb4392069b11f07c8d5f79",
+                "sha256:91f50605f74238b1de18808af4c35c20b73af526a76bcb7046d1c81a0d7e346e",
+                "sha256:a2205a98dbcbb23dc830ae200a5a58c1a5a11cac0f661f1392ef83dfa9d5dfed",
+                "sha256:d7fbe3880afacc77fb5190ecfa85ef3f996f33f86a5f0acb6984896f14dd9e0d"
             ],
             "index": "pypi",
-            "version": "==5.16.0.145"
+            "version": "==5.16.1.146"
         },
         "oauthlib": {
             "hashes": [
@@ -538,10 +548,10 @@
         },
         "attrs": {
             "hashes": [
-                "sha256:08a96c641c3a74e44eb59afb61a24f2cb9f4d7188748e76ba4bb5edfa3cb7d1c",
-                "sha256:f7b7ce16570fe9965acd6d30101a28f62fb4a7f9e926b3bbc9b61f8b04247e72"
+                "sha256:0ef97238856430dcf9228e07f316aefc17e8939fc8507e18c6501b761ef1a42a",
+                "sha256:2867b7b9f8326499ab5b0e2d12801fa5c98842d2cbd22b35112ae04bf85b4dff"
             ],
-            "version": "==19.3.0"
+            "version": "==20.1.0"
         },
         "backcall": {
             "hashes": [
