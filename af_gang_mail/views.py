@@ -6,6 +6,7 @@ from django import http, template, urls
 from django.contrib import flatpages, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
@@ -451,11 +452,21 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
                 percentages[f"Eligible Users in { exchange.name }"] = floor(
                     eligible_users_in_exchange / users_in_exchange * 100
                 )
-                percentages[f"Ineligible Users in { exchange.name }"] = floor(
-                    (users_in_exchange - eligible_users_in_exchange)
+                percentages[
+                    f"Users ineligible due to unverified email in { exchange.name }"
+                ] = floor(
+                    exchange.users.filter(emailaddress__verified=False).count()
                     / users_in_exchange
                     * 100
                 )
+                percentages[
+                    f"Users ineligible due to missing name in { exchange.name }"
+                ] = floor(
+                    exchange.users.filter(Q(first_name="") & Q(last_name="")).count()
+                    / users_in_exchange
+                    * 100
+                )
+
             except ZeroDivisionError:
                 pass
 
