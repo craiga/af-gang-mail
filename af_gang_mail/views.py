@@ -6,6 +6,7 @@ from django import http, template, urls
 from django.contrib import flatpages, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
@@ -17,6 +18,7 @@ from django.views.generic import (
     UpdateView,
 )
 
+import django_countries
 from csp.decorators import csp_exempt
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import MultiTableMixin, SingleTableView
@@ -418,6 +420,20 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
             ).count(),
         }
 
+        countries = models.User.objects.distinct("address_country").values_list(
+            "address_country", flat=True
+        )
+        country_names = dict(django_countries.countries)
+        for country in countries:
+            try:
+                country_name = country_names[country]
+            except KeyError:
+                country_name = f"Unkown Country ({ country })"
+
+            user_stats[f"Users in { country_name }"] = models.User.objects.filter(
+                address_country=country
+            ).count()
+
         return {k: floor(n / users * 100) for k, n in user_stats.items()}
 
     def _get_exchange_percentages(self):  # pylint: disable=no-self-use
@@ -426,7 +442,7 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         percentages = {}
 
         users = models.User.objects.count()
-        for exchange in models.Exchange.objects.all():
+        for exchange in models.Exchange.objects.upcoming():
             users_in_exchange = exchange.users.count()
             eligible_users_in_exchange = exchange.users.eligible_for_draw().count()
             percentages[f"Users in { exchange.name }"] = floor(
@@ -436,11 +452,21 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
                 percentages[f"Eligible Users in { exchange.name }"] = floor(
                     eligible_users_in_exchange / users_in_exchange * 100
                 )
-                percentages[f"Ineligible Users in { exchange.name }"] = floor(
-                    (users_in_exchange - eligible_users_in_exchange)
+                percentages[
+                    f"Users ineligible due to unverified email in { exchange.name }"
+                ] = floor(
+                    exchange.users.filter(emailaddress__verified=False).count()
                     / users_in_exchange
                     * 100
                 )
+                percentages[
+                    f"Users ineligible due to missing name in { exchange.name }"
+                ] = floor(
+                    exchange.users.filter(Q(first_name="") & Q(last_name="")).count()
+                    / users_in_exchange
+                    * 100
+                )
+
             except ZeroDivisionError:
                 pass
 
