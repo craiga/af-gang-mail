@@ -17,6 +17,7 @@ from django.views.generic import (
     UpdateView,
 )
 
+import django_countries
 from csp.decorators import csp_exempt
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import MultiTableMixin, SingleTableView
@@ -418,6 +419,20 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
             ).count(),
         }
 
+        countries = models.User.objects.distinct("address_country").values_list(
+            "address_country", flat=True
+        )
+        country_names = dict(django_countries.countries)
+        for country in countries:
+            try:
+                country_name = country_names[country]
+            except KeyError:
+                country_name = f"Unkown Country ({ country })"
+
+            user_stats[f"Users in { country_name }"] = models.User.objects.filter(
+                address_country=country
+            ).count()
+
         return {k: floor(n / users * 100) for k, n in user_stats.items()}
 
     def _get_exchange_percentages(self):  # pylint: disable=no-self-use
@@ -426,7 +441,7 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         percentages = {}
 
         users = models.User.objects.count()
-        for exchange in models.Exchange.objects.all():
+        for exchange in models.Exchange.objects.upcoming():
             users_in_exchange = exchange.users.count()
             eligible_users_in_exchange = exchange.users.eligible_for_draw().count()
             percentages[f"Users in { exchange.name }"] = floor(
