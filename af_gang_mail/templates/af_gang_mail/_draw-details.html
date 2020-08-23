@@ -1,8 +1,12 @@
 {% load humanize %}
 
 <p><strong>You've drawn {{ recipient.get_full_name }}!</strong></p>
-<p>You should try to send your gift before {{ exchange.sent|naturalday }}.</p>
+{% if draw.sent %}
+    <p>You sent your mail {{ draw.sent|naturalday }}.</p>
+{% else %}
+    <p>You should try to send your mail before {{ exchange.sent|naturalday }}.</p>
+{% endif %}
 <p>Their address is:</p>
 <p>{{ recipient.get_full_address|linebreaksbr }}</p>
 <p><strong>{{ sender.get_full_name }} has drawn you!</strong></p>
-<p>Hopefully you'll receive a gift by {{ exchange.received|naturalday }}.</p>
+<p>Hopefully you'll receive mail by {{ exchange.received|naturalday }}.</p>

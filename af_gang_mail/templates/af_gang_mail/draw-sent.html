@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags flatblocks %}
+
+{% block content %}
+
+<form method="post">
+  {% flatblock "draw-sent-intro" %}
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button name="action" value="login">Send Confirmation</button>
+  <a class="button secondary" href="{% url 'home' %}">Cancel</a>
+</div>
+
+{% endblock %}

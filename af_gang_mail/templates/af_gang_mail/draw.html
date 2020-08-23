@@ -7,6 +7,9 @@
 <div class="yellow-box">
     {% flatblock "draw-intro" %}
     {% include "af_gang_mail/_draw-details.html" %}
+    {% if not draw.sent %}
+        <a class="button" href="{% url 'draw-sent' exchange.slug %}">Mark as Sent</a>
+    {% endif %}
     <a class="button" href="{% url 'home' %}">Go to Home Page</a>
 </div>
 

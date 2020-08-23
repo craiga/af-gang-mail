@@ -220,6 +220,7 @@ class Draw(models.Model):
     exchange = models.ForeignKey(
         "af_gang_mail.Exchange", on_delete=models.PROTECT, related_name="draws"
     )
+    sent = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -262,17 +263,17 @@ class Draw(models.Model):
             "exchange_url": exchange_url,
         }
 
-    def as_email_message(self, **kwargs):
+    def as_created_email_message(self, **kwargs):
         """Construct an EmailMessage for this draw."""
 
         subject_template = template.loader.get_template(
-            "af_gang_mail/draw-email-subject.txt"
+            "af_gang_mail/draw-created-email-subject.txt"
         )
         body_text_template = template.loader.get_template(
-            "af_gang_mail/draw-email-body.txt"
+            "af_gang_mail/draw-created-email-body.txt"
         )
         body_html_template = template.loader.get_template(
-            "af_gang_mail/draw-email-body.html"
+            "af_gang_mail/draw-created-email-body.html"
         )
 
         context = self.get_context_data()

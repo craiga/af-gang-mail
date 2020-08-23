@@ -1,0 +1,18 @@
+{% extends 'email_base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+
+<p>Hi {{ recipient.get_full_name }},</p>
+<p>{{ sender.get_full_name }} has sent you some mail as part of the {{ draw.exchange.name }} AF GANG mail exchange!</p>
+{% if message %}
+<p>They included the following message:</p>
+<blockquote>
+    <p>{{ message|linebreaksbr }}</p>
+</blockquote>
+{% endif %}
+<p>xo</p>
+<p>{{ site.name }}</p>
+
+{% endblock %}
