@@ -3,6 +3,7 @@
 import ipaddress
 import logging
 import os
+import urllib
 
 from django.contrib.messages import constants as message_constants
 
@@ -272,7 +273,22 @@ CSP_SCRIPT_SRC = [
 ]
 CSP_FONT_SRC = ["'self'"]
 CSP_INCLUDE_NONCE_IN = ["script-src"]
-CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", None)
+CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", "")
+
+if "sentry" in CSP_REPORT_URI:
+    # Add Sentry environment and release to CSP report URI.
+    # https://docs.sentry.io/product/security-policy-reporting/#additional-configuration
+    csp_url = urllib.parse.urlparse(CSP_REPORT_URI)
+    csp_qs = urllib.parse.parse_qs(csp_url.query, strict_parsing=True)
+
+    if SENTRY_ENVIRONMENT:
+        csp_qs["sentry_environment"] = SENTRY_ENVIRONMENT
+
+    if SENTRY_RELEASE:
+        csp_qs["sentry_release"] = SENTRY_RELEASE
+
+    csp_url._replace(query=urllib.parse.urlencode(csp_qs, doseq=True))
+    CSP_REPORT_URI = urllib.parse.urlunparse(csp_url)
 
 
 # Feature policy

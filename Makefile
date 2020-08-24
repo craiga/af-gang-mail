@@ -115,12 +115,12 @@ js-continuous:  ## Build JavaScript continuously.
 	find . \( -path "./node_modules" -o -iname "bundle.*" -o -path "./.apt" \) -prune -o -path "*/static/*" -a -name "*.js" -print | xargs npm run watchify -- --outfile af_gang_mail/static/bundle.js --verbose
 
 lint-python:  ## Lint Python.
-	pipenv run isort --check-only
+	pipenv run isort --check --diff .
 	pipenv run black --check --diff .
 	find . -iname "*.py" | xargs pipenv run pylint
 
 fix-python:  ## Attempt to automatically fix Python issues reported by linter.
-	pipenv run isort --apply
+	pipenv run isort .
 	pipenv run black .
 
 lint-yaml: ## Lint YAML.

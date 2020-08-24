@@ -3,6 +3,7 @@ argparse
 ArgumentError
 Beastie
 ckeditor
+CSP
 CSS
 datetime
 De
@@ -24,4 +25,5 @@ Statto
 Trugoy
 tz
 UI
+URI
 Whitenoise
