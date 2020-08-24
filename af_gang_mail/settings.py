@@ -259,7 +259,7 @@ CSP_IMG_SRC = [
     "https://af-gang-mail.s3.amazonaws.com",
     "https://af-gang-mail.s3-eu-west-1.amazonaws.com",
     "https://media.giphy.com",
-    "https://connect.facebook.net",  # Facebook's auto suggest script
+    "https://www.facebook.com",  # Facebook's in-app browser wants to show images
 ]
 CSP_CONNECT_SRC = ["'self'", "https://*.ingest.sentry.io", "https://*.usefathom.com"]
 CSP_STYLE_SRC = [
