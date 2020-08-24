@@ -5,6 +5,7 @@ on:
       - "**/*.yaml"
       - ".github/workflows/yaml.yaml"
       - "Makefile"
+      - "package-lock.json"
 
 jobs:
   lint-yaml:

@@ -5,6 +5,7 @@ on:
       - "**/*.py"
       - ".github/workflows/python.yaml"
       - "Makefile"
+      - "Pipfile.lock"
 
 jobs:
   lint-python:
