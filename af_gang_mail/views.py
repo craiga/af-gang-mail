@@ -2,17 +2,17 @@
 
 from math import floor
 
-from django.contrib.sites.models import Site
 from django import http, template, urls
 from django.conf import settings
 from django.contrib import flatpages, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.sites.models import Site
 from django.core import mail
 from django.forms.models import model_to_dict
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
-from django.utils import timezone
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -189,12 +189,19 @@ class MailSent(FormView, Draw):
             "af_gang_mail/mail-sent-body.html"
         )
 
+        site = Site.objects.get_current()
+        scheme = "https" if settings.SECURE_SSL_REDIRECT else "http"
+        exchange_url = f"{ scheme }://{ site.domain }" + urls.reverse(
+            "draw", kwargs={"slug": draw.exchange.slug}
+        )
+
         context = {
             "message": message,
             "exchange": draw.exchange,
             "sender": draw.sender,
             "recipient": draw.recipient,
-            "site": Site.objects.get_current(),
+            "site": site,
+            "exchange_url": exchange_url,
         }
 
         msg = mail.EmailMultiAlternatives(
