@@ -270,6 +270,7 @@ CSP_SCRIPT_SRC = [
     "'self'",
     "https://maps.googleapis.com",
     "https://cdn.usefathom.com",
+    "https://connect.facebook.net/*/iab.autofill.js",
 ]
 CSP_FONT_SRC = ["'self'"]
 CSP_INCLUDE_NONCE_IN = ["script-src"]

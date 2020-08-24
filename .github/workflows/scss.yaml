@@ -5,6 +5,7 @@ on:
       - "**/*.scss"
       - ".github/workflows/scss.yaml"
       - "Makefile"
+      - "package-lock.json"
 
 jobs:
   lint-scss:
