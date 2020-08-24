@@ -255,11 +255,12 @@ SECURE_REFERRER_POLICY = "same-origin"
 CSP_DEFAULT_SRC = []
 CSP_IMG_SRC = [
     "'self'",
-    "https://maps.gstatic.com/mapfiles/api-3/images/",
+    "https://maps.gstatic.com",
     "https://*.usefathom.com",
-    "https://af-gang-mail.s3.amazonaws.com/",
-    "https://af-gang-mail.s3-eu-west-1.amazonaws.com/",
-    "https://media.giphy.com/media/",
+    "https://af-gang-mail.s3.amazonaws.com",
+    "https://af-gang-mail.s3-eu-west-1.amazonaws.com",
+    "https://media.giphy.com",
+    "https://www.facebook.com",  # Facebook's in-app browser wants to show images
 ]
 CSP_CONNECT_SRC = ["'self'", "https://*.ingest.sentry.io", "https://*.usefathom.com"]
 CSP_STYLE_SRC = [
@@ -268,8 +269,9 @@ CSP_STYLE_SRC = [
 ]
 CSP_SCRIPT_SRC = [
     "'self'",
-    "https://maps.googleapis.com",
+    "https://maps.googleapis.com",  # Google Places for address auto suggest
     "https://cdn.usefathom.com",
+    "https://connect.facebook.net",  # Facebook's auto suggest script
 ]
 CSP_FONT_SRC = ["'self'"]
 CSP_INCLUDE_NONCE_IN = ["script-src"]

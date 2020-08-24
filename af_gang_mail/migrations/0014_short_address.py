@@ -12,8 +12,8 @@ def create_flatblock(apps, schema_editor):
             slug="home-short-address",
             header="Have you entered your address?",
             content=(
-                "<p>It looks like your address is pretty short. Someone might have trouble "
-                "sending you a gift. Are you sure you have entered it correctly?</p>"
+                "<p>It looks like your address is pretty short. Someone might have "
+                "trouble sending you mail. Are you sure you have entered it correctly?</p>"
             ),
         )
 

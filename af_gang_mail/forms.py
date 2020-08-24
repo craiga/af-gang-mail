@@ -136,3 +136,7 @@ class FlatBlock(flatblock_forms.FlatBlockForm):
 class FlatPage(flatpages.forms.FlatpageForm):
     class Meta(flatpages.forms.FlatpageForm.Meta):
         widgets = {"content": CKEditorUploadingWidget()}
+
+
+class MailSent(forms.Form):
+    message = forms.CharField(widget=forms.Textarea(), required=False)

@@ -3,17 +3,22 @@
 from math import floor
 
 from django import http, template, urls
+from django.conf import settings
 from django.contrib import flatpages, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.sites.models import Site
+from django.core import mail
 from django.db.models import Q
 from django.forms.models import model_to_dict
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
 from django.views.generic import (
     CreateView,
     DeleteView,
     DetailView,
+    FormView,
     TemplateView,
     UpdateView,
 )
@@ -133,13 +138,85 @@ class Draw(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
             exchange=self.get_object(), sender=self.request.user
         ).exists()
 
+    def get_draw(self):
+        return models.Draw.objects.get(
+            exchange=self.get_object(), sender=self.request.user
+        )
+
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        draw = models.Draw.objects.get(
-            exchange=context_data["exchange"], sender=self.request.user
-        )
+        draw = self.get_draw()
         context_data.update(draw.get_context_data())
         return context_data
+
+
+class MailSent(FormView, Draw):
+    """Mark draw as sent."""
+
+    form_class = forms.MailSent
+    template_name = "af_gang_mail/draw-sent.html"
+
+    def form_valid(self, form):
+        draw = self.get_draw()
+
+        connection = mail.get_connection()
+        connection.send_messages(
+            [self.create_email_message(draw, form["message"].value)]
+        )
+
+        draw.sent = timezone.now()
+        draw.save()
+
+        messages.success(
+            self.request,
+            (
+                f"Thanks! We've let { draw.recipient.get_full_name() } know that mail "
+                "is on its way!"
+            ),
+            fail_silently=True,
+        )
+
+        return super().form_valid(form)
+
+    def create_email_message(self, draw, message):  # pylint: disable=no-self-use
+        """Create email message."""
+
+        subject_template = template.loader.get_template(
+            "af_gang_mail/mail-sent-subject.txt"
+        )
+        body_text_template = template.loader.get_template(
+            "af_gang_mail/mail-sent-body.txt"
+        )
+        body_html_template = template.loader.get_template(
+            "af_gang_mail/mail-sent-body.html"
+        )
+
+        site = Site.objects.get_current()
+        scheme = "https" if settings.SECURE_SSL_REDIRECT else "http"
+        exchange_url = f"{ scheme }://{ site.domain }" + urls.reverse(
+            "draw", kwargs={"slug": draw.exchange.slug}
+        )
+
+        context = {
+            "message": message,
+            "exchange": draw.exchange,
+            "sender": draw.sender,
+            "recipient": draw.recipient,
+            "site": site,
+            "exchange_url": exchange_url,
+        }
+
+        msg = mail.EmailMultiAlternatives(
+            subject=subject_template.render(context),
+            body=body_text_template.render(context),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[draw.recipient.email],
+        )
+        msg.attach_alternative(body_html_template.render(context), "text/html")
+        return msg
+
+    def get_success_url(self):
+        return urls.reverse("draw", kwargs={"slug": self.get_draw().exchange.slug})
 
 
 class Landing(TemplateView):
@@ -337,7 +414,9 @@ class ViewDraw(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data["draw_data"] = model_to_dict(self.get_object())
-        context_data["draw_email_message"] = self.get_object().as_email_message()
+        context_data[
+            "draw_email_message"
+        ] = self.get_object().as_created_email_message()
         return context_data
 
 

@@ -5,6 +5,7 @@ on:
       - "**/*.js"
       - ".github/workflows/js.yaml"
       - "Makefile"
+      - "package-lock.json"
 
 jobs:
   lint-js:

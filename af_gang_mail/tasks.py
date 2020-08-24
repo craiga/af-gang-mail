@@ -79,4 +79,6 @@ def send_draw_emails(exchange_id):
 
     exchange = models.Exchange.objects.get(id=exchange_id)
     connection = mail.get_connection()
-    connection.send_messages([d.as_email_message() for d in exchange.draws.all()])
+    connection.send_messages(
+        [d.as_created_email_message() for d in exchange.draws.all()]
+    )
