@@ -1,12 +1,32 @@
 {% extends 'base.html' %}
 
-{% load flatblocks %}
+{% load flatblocks humanize %}
 
 {% block content %}
 
 <div class="yellow-box">
     {% flatblock "draw-intro" %}
-    {% include "af_gang_mail/_draw-details.html" %}
+    <h2>Important Dates</h2>
+    <ul>
+        <li>
+            {% if draw.sent %}
+                You sent your mail {{ draw.sent|naturalday }}.
+            {% else %}
+                You should try to send your mail before {{ exchange.sent|naturalday }}.
+            {% endif %}
+        </li>
+        <li>Hopefully you'll receive mail by {{ exchange.received|naturalday }}.</li>
+    </ul>
+
+    <h2>Recipient Name</h2>
+    <p>You've drawn {{ recipient.get_full_name }}!</p>
+    <h2>Recipient Address</h2>
+    <p>{{ recipient.get_full_address|linebreaksbr }}</p>
+    <p><strong>{{ sender.get_full_name }} has drawn you!</strong></p>
+    
+    {% if not draw.sent %}
+        <a class="button" href="{% url 'draw-sent' exchange.slug %}">Mark as Sent</a>
+    {% endif %}
     <a class="button" href="{% url 'home' %}">Go to Home Page</a>
 </div>
 

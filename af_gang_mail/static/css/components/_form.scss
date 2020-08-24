@@ -25,7 +25,8 @@ form,
   input[type="password"],
   label,
   button,
-  select {
+  select,
+  textarea {
     width: 100%;
     font-size: $baseSize;
     display: block;
@@ -34,7 +35,8 @@ form,
   input[type="text"],
   input[type="email"],
   input[type="password"],
-  select {
+  select,
+  textarea {
     border: 1px solid black;
     padding: $baseSize / 4;
     box-sizing: border-box;
