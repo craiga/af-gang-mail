@@ -289,7 +289,7 @@ if "sentry" in CSP_REPORT_URI:
     if SENTRY_RELEASE:
         csp_qs["sentry_release"] = SENTRY_RELEASE
 
-    csp_url._replace(query=urllib.parse.urlencode(csp_qs, doseq=True))
+    csp_url = csp_url._replace(query=urllib.parse.urlencode(csp_qs, doseq=True))
     CSP_REPORT_URI = urllib.parse.urlunparse(csp_url)
 
 
