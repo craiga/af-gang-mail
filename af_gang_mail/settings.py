@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "debug_toolbar",
     "django_countries",
+    "django_markdown2",
     "django_tables2",
     "djcelery_email",
     "flatblocks",
@@ -257,6 +258,7 @@ CSP_IMG_SRC = [
     "https://*.usefathom.com",
     "https://af-gang-mail.s3.amazonaws.com/",
     "https://af-gang-mail.s3-eu-west-1.amazonaws.com/",
+    "https://media.giphy.com/media/",
 ]
 CSP_CONNECT_SRC = ["'self'", "https://*.ingest.sentry.io", "https://*.usefathom.com"]
 CSP_STYLE_SRC = [

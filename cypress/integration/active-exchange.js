@@ -75,12 +75,12 @@ describe("Active Exchange", () => {
     cy.contains("See More Details").click();
 
     cy.contains("draw-intro");
-    cy.contains("Mark as Sent").click();    
+    cy.contains("Mark as Sent").click();
 
-    cy.contains("draw-sent-intro")
+    cy.contains("draw-sent-intro");
     cy.get("textarea").click().type("Test user-to-user message");
     cy.contains("Send Confirmation").click();
-    
+
     cy.contains("Thanks! We've let Bob Userson know that mail is on its way!");
     cy.contains("draw-intro");
     cy.contains("You sent your mail");

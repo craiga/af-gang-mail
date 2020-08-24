@@ -1,6 +1,4 @@
-# AF GANG Mail Exchange
-
-Just an idea we're working on.
+# [AF GANG Mail Exchange](https://mail.afgang.co.uk)
 
 ## Getting Started
 

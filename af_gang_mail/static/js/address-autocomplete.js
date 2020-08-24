@@ -51,8 +51,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
       }
 
-      console.log(address);
-
       for (let fieldName in address) {
         for (const field of document.getElementsByName(fieldName)) {
           field.value = address[fieldName];

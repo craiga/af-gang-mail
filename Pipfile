@@ -48,6 +48,7 @@ django-su = "*"
 newrelic = "*"
 django-storages = "*"
 boto3 = "*"
+django-markdown2 = "*"
 
 [requires]
 python_version = "3.8"
