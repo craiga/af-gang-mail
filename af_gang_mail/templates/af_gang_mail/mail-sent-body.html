@@ -1,0 +1,19 @@
+{% extends 'email_base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+
+<p>Hi {{ recipient.get_full_name }},</p>
+<p>{{ sender.get_full_name }} has sent you some mail as part of the {{ draw.exchange.name }} AF GANG mail exchange!</p>
+{% if message %}
+<p>They included the following message:</p>
+<blockquote>
+    <p>{{ message|linebreaksbr }}</p>
+</blockquote>
+{% endif %}
+<p>If you've sent your mail and haven't done so already, visit <a href="{{ exchange_url }}">{{ exchange_url }}</a> and let your recipient know their mail is on its way!</p>
+<p>xo</p>
+<p>{{ site.name }}</p>
+
+{% endblock %}

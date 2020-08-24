@@ -1,0 +1,19 @@
+{% load humanize %}Hi {{ draw.sender.get_full_name }},
+
+Thanks for taking part in the {{ draw.exchange.name }} AF GANG mail exchange!
+
+You've drawn {{ recipient.get_full_name }}!
+
+You should try to send your mail before {{ exchange.sent|naturalday }}.
+
+Their address is:
+{{ recipient.get_full_address }}
+
+{{ sender.get_full_name }} has drawn you!
+
+Hopefully you'll receive mail by {{ exchange.received|naturalday }}.
+You can also get this information at {{ exchange_url }}
+
+xo
+
+{{ site.name }}
