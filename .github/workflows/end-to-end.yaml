@@ -65,6 +65,7 @@ jobs:
             --data "{\"inbox\": {\"name\": \"$HEROKU_APP_NAME\"}}" \
             --silent \
             --fail`
+          echo "Mailtrap API Response: $RESPONSE"
           export MAILTRAP_INBOX_ID=`echo "$RESPONSE" | jq ".id" -r`
           echo "Inbox ID: $MAILTRAP_INBOX_ID"
           echo "::set-env name=MAILTRAP_INBOX_ID::$MAILTRAP_INBOX_ID"
