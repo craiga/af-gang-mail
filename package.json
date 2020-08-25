@@ -17,7 +17,7 @@
     "sass": "latest"
   },
   "devDependencies": {
-    "cypress": "^4.8.0",
+    "cypress": "^5.0.0",
     "prettier": "latest",
     "watchify": "latest"
   }
