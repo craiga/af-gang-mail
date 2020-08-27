@@ -85,7 +85,9 @@ class UpdateNameAndAddress(LoginRequiredMixin, UpdateView):
         response = super().form_valid(form)
 
         messages.success(
-            self.request, self.get_success_message(), fail_silently=True,
+            self.request,
+            self.get_success_message(),
+            fail_silently=True,
         )
 
         return response
@@ -112,7 +114,9 @@ class SelectExchanges(LoginRequiredMixin, UpdateView):
         response = super().form_valid(form)
 
         messages.success(
-            self.request, self.get_success_message(), fail_silently=True,
+            self.request,
+            self.get_success_message(),
+            fail_silently=True,
         )
 
         return response
@@ -395,7 +399,9 @@ class DeleteDrawsForExchange(LoginRequiredMixin, PermissionRequiredMixin, Detail
         exchange.draws.all().delete()
 
         messages.info(
-            self.request, f"Draws for { exchange.name } deleted.", fail_silently=True,
+            self.request,
+            f"Draws for { exchange.name } deleted.",
+            fail_silently=True,
         )
 
         return http.HttpResponseRedirect(

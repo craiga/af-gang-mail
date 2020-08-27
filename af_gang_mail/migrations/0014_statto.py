@@ -11,6 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name="user", options={"permissions": [("statto", "Can view statto")]},
+            name="user",
+            options={"permissions": [("statto", "Can view statto")]},
         ),
     ]

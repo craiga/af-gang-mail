@@ -33,7 +33,7 @@ def test_short_address(line1, line2, city, state, postcode, country):
 
 @pytest.mark.parametrize(
     "line1, line2, city, state, postcode, country",
-    [("1049 Gotho Road", "", "Bristol", "", "", "GB"),],
+    [("1049 Gotho Road", "", "Bristol", "", "", "GB")],
 )
 def test_long_address(line1, line2, city, state, postcode, country):
     """Test has_short_address with long address."""

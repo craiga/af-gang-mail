@@ -10,7 +10,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterModelOptions(name="exchange", options={"ordering": ["drawn"]},),
+        migrations.AlterModelOptions(
+            name="exchange",
+            options={"ordering": ["drawn"]},
+        ),
         migrations.AlterField(
             model_name="user",
             name="first_name",

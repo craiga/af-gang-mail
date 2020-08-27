@@ -9,7 +9,9 @@ def create_flatblock(apps, schema_editor):
     FlatBlock = apps.get_model("flatblocks", "FlatBlock")
     if not FlatBlock.objects.filter(slug="confirm-email-intro").exists():
         FlatBlock.objects.create(
-            slug="confirm-email-intro", header="Confirm Email Address", content="",
+            slug="confirm-email-intro",
+            header="Confirm Email Address",
+            content="",
         )
 
     if not FlatBlock.objects.filter(slug="confirm-email-already-used").exists():

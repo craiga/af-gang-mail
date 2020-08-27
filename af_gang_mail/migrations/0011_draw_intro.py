@@ -9,7 +9,9 @@ def create_flatblock(apps, schema_editor):
     FlatBlock = apps.get_model("flatblocks", "FlatBlock")
     if not FlatBlock.objects.filter(slug="draw-intro").exists():
         FlatBlock.objects.create(
-            slug="draw-intro", header="Draw Details", content="",
+            slug="draw-intro",
+            header="Draw Details",
+            content="",
         )
 
 

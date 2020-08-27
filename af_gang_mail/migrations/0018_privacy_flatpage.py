@@ -56,7 +56,11 @@ def create_flatpage(apps, schema_editor):
     FlatPage = apps.get_model("flatpages", "FlatPage")
     Site = apps.get_model("sites", "Site")
     if not FlatPage.objects.filter(url="/privacy/").exists():
-        page = FlatPage.objects.create(url="/privacy/", title=TITLE, content=CONTENT,)
+        page = FlatPage.objects.create(
+            url="/privacy/",
+            title=TITLE,
+            content=CONTENT,
+        )
         page.sites.set(Site.objects.all())
 
 
@@ -66,7 +70,9 @@ def create_flatblock(apps, schema_editor):
     FlatBlock = apps.get_model("flatblocks", "FlatBlock")
     if not FlatBlock.objects.filter(slug="privacy").exists():
         FlatBlock.objects.create(
-            slug="privacy", header=TITLE, content=CONTENT,
+            slug="privacy",
+            header=TITLE,
+            content=CONTENT,
         )
 
 

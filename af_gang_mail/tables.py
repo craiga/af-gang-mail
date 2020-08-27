@@ -12,7 +12,7 @@ from af_gang_mail import models
 class Exchange(tables.Table):
     """Exchange table."""
 
-    name = columns.LinkColumn(viewname="view-exchange", kwargs={"slug": A("slug")},)
+    name = columns.LinkColumn(viewname="view-exchange", kwargs={"slug": A("slug")})
     users = tables.Column(verbose_name="Users")
 
     class Meta:
@@ -48,8 +48,8 @@ class User(tables.Table):
 class Draw(tables.Table):
     """Draw table."""
 
-    sender = columns.LinkColumn(viewname="view-draw", kwargs={"pk": A("id")},)
-    recipient = columns.LinkColumn(viewname="view-draw", kwargs={"pk": A("id")},)
+    sender = columns.LinkColumn(viewname="view-draw", kwargs={"pk": A("id")})
+    recipient = columns.LinkColumn(viewname="view-draw", kwargs={"pk": A("id")})
 
     class Meta:
         model = models.Draw
@@ -62,7 +62,7 @@ class Draw(tables.Table):
 class FlatPage(tables.Table):
     """Flat page table."""
 
-    title = columns.LinkColumn(viewname="update-flatpage", kwargs={"pk": A("id")},)
+    title = columns.LinkColumn(viewname="update-flatpage", kwargs={"pk": A("id")})
 
     class Meta:
         model = flatpages.models.FlatPage

@@ -68,7 +68,7 @@ def last_name_user():
 @pytest.mark.django_db
 # pylint: disable=unused-argument
 def test_eligible_for_draw(
-    user, first_name_user, last_name_user, unverified_user, no_name_user,
+    user, first_name_user, last_name_user, unverified_user, no_name_user
 ):
     """Test getting users which are eligible for a draw."""
 

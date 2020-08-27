@@ -22,9 +22,7 @@ urlpatterns = [
         views.UpdateNameAndAddress.as_view(),
         name="update-name-and-address",
     ),
-    path(
-        "select-exchanges/", views.SelectExchanges.as_view(), name="select-exchanges",
-    ),
+    path("select-exchanges/", views.SelectExchanges.as_view(), name="select-exchanges"),
     path("create-exchange/", views.CreateExchange.as_view(), name="create-exchange"),
     path(
         "manage-exchanges/<slug:slug>/edit/",
@@ -47,25 +45,21 @@ urlpatterns = [
         name="delete-draws-for-exchange",
     ),
     path(
-        "manage-exchanges/draws/<int:pk>/", views.ViewDraw.as_view(), name="view-draw",
+        "manage-exchanges/draws/<int:pk>/", views.ViewDraw.as_view(), name="view-draw"
     ),
     path(
         "manage-exchanges/<slug:slug>/",
         views.ViewExchange.as_view(),
         name="view-exchange",
     ),
-    path(
-        "manage-exchanges/", views.ManageExchanges.as_view(), name="manage-exchanges",
-    ),
+    path("manage-exchanges/", views.ManageExchanges.as_view(), name="manage-exchanges"),
     path("create-flatpage/", views.CreateFlatPage.as_view(), name="create-flatpage"),
     path(
         "manage-flatpages/<int:pk>/edit/",
         views.UpdateFlatPage.as_view(),
         name="update-flatpage",
     ),
-    path(
-        "manage-flatpages/", views.ManageFlatPages.as_view(), name="manage-flatpages",
-    ),
+    path("manage-flatpages/", views.ManageFlatPages.as_view(), name="manage-flatpages"),
     path("style-gallery/", views.StyleGallery.as_view(), name="style-gallery"),
     path("page-index/", views.PageIndex.as_view(), name="page-index"),
     path("home/", views.Home.as_view(), name="home"),
@@ -89,4 +83,4 @@ urlpatterns = [
 if settings.DEBUG:
     import debug_toolbar
 
-    urlpatterns = [path("__debug__/", include(debug_toolbar.urls)),] + urlpatterns
+    urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
