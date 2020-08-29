@@ -231,6 +231,7 @@ sentry_sdk.init(
     ],
     environment=SENTRY_ENVIRONMENT,
     release=SENTRY_RELEASE,
+    traces_sample_rate=float(os.environ.get("SENTRY_TRACES_SAMPLE_RATE", 0.25)),
 )
 
 
