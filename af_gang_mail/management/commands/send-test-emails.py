@@ -20,22 +20,14 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "--num-emails", type=int, help="Number of emails to send.", default=1,
+            "--num-emails", type=int, help="Number of emails to send.", default=1
         )
+        parser.add_argument("--recipient", help="Recipient email address.")
+        parser.add_argument("--from-email", help="Sender email address.")
+        parser.add_argument("--subject", help="Email subject.")
+        parser.add_argument("--message", help="Email body.")
         parser.add_argument(
-            "--recipient", help="Recipient email address.",
-        )
-        parser.add_argument(
-            "--from-email", help="Sender email address.",
-        )
-        parser.add_argument(
-            "--subject", help="Email subject.",
-        )
-        parser.add_argument(
-            "--message", help="Email body.",
-        )
-        parser.add_argument(
-            "--pause", help="Seconds to pause between sending.", default=0, type=int,
+            "--pause", help="Seconds to pause between sending.", default=0, type=int
         )
 
     def _send_mail(

@@ -65,9 +65,7 @@ class Command(BaseCommand):
     help = __doc__
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            "--name", help="Name of the exchange.",
-        )
+        parser.add_argument("--name", help="Name of the exchange.")
         parser.add_argument(
             "--drawn",
             type=parsed_datetime_string,
@@ -95,7 +93,7 @@ class Command(BaseCommand):
             help="Reuse existing users. Don't create new users.",
         )
         parser.add_argument(
-            "--created-user-last-name", help="The last name to give any created users.",
+            "--created-user-last-name", help="The last name to give any created users."
         )
 
     def _create_exchange(self, options):  # pylint: disable=no-self-use

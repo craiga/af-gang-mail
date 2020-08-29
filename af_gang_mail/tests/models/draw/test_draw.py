@@ -35,9 +35,7 @@ def users(exchange):
 
 
 @pytest.mark.django_db
-def test_draw(
-    exchange, users, django_assert_max_num_queries,
-):
+def test_draw(exchange, users, django_assert_max_num_queries):
     """Test a simple draw."""
 
     with django_assert_max_num_queries(2 + len(users)):

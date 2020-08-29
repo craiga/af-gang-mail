@@ -13,6 +13,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelManagers(
-            name="user", managers=[("objects", af_gang_mail.models.UserManager()),],
+            name="user",
+            managers=[
+                ("objects", af_gang_mail.models.UserManager()),
+            ],
         ),
     ]
