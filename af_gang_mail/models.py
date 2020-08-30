@@ -2,6 +2,7 @@
 
 import logging
 import random
+from datetime import timedelta
 
 from django import template, urls
 from django.conf import settings
@@ -84,7 +85,7 @@ class ExchangeManager(models.Manager):
     """Exchange manager."""
 
     def upcoming(self):
-        return self.filter(drawn__gt=now())
+        return self.filter(drawn__gt=now() + timedelta(minutes=1))
 
     def not_upcoming(self):
         return self.filter(drawn__lt=now())
