@@ -41,7 +41,7 @@ def not_upcoming_exchanges():
                 "af_gang_mail.Exchange",
                 name=f"Not Upcoming Exchange { i + 1 }",
                 slug=f"not-upcoming-exchange-{ i + 1 }",
-                drawn=now() - timedelta(days=i + 1),
+                drawn=now() - timedelta(days=i),
             )
         )
 
@@ -66,3 +66,16 @@ def test_not_upcoming(upcoming_exchanges, not_upcoming_exchanges):
     assert exchanges.count() == len(not_upcoming_exchanges)
     for exchange in exchanges:
         assert exchange in not_upcoming_exchanges
+
+
+@pytest.mark.freeze_time
+@pytest.mark.django_db
+def test_due_in_one_minute():
+    """Test an exchange to be drawn in a minute isn't upcoming."""
+
+    baker.make(
+        "af_gang_mail.Exchange",
+        slug="my-cool-exchange",
+        drawn=now() + timedelta(minutes=1),
+    )
+    assert Exchange.objects.upcoming().count() == 0

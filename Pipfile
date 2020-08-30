@@ -19,6 +19,7 @@ flower = "*"
 model-bakery = "*"
 pytest-repeat = "*"
 pyfakefs = "*"
+pytest-freezegun = "*"
 
 [packages]
 django = {extras = ["argon2"], version = "*"}
