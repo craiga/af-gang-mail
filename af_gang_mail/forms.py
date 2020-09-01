@@ -41,6 +41,9 @@ class UpdateNameAndAddress(forms.ModelForm):
 class SelectExchangeField(forms.ModelMultipleChoiceField):
     """Select exchange field."""
 
+    def get_limit_choices_to(self):
+        return models.Exchange.objects.get_upcoming_filter_kwargs()
+
     def label_from_instance(self, obj):
         label_template = template.loader.get_template(
             "af_gang_mail/_exchange-label.html"
@@ -52,7 +55,7 @@ class SelectExchanges(forms.ModelForm):
     """Update selected exchanges."""
 
     exchanges = SelectExchangeField(
-        queryset=models.Exchange.objects.upcoming().order_by("drawn"),
+        queryset=models.Exchange.objects.order_by("drawn"),
         widget=forms.CheckboxSelectMultiple,
         label="",
         required=False,

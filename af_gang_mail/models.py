@@ -84,8 +84,12 @@ class User(auth.models.AbstractUser):
 class ExchangeManager(models.Manager):
     """Exchange manager."""
 
+    @staticmethod
+    def get_upcoming_filter_kwargs():
+        return {"drawn__gt": now() + timedelta(minutes=1)}
+
     def upcoming(self):
-        return self.filter(drawn__gt=now() + timedelta(minutes=1))
+        return self.filter(**self.get_upcoming_filter_kwargs())
 
     def not_upcoming(self):
         return self.filter(drawn__lt=now())
