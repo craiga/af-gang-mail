@@ -213,7 +213,7 @@ DEBUG_TOOLBAR_CONFIG = {"SHOW_COLLAPSED": True}
 
 
 # Sentry
-# https://sentry.io/data-power/data-power/getting-started/python-django/
+# https://docs.sentry.io/platforms/python/guides/django
 
 SENTRY_DSN = os.environ.get("SENTRY_DSN")
 SENTRY_ENVIRONMENT = os.environ.get(
