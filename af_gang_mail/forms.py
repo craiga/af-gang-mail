@@ -143,3 +143,7 @@ class FlatPage(flatpages.forms.FlatpageForm):
 
 class MailSent(forms.Form):
     message = forms.CharField(widget=forms.Textarea(), required=False)
+
+
+class MailReceived(forms.Form):
+    message = forms.CharField(widget=forms.Textarea(), required=False)

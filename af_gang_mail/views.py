@@ -223,6 +223,78 @@ class MailSent(FormView, Draw):
         return urls.reverse("draw", kwargs={"slug": self.get_draw().exchange.slug})
 
 
+class MailReceived(FormView, Draw):
+    """Mark draw as received."""
+
+    form_class = forms.MailReceived
+    template_name = "af_gang_mail/draw-received.html"
+
+    def form_valid(self, form):
+        draw_as_recipient = models.Draw.objects.get(
+            exchange=self.get_object(), recipient=self.request.user
+        )
+
+        connection = mail.get_connection()
+        connection.send_messages(
+            [self.create_email_message(draw_as_recipient, form["message"].value)]
+        )
+
+        draw = self.get_draw()
+        draw.received = timezone.now()
+        draw.save()
+
+        messages.success(
+            self.request,
+            (
+                f"Thanks! We've let { draw.sender.get_full_name() } know that you've"
+                " received your mail!"
+            ),
+            fail_silently=True,
+        )
+
+        return super().form_valid(form)
+
+    def create_email_message(self, draw, message):  # pylint: disable=no-self-use
+        """Create email message."""
+
+        subject_template = template.loader.get_template(
+            "af_gang_mail/mail-received-subject.txt"
+        )
+        body_text_template = template.loader.get_template(
+            "af_gang_mail/mail-received-body.txt"
+        )
+        body_html_template = template.loader.get_template(
+            "af_gang_mail/mail-received-body.html"
+        )
+
+        site = Site.objects.get_current()
+        scheme = "https" if settings.SECURE_SSL_REDIRECT else "http"
+        exchange_url = f"{ scheme }://{ site.domain }" + urls.reverse(
+            "draw", kwargs={"slug": draw.exchange.slug}
+        )
+
+        context = {
+            "message": message,
+            "exchange": draw.exchange,
+            "sender": draw.sender,
+            "recipient": draw.recipient,
+            "site": site,
+            "exchange_url": exchange_url,
+        }
+
+        msg = mail.EmailMultiAlternatives(
+            subject=subject_template.render(context),
+            body=body_text_template.render(context),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[draw.sender.email],
+        )
+        msg.attach_alternative(body_html_template.render(context), "text/html")
+        return msg
+
+    def get_success_url(self):
+        return urls.reverse("draw", kwargs={"slug": self.get_draw().exchange.slug})
+
+
 class Landing(TemplateView):
     """Landing page."""
 

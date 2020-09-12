@@ -1,0 +1,13 @@
+{% load humanize %}Hi {{ sender.get_full_name }},
+
+{{ recipient.get_full_name }} has received the mail you sent as part of the {{ exchange.name }} AF GANG mail exchange!{% if message %}
+
+They included the following message:
+
+
+{{ message }}{% endif %}
+
+If you've received your mail and haven't done so already, visit {{ exchange_url }} and let your sender know their mail has been received!
+
+xo
+{{ site.name }}

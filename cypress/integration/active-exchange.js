@@ -78,13 +78,44 @@ describe("Active Exchange", () => {
     cy.contains("Mark as Sent").click();
 
     cy.contains("draw-sent-intro");
-    cy.get("textarea").click().type("Test user-to-user message");
+    cy.get("textarea").click().type("Test mail sent message");
     cy.contains("Send Confirmation").click();
 
     cy.contains("Thanks! We've let Bob Userson know that mail is on its way!");
     cy.contains("draw-intro");
     cy.contains("You sent your mail");
 
-    cy.textInEmail("bob@afgang.co.uk", "Test user-to-user message");
+    cy.textInEmail("bob@afgang.co.uk", "Test mail sent message");
+  });
+  it("User can mark their mail as received.", () => {
+    cy.visit("/");
+    cy.get("[data-cy=login]")
+      .contains("Email")
+      .click()
+      .type("alice@afgang.co.uk");
+    cy.get("[data-cy=login]")
+      .contains("Password")
+      .click()
+      .type("This snowflake's an avalanche");
+    cy.get("[data-cy=login]").contains("Log In").click();
+
+    cy.contains("You've drawn Bob Userson in Cypress Test Exchange!");
+    cy.contains("See More Details").click();
+
+    cy.contains("draw-intro");
+    cy.contains("Bob Userson has drawn you!");
+    cy.contains("Mark as Received").click();
+
+    cy.contains("draw-received-intro");
+    cy.get("textarea").click().type("Test mail received message");
+    cy.contains("Send Confirmation").click();
+
+    cy.contains(
+      "Thanks! We've let Bob Userson know that you've received your mail!"
+    );
+    cy.contains("draw-intro");
+    cy.contains("You received your mail");
+
+    cy.textInEmail("bob@afgang.co.uk", "Test mail received message");
   });
 });

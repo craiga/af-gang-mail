@@ -72,6 +72,11 @@ urlpatterns = [
     path("resend-verification/", views.resend_verification, name="resend-verification"),
     path("tz_detect/", include("tz_detect.urls")),
     path("exchange/<slug:slug>/sent/", views.MailSent.as_view(), name="draw-sent"),
+    path(
+        "exchange/<slug:slug>/received/",
+        views.MailReceived.as_view(),
+        name="draw-received",
+    ),
     path("exchange/<slug:slug>/", views.Draw.as_view(), name="draw"),
     path("statto/", views.Statto.as_view(), name="statto"),
     path("ckeditor/", include("ckeditor_uploader.urls")),
