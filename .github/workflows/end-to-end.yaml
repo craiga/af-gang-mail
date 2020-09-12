@@ -76,15 +76,36 @@ jobs:
             SMTP_SERVER=`echo "$RESPONSE" | jq ".domain" -r`
       - name: Wait for Heroku
         run: |
-          until [ `curl \
+          RESPONSE=`curl \
             https://api.heroku.com/app-setups/$HEROKU_SETUP_ID \
             --header "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" \
             --header "Content-Type: application/json" \
             --header "Accept: application/vnd.heroku+json; version=3"  \
-            --silent | jq ".status" -r` != "pending" ]
+            --silent`
+          echo "Heroku app setup API response: $RESPONSE"
+          STATUS=`echo "$RESPONSE" | jq ".status" -r`
+          echo "Heroku app setup status: $STATUS"
+          until [ $STATUS != "pending" ]
           do
             sleep 1
+            RESPONSE=`curl \
+            https://api.heroku.com/app-setups/$HEROKU_SETUP_ID \
+              --header "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" \
+              --header "Content-Type: application/json" \
+              --header "Accept: application/vnd.heroku+json; version=3"  \
+              --silent`
+            echo "Heroku app setup API response: $RESPONSE"
+            STATUS=`echo "$RESPONSE" | jq ".status" -r`
+            echo "Heroku app setup status: $STATUS"
           done
+          if [ $STATUS == "failed" ]
+          then
+            echo "Heroku app setup failed."
+            echo "$RESPONSE" | jq ".failure_message" -r
+            echo "$RESPONSE" | jq ".output_stream_url" -r
+            curl `echo "$RESPONSE" | jq ".output_stream_url" -r` --silent
+            exit 1
+          fi
           HEROKU_API_KEY=${{ secrets.HEROKU_API_KEY }} \
             heroku ps:wait --type web --app $HEROKU_APP_NAME
           curl https://$HEROKU_APP_NAME.herokuapp.com --head --fail
