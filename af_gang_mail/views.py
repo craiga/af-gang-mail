@@ -246,8 +246,8 @@ class MailReceived(FormView, Draw):
         messages.success(
             self.request,
             (
-                f"Thanks! We've let { draw.sender.get_full_name() } know that you've"
-                " received your mail!"
+                f"Thanks! We've let { draw_as_recipient.sender.get_full_name() } know"
+                " that you've received your mail!"
             ),
             fail_silently=True,
         )
