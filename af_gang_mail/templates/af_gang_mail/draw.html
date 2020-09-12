@@ -15,7 +15,13 @@
                 You should try to send your mail before {{ exchange.sent|naturalday }}.
             {% endif %}
         </li>
-        <li>Hopefully you'll receive mail by {{ exchange.received|naturalday }}.</li>
+        <li>
+            {% if draw.received %}
+                You received your mail {{ draw.received|naturalday }}.
+            {% else %}
+                Hopefully you'll receive mail by {{ exchange.received|naturalday }}.
+            {% endif %}
+        </li>
     </ul>
 
     <h2>Recipient Name</h2>
@@ -26,6 +32,9 @@
     
     {% if not draw.sent %}
         <a class="button" href="{% url 'draw-sent' exchange.slug %}">Mark as Sent</a>
+    {% endif %}
+    {% if not draw.received %}
+        <a class="button" href="{% url 'draw-received' exchange.slug %}">Mark as Received</a>
     {% endif %}
     <a class="button" href="{% url 'home' %}">Go to Home Page</a>
 </div>

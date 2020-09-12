@@ -226,6 +226,7 @@ class Draw(models.Model):
         "af_gang_mail.Exchange", on_delete=models.PROTECT, related_name="draws"
     )
     sent = models.DateTimeField(blank=True, null=True)
+    received = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
