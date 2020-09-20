@@ -44,6 +44,6 @@ describe("Sign up", () => {
     cy.contains("home-upcoming-exchanges-intro");
     cy.contains("Christmas 2050");
 
-    cy.contains("home-past-exchanges-intro");
+    cy.contains("home-user-exchanges-intro");
   });
 });

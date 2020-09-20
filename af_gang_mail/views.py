@@ -64,6 +64,8 @@ class Home(LoginRequiredMixin, TemplateView):
                 "active_draws": active_draws,
                 "upcoming_exchanges": upcoming_exchanges,
                 "user_eligible_for_draws": user_eligible_for_draws,
+                "user_exchanges": user.exchanges.order_by("-drawn").all(),
+                "now": timezone.now(),
             }
         )
 

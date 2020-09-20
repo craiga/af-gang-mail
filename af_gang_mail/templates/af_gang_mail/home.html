@@ -74,24 +74,31 @@
     {% endif %}
     <button>Select Exchanges</button>
   </form>
-  <form>
-    {% flatblock "home-past-exchanges-intro" %}
-    {% if user.exchanges.past.exists %}
+  <form action="{% url 'select-exchanges' %}">
+    {% flatblock "home-user-exchanges-intro" %}
+    {% if user_exchanges %}
       <table>
         <tr>
           <th scope="col">Exchange</th>
           <th scope="col">Drawn</th>
         </tr>
-        {% for exchange in user.exchanges.past.all %}
+        {% for exchange in user_exchanges %}
           <tr>
-            <td>{{ exchange.name }}</td>
+            <td>
+              {% if exchange.drawn < now %}
+                <a href="{% url 'draw' exchange.slug %}">{{ exchange.name }}</a>
+              {% else %}
+                {{ exchange.name }}
+              {% endif %}
+            </td>
             <td title="{{ exchange.drawn }}">{{ exchange.drawn|naturalday }}</td>
           </tr>
         {% endfor %}
       </table>
     {% else %}
-      <p>No past exchanges.</p>
+      <p>You haven't joined any exchanges.</p>
     {% endif %}
+    <button>Join Upcoming Exchanges</button>
   </form>
 </div>
 
