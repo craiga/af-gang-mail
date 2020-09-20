@@ -1,0 +1,27 @@
+name: Templates
+on:
+  push:
+    paths:
+      - "**/*.html"
+      - ".github/workflows/templates.yaml"
+      - "Makefile"
+      - "Pipfile.lock"
+
+jobs:
+  lint-templates:
+    name: Lint Templates
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Setup
+        run: |
+          pip install pipenv
+          pipenv install --dev
+      - name: Lint Templates
+        run: make lint-templates

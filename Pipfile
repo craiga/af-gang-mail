@@ -20,6 +20,7 @@ model-bakery = "*"
 pytest-repeat = "*"
 pyfakefs = "*"
 pytest-freezegun = "*"
+curlylint = "*"
 
 [packages]
 django = {extras = ["argon2"], version = "*"}
