@@ -27,7 +27,7 @@ describe("Active Exchange", () => {
 
     cy.contains("home-upcoming-exchanges-intro");
 
-    cy.contains("home-past-exchanges-intro");
+    cy.contains("home-user-exchanges-intro");
 
     cy.contains("You've drawn Bob Userson in Cypress Test Exchange!");
     cy.contains("See More Details").click();
