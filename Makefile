@@ -147,6 +147,9 @@ lint-js: ## Lint JavaScript.
 fix-js: ## Attempt to fix JavaScript issues reported by the linter.
 	npm run prettier -- "**/*.js" --write
 
+lint-templates:  ## Lint Templates.
+	pipenv run curlylint .
+
 images: ## Resize and optimize images.
 	./make-images.sh
 
