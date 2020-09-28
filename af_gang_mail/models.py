@@ -24,7 +24,7 @@ class UserManager(auth.models.UserManager):
     """User manager."""
 
     def eligible_for_draw(self):
-        return self.filter(emailaddress__verified=True).exclude(
+        return self.filter(emailaddress__verified=True, is_active=True).exclude(
             Q(first_name="") & Q(last_name="")
         )
 

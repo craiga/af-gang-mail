@@ -65,10 +65,22 @@ def last_name_user():
     )
 
 
+@pytest.fixture
+def inactive_user():
+    """An inactive user."""
+
+    return baker.make(
+        "af_gang_mail.User",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+        is_active=False,
+        _fill_optional=["first_name", "last_name"],
+    )
+
+
 @pytest.mark.django_db
-# pylint: disable=unused-argument
+# pylint: disable=unused-argument, too-many-arguments
 def test_eligible_for_draw(
-    user, first_name_user, last_name_user, unverified_user, no_name_user
+    user, first_name_user, last_name_user, unverified_user, no_name_user, inactive_user
 ):
     """Test getting users which are eligible for a draw."""
 
