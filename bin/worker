@@ -7,4 +7,4 @@ then
     python manage.py check --deploy --fail-level WARNING
 fi
 
-REMAP_SIGTERM=SIGQUIT celery worker --app af_gang_mail --loglevel INFO --without-gossip --without-mingle --without-heartbeat
+REMAP_SIGTERM=SIGQUIT celery --app af_gang_mail worker --loglevel INFO --without-gossip 1 --without-mingle 1 --without-heartbeat 1

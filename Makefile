@@ -11,10 +11,10 @@ purge-queue:  ## Purge the task queue.
 	rabbitmqadmin purge queue name=celery
 
 worker:  ## Run one instance of the queue worker.
-	pipenv run watchmedo auto-restart --pattern=*.py --recursive -- celery worker --app af_gang_mail --loglevel INFO
+	pipenv run watchmedo auto-restart --pattern=*.py --recursive -- celery --app af_gang_mail worker --loglevel INFO
 
 monitor:  ## Run the web-based queue monitor.
-	pipenv run watchmedo auto-restart --pattern=*.py --recursive -- celery flower --app af_gang_mail
+	pipenv run watchmedo auto-restart --pattern=*.py --recursive -- celery --app af_gang_mail flower
 
 db:  ## Create a database.
 	createuser af_gang_mail --createdb
@@ -70,7 +70,7 @@ cypress-worker:  ## Build and serve the web site for Cypress.
 		SMTP_SERVER=smtp.mailtrap.io \
 		SMTP_USERNAME=`cat .env | grep MAILTRAP_SMTP_USERNAME | sed "s/MAILTRAP_SMTP_USERNAME=//"` \
 		SMTP_PASSWORD=`cat .env | grep MAILTRAP_SMTP_PASSWORD | sed "s/MAILTRAP_SMTP_PASSWORD=//"` \
-		pipenv run celery worker --app af_gang_mail --loglevel INFO
+		pipenv run celery --app af_gang_mail worker --loglevel INFO
 
 cypress:  ## Run the Cypress test runner.
 	CYPRESS_DJANGO_MANAGE_COMMAND="PIPENV_DONT_LOAD_ENV=1 DATABASE_URL=postgres://af_gang_mail_cypress:security_is_important@localhost/af_gang_mail_cypress pipenv run python manage.py" \
