@@ -78,7 +78,6 @@
                 "sha256:313930fddde703d8e37029a304bf91429cd11aeef63c57de6daca9d958e1f255",
                 "sha256:72138dc3887f68dc58e1a2397e477256f80f1894c69fa4337f8ed70be460375b"
             ],
-            "index": "pypi",
             "version": "==5.0.0"
         },
         "certifi": {
@@ -597,7 +596,6 @@
                 "sha256:313930fddde703d8e37029a304bf91429cd11aeef63c57de6daca9d958e1f255",
                 "sha256:72138dc3887f68dc58e1a2397e477256f80f1894c69fa4337f8ed70be460375b"
             ],
-            "index": "pypi",
             "version": "==5.0.0"
         },
         "click": {
@@ -692,11 +690,11 @@
         },
         "isort": {
             "hashes": [
-                "sha256:171c5f365791073426b5ed3a156c2081a47f88c329161fd28228ff2da4c97ddb",
-                "sha256:ba91218eee31f1e300ecc079ef0c524cea3fc41bfbb979cbdf5fd3a889e3cfed"
+                "sha256:36f0c6659b9000597e92618d05b72d4181104cf59472b1c6a039e3783f930c95",
+                "sha256:ba040c24d20aa302f78f4747df549573ae1eaf8e1084269199154da9c483f07f"
             ],
             "index": "pypi",
-            "version": "==5.5.2"
+            "version": "==5.5.4"
         },
         "jedi": {
             "hashes": [
