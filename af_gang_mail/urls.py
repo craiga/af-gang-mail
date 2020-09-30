@@ -80,7 +80,7 @@ urlpatterns = [
     path("exchange/<slug:slug>/", views.Draw.as_view(), name="draw"),
     path("statto/", views.Statto.as_view(), name="statto"),
     path("ckeditor/", include("ckeditor_uploader.urls")),
-    path('contact/', include('contact_form.urls')),
+    path("contact/", include("contact_form.urls")),
     re_path(r"^(?P<url>.*/)$", flatpage),
     path("", views.Landing.as_view(), name="landing"),
 ]
