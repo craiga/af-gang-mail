@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "ckeditor",
     "ckeditor_uploader",
+    "contact_form",
     "crispy_forms",
     "debug_toolbar",
     "django_countries",
@@ -365,6 +366,12 @@ CELERY_WORKER_SEND_TASK_EVENTS = bool(os.environ.get("CELERY_WORKER_SEND_TASK_EV
 
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@mail.afgang.co.uk")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
+MANAGERS = [
+    (
+        os.environ.get("MANAGER_NAME", "Craig Anderson"),
+        os.environ.get("MANAGER_EMAIL", "craiga@craiga.id.au")
+    )
+]
 EMAIL_BACKEND = "djcelery_email.backends.CeleryEmailBackend"
 
 if "SENDINBLUE_API_KEY" in os.environ:
