@@ -1,5 +1,7 @@
 """Test create_email_message."""
 
+from django import urls
+
 import pytest
 
 from af_gang_mail.views import MailReceived
@@ -22,3 +24,7 @@ def test_create_email_message(draw, exchange, recipient, sender):
     assert recipient.get_full_name() in email_message.body
     assert exchange.name in email_message.body
     assert "test message" in email_message.body
+    assert (
+        urls.reverse("draw-received", kwargs={"slug": exchange.slug})
+        in email_message.body
+    )

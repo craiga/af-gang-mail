@@ -7,7 +7,7 @@ They included the following message:
 
 {{ message }}{% endif %}
 
-If you've sent your mail and haven't done so already, visit {{ exchange_url }} and let your recipient know their mail is on its way!
+If you've sent your mail and haven't done so already, visit {{ mark_as_sent_url }} and let your recipient know their mail is on its way!
 
 xo
 {{ site.name }}

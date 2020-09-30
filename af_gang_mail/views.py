@@ -199,9 +199,6 @@ class MailSent(FormView, Draw):
 
         site = Site.objects.get_current()
         scheme = "https" if settings.SECURE_SSL_REDIRECT else "http"
-        exchange_url = f"{ scheme }://{ site.domain }" + urls.reverse(
-            "draw", kwargs={"slug": draw.exchange.slug}
-        )
 
         context = {
             "message": message,
@@ -209,7 +206,12 @@ class MailSent(FormView, Draw):
             "sender": draw.sender,
             "recipient": draw.recipient,
             "site": site,
-            "exchange_url": exchange_url,
+            "exchange_url": f"{ scheme }://{ site.domain }"
+            + urls.reverse("draw", kwargs={"slug": draw.exchange.slug}),
+            "mark_as_sent_url": f"{ scheme }://{ site.domain }"
+            + urls.reverse("draw-sent", kwargs={"slug": draw.exchange.slug}),
+            "mark_as_received_url": f"{ scheme }://{ site.domain }"
+            + urls.reverse("draw-received", kwargs={"slug": draw.exchange.slug}),
         }
 
         msg = mail.EmailMultiAlternatives(
@@ -271,9 +273,6 @@ class MailReceived(FormView, Draw):
 
         site = Site.objects.get_current()
         scheme = "https" if settings.SECURE_SSL_REDIRECT else "http"
-        exchange_url = f"{ scheme }://{ site.domain }" + urls.reverse(
-            "draw", kwargs={"slug": draw.exchange.slug}
-        )
 
         context = {
             "message": message,
@@ -281,7 +280,12 @@ class MailReceived(FormView, Draw):
             "sender": draw.sender,
             "recipient": draw.recipient,
             "site": site,
-            "exchange_url": exchange_url,
+            "exchange_url": f"{ scheme }://{ site.domain }"
+            + urls.reverse("draw", kwargs={"slug": draw.exchange.slug}),
+            "mark_as_sent_url": f"{ scheme }://{ site.domain }"
+            + urls.reverse("draw-sent", kwargs={"slug": draw.exchange.slug}),
+            "mark_as_received_url": f"{ scheme }://{ site.domain }"
+            + urls.reverse("draw-received", kwargs={"slug": draw.exchange.slug}),
         }
 
         msg = mail.EmailMultiAlternatives(

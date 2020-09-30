@@ -4,14 +4,15 @@ Thanks for taking part in the {{ draw.exchange.name }} AF GANG mail exchange!
 
 You've drawn {{ recipient.get_full_name }}!
 
-You should try to send your mail before {{ exchange.sent|naturalday }}.
-
 Their address is:
 {{ recipient.get_full_address }}
 
+You should try to send your mail before {{ exchange.sent|naturalday }}. Once you've sent your mail, let {{ recipient.get_full_name }} know by visiting {{ mark_as_sent_url }}
+
 {{ sender.get_full_name }} has drawn you!
 
-Hopefully you'll receive mail by {{ exchange.received|naturalday }}.
+Hopefully you'll receive mail by {{ exchange.received|naturalday }}.  Once you've received your mail, let {{ sender.get_full_name }} know by visiting {{ mark_as_received_url }}
+
 You can also get this information at {{ exchange_url }}
 
 xo
