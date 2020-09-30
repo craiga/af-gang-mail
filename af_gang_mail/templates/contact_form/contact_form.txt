@@ -1,0 +1,7 @@
+{{ name }} ({{ email }}) says:
+
+{{ body }}
+
+xo
+{{ site.name }}
+{{ site.domain }}
