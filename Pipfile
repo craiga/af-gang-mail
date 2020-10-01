@@ -50,6 +50,7 @@ django-su = "*"
 django-storages = "*"
 boto3 = "*"
 django-markdown2 = "*"
+django-contact-form = "*"
 
 [requires]
 python_version = "3.8"

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags flatblocks %}
+
+{% block body_classes %}select-exchanges{% endblock %}
+
+{% block content %}
+
+<div class="yellow-box">
+  {% flatblock "contact-sent" %}
+  <a href="{% url 'home' %}" class="button">Return to Home Page</a>
+</div>
+
+{% endblock %}
