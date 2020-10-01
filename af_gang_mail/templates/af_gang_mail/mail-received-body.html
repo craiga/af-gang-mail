@@ -5,14 +5,15 @@
 {% block content %}
 
 <p>Hi {{ sender.get_full_name }},</p>
-<p>{{ recipient.get_full_name }} has received the mail you sent as part of the {{ exchange.name }} AF GANG mail exchange!</p>
+<p>{{ recipient.get_full_name }} has received the mail you sent as part of the
+    {{ exchange.name }} AF GANG mail exchange!</p>
 {% if message %}
 <p>They included the following message:</p>
 <blockquote>
     <p>{{ message|linebreaksbr }}</p>
 </blockquote>
 {% endif %}
-<p>If you've received your mail and haven't done so already, visit <a href="{{ exchange_url }}">{{ exchange_url }}</a> and let your sender know their mail has been received!</p>
+<p>If you've received your mail and haven't done so already, visit <a href="{{ mark_as_received_url }}">{{ mark_as_received_url }}</a> and let your sender know their mail has been received!</p>
 <p>xo</p>
 <p>{{ site.name }}</p>
 

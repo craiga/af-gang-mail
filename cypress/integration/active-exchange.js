@@ -50,14 +50,6 @@ describe("Active Exchange", () => {
     cy.contains("Log In").click();
 
     cy.contains("Welcome back Alice McUserFace!");
-
-    cy.contains("draw-intro");
-    cy.contains("Bob Userson");
-    cy.contains("74-76 Johnston Street");
-    cy.contains("Fitzroy");
-    cy.contains("Victoria");
-    cy.contains("3065");
-    cy.contains("Australia");
   });
   it("User can mark their mail as sent.", () => {
     cy.visit("/");

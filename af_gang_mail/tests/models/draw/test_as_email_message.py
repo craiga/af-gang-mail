@@ -76,4 +76,11 @@ def test_as_created_email_message(
     assert sender.get_full_name() in email_message.body
     assert sender.get_full_address() not in email_message.body
     assert urls.reverse("draw", kwargs={"slug": exchange.slug}) in email_message.body
+    assert (
+        urls.reverse("draw-sent", kwargs={"slug": exchange.slug}) in email_message.body
+    )
+    assert (
+        urls.reverse("draw-received", kwargs={"slug": exchange.slug})
+        in email_message.body
+    )
     assert "http" in email_message.body
