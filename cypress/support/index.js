@@ -12,7 +12,9 @@ Cypress.Commands.add("resetAndLoadFixtures", (fixtures) => {
 
 Cypress.Commands.add("doDraw", () => {
   cy.exec(
-    Cypress.env("DJANGO_MANAGE_COMMAND") + " enqueue-scheduled-exchange-draws"
+    "CELERY_TASK_ALWAYS_EAGER=1 " +
+      Cypress.env("DJANGO_MANAGE_COMMAND") +
+      " enqueue-scheduled-exchange-draws"
   );
 });
 
