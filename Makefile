@@ -18,12 +18,14 @@ monitor:  ## Run the web-based queue monitor.
 
 db:  ## Create a database.
 	createuser af_gang_mail --createdb
-	psql --command "alter user af_gang_mail with encrypted password 'security_is_important';"
+	psql --command "alter user af_gang_mail with encrypted password 'security_is_important';" postgres
 	createdb af_gang_mail --owner=af_gang_mail
+	make migrate
 
 db-delete:  ## Delete database.
-	dropdb af_gang_mail
-	dropuser af_gang_mail
+	dropdb --if-exists af_gang_mail
+	dropdb --if-exists test_af_gang_mail
+	dropuser --if-exists af_gang_mail
 
 setup:  ## Install required environments and packages.
 	pipenv install --dev

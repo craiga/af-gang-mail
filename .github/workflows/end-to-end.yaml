@@ -65,7 +65,7 @@ jobs:
           echo "Mailtrap API Response: $RESPONSE"
           export MAILTRAP_INBOX_ID=`echo "$RESPONSE" | jq ".id" -r`
           echo "Inbox ID: $MAILTRAP_INBOX_ID"
-          echo "::set-env name=MAILTRAP_INBOX_ID::$MAILTRAP_INBOX_ID"
+          echo "MAILTRAP_INBOX_ID=$MAILTRAP_INBOX_ID" >> $GITHUB_ENV
           heroku config:set \
             SMTP_USERNAME=`echo "$RESPONSE" | jq ".username" -r` \
             SMTP_PASSWORD=`echo "$RESPONSE" | jq ".password" -r` \
