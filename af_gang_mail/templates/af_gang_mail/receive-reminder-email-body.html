@@ -5,7 +5,7 @@
 {% block content %}
 
 <p>Hi {{ draw.sender.get_full_name }},</p>
-<p>Have you received mail from {{ sender.get_full_name }} for the {{ draw.exchange.name }} AF GANG Mail Exchange?</tag>
+<p>Have you received mail from {{ sender.get_full_name }} for the {{ draw.exchange.name }} AF GANG Mail Exchange?</p>
 <p>If so, let them know it's arrived by marking it as sent at <a href="{{ mark_as_received_url }}">{{ mark_as_received_url }}</a>.</p>
 <p>If you still haven't done so, make sure to let {{ recipient.get_full_name }} know their mail's on its way at <a href="{{ mark_as_sent_url }}">{{ mark_as_sent_url }}</a>.</p>
 <p>Finally, remember you can always see all the details you need at <a href=" {{ exchange_url }}">{{ exchange_url }}</a>.</p>
@@ -13,3 +13,4 @@
 <p>{{ site.name }}</p>
 
 {% endblock %}
+{}{}
