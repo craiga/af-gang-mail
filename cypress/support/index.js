@@ -14,7 +14,7 @@ Cypress.Commands.add("doDraw", () => {
   cy.exec(
     "CELERY_TASK_ALWAYS_EAGER=1 " +
       Cypress.env("DJANGO_MANAGE_COMMAND") +
-      " enqueue-scheduled-exchange-draws"
+      " enqueue-tasks"
   );
 });
 

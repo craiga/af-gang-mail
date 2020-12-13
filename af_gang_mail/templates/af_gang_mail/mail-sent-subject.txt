@@ -1,1 +1,1 @@
-{{ sender.get_full_name }} has sent you some mail as part the {{ exchange.name }} AF GANG mail exchange!
+{{ sender.get_full_name }} has sent you some mail as part the {{ exchange.name }} AF GANG Mail Exchange!

@@ -1,6 +1,6 @@
 {% load humanize %}Hi {{ sender.get_full_name }},
 
-{{ recipient.get_full_name }} has received the mail you sent as part of the {{ exchange.name }} AF GANG mail exchange!{% if message %}
+{{ recipient.get_full_name }} has received the mail you sent as part of the {{ exchange.name }} AF GANG Mail Exchange!{% if message %}
 
 They included the following message:
 

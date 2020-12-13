@@ -1,0 +1,15 @@
+{% extends 'email_base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+
+<p>Hi {{ draw.sender.get_full_name }},</p>
+<p>Have you managed to send mail to {{ recipient.get_full_name }} for the {{ draw.exchange.name }} AF GANG Mail Exchange yet?</p>
+<p>If so, let them know it's on the way by marking it as sent at <a href="{{ mark_as_sent_url }}">{{ mark_as_sent_url }}</a>.</p>
+<p>Once you've received your mail, you can let {{ sender.get_full_name }} know that it's been received at <a href="{{ mark_as_received_url }}">{{ mark_as_received_url }}</a>.</p>
+<p>Finally, remember you can always see all the details you need at <a href="{{ exchange_url }}">{{ exchange_url }}</a>.</p>
+<p>xo</p>
+<p>{{ site.name }}</p>
+
+{% endblock %}

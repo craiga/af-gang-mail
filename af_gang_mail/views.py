@@ -501,6 +501,12 @@ class ViewDraw(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
         context_data[
             "draw_email_message"
         ] = self.get_object().as_created_email_message()
+        context_data[
+            "send_reminder_email_message"
+        ] = self.get_object().as_send_reminder_email_message()
+        context_data[
+            "receive_reminder_email_message"
+        ] = self.get_object().as_receive_reminder_email_message()
         return context_data
 
 
