@@ -78,7 +78,38 @@ def send_draw_emails(exchange_id):
     """Send emails for a draw."""
 
     exchange = models.Exchange.objects.get(id=exchange_id)
-    connection = mail.get_connection()
-    connection.send_messages(
-        [d.as_created_email_message() for d in exchange.draws.all()]
-    )
+    if exchange.send_emails:
+        connection = mail.get_connection()
+        connection.send_messages(
+            [d.as_created_email_message() for d in exchange.draws.all()]
+        )
+
+
+@celery.app.task
+def send_send_reminders(exchange_id):
+    """Send send reminders for an exchange."""
+
+    exchange = models.Exchange.objects.get(id=exchange_id)
+    if exchange.send_emails:
+        connection = mail.get_connection()
+        connection.send_messages(
+            [
+                d.as_send_reminder_email_message()
+                for d in exchange.draws.filter(sent__isnull=True)
+            ]
+        )
+
+
+@celery.app.task
+def send_receive_reminders(exchange_id):
+    """Send receive reminders for an exchange."""
+
+    exchange = models.Exchange.objects.get(id=exchange_id)
+    if exchange.send_emails:
+        connection = mail.get_connection()
+        connection.send_messages(
+            [
+                d.as_receive_reminder_email_message()
+                for d in exchange.draws.filter(sent__isnull=True)
+            ]
+        )

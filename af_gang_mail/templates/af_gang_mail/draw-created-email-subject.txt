@@ -1,1 +1,1 @@
-You've drawn {{ draw.recipient.get_full_name }} in the {{ draw.exchange.name }} AF GANG mail exchange!
+You've drawn {{ recipient.get_full_name }} in the {{ draw.exchange.name }} AF GANG Mail Exchange!

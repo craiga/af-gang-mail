@@ -20,12 +20,12 @@
     "fields": {
       "name": "September",
       "slug": "september",
-      "drawn": "2020-09-01T00:00:00Z",
+      "drawn": "2020-09-01T12:00:00Z",
       "sent": "2020-09-14T00:00:00Z",
       "received": "2020-09-28T00:00:00Z",
       "created": "2020-06-25T17:07:09.380Z",
-      "updated": "2020-08-02T12:49:09.026Z",
-      "draw_started": null,
+      "updated": "2020-09-20T14:53:29.761Z",
+      "draw_started": "2020-09-01T12:04:27.729Z",
       "send_emails": true
     }
   },
@@ -99,8 +99,8 @@
       "sent": "2020-10-14T11:00:00Z",
       "received": "2020-10-28T12:00:00Z",
       "created": "2020-08-02T12:41:32.110Z",
-      "updated": "2020-08-02T12:41:32.110Z",
-      "draw_started": null,
+      "updated": "2020-10-01T11:04:45.084Z",
+      "draw_started": "2020-10-01T11:04:45.080Z",
       "send_emails": true
     }
   },
@@ -114,8 +114,8 @@
       "sent": "2020-11-14T12:00:00Z",
       "received": "2020-11-28T12:00:00Z",
       "created": "2020-08-03T18:37:54.110Z",
-      "updated": "2020-08-03T18:37:54.110Z",
-      "draw_started": null,
+      "updated": "2020-11-01T12:04:14.416Z",
+      "draw_started": "2020-11-01T12:04:14.410Z",
       "send_emails": true
     }
   },
@@ -123,14 +123,14 @@
     "model": "af_gang_mail.exchange",
     "pk": 11,
     "fields": {
-      "name": "Glitter Fest 3 ✨",
+      "name": "Glitter Fest 3",
       "slug": "glitter-fest-3",
       "drawn": "2020-12-01T12:00:00Z",
       "sent": "2020-12-14T12:00:00Z",
       "received": "2020-12-28T12:00:00Z",
       "created": "2020-08-03T19:01:59.068Z",
-      "updated": "2020-08-03T19:01:59.068Z",
-      "draw_started": null,
+      "updated": "2020-12-01T12:05:12.605Z",
+      "draw_started": "2020-12-01T12:05:12.601Z",
       "send_emails": true
     }
   },

@@ -97,6 +97,12 @@ class ExchangeManager(models.Manager):
     def scheduled_for_draw(self):
         return self.filter(drawn__lt=now(), draw_started__isnull=True)
 
+    def scheduled_for_send_reminder(self):
+        return self.filter(sent__lt=now(), send_reminder_started__isnull=True)
+
+    def scheduled_for_receive_reminder(self):
+        return self.filter(received__lt=now(), receive_reminder_started__isnull=True)
+
     def drawn_not_sent(self):
         return self.filter(drawn__lt=now(), sent__gt=now())
 
@@ -115,6 +121,8 @@ class Exchange(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     draw_started = models.DateTimeField(blank=True, null=True)
+    send_reminder_started = models.DateTimeField(blank=True, null=True)
+    receive_reminder_started = models.DateTimeField(blank=True, null=True)
     send_emails = models.BooleanField(default=False)
 
     objects = ExchangeManager()
@@ -271,18 +279,14 @@ class Draw(models.Model):
             + urls.reverse("draw-received", kwargs={"slug": self.exchange.slug}),
         }
 
-    def as_created_email_message(self, **kwargs):
+    def _as_email_message(
+        self, subject_template, body_text_template, body_html_template, **kwargs
+    ):
         """Construct an EmailMessage for this draw."""
 
-        subject_template = template.loader.get_template(
-            "af_gang_mail/draw-created-email-subject.txt"
-        )
-        body_text_template = template.loader.get_template(
-            "af_gang_mail/draw-created-email-body.txt"
-        )
-        body_html_template = template.loader.get_template(
-            "af_gang_mail/draw-created-email-body.html"
-        )
+        subject_template = template.loader.get_template(subject_template)
+        body_text_template = template.loader.get_template(body_text_template)
+        body_html_template = template.loader.get_template(body_html_template)
 
         context = self.get_context_data()
         msg = EmailMultiAlternatives(
@@ -295,3 +299,27 @@ class Draw(models.Model):
         msg.attach_alternative(body_html_template.render(context), "text/html")
 
         return msg
+
+    def as_created_email_message(self, **kwargs):
+        return self._as_email_message(
+            "af_gang_mail/draw-created-email-subject.txt",
+            "af_gang_mail/draw-created-email-body.txt",
+            "af_gang_mail/draw-created-email-body.html",
+            **kwargs,
+        )
+
+    def as_send_reminder_email_message(self, **kwargs):
+        return self._as_email_message(
+            "af_gang_mail/send-reminder-email-subject.txt",
+            "af_gang_mail/send-reminder-email-body.txt",
+            "af_gang_mail/send-reminder-email-body.html",
+            **kwargs,
+        )
+
+    def as_receive_reminder_email_message(self, **kwargs):
+        return self._as_email_message(
+            "af_gang_mail/receive-reminder-email-subject.txt",
+            "af_gang_mail/receive-reminder-email-body.txt",
+            "af_gang_mail/receive-reminder-email-body.html",
+            **kwargs,
+        )

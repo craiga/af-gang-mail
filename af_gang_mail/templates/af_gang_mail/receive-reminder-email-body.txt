@@ -1,0 +1,13 @@
+{% load humanize %}Hi {{ draw.sender.get_full_name }},
+
+Have you received mail from {{ sender.get_full_name }} for the {{ draw.exchange.name }} AF GANG Mail Exchange?
+
+If so, let them know it's arrived by marking it as sent at {{ mark_as_received_url }}
+
+If you still haven't done so, make sure to let {{ recipient.get_full_name }} know their mail's on its way at {{ mark_as_sent_url }}
+
+Finally, remember you can always see all the details you need at {{ exchange_url }}
+
+xo
+
+{{ site.name }}

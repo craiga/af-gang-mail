@@ -1,0 +1,1 @@
+Have you sent mail to {{ recipient.get_full_name }} in the {{ draw.exchange.name }} AF GANG Mail Exchange?
