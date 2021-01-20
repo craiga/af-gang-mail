@@ -1,0 +1,13 @@
+{% extends 'email_base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+
+<p>Hi {{ user.get_full_name }},</p>
+<p>The {{ exchange.name }} AF GANG Mail Exchange is coming up!</p>
+<p>Click this link to confirm that you're taking part: <a href="{{ confirm_url }}">{{ confirm_url }}</a></p>
+<p>xo</p>
+<p>{{ site.name }}</p>
+
+{% endblock %}

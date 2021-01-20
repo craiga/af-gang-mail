@@ -18,7 +18,7 @@ def exchange():
 
 @pytest.fixture
 def users(exchange):
-    """A number of users belonging to exchange."""
+    """A number of confirmed users belonging to exchange."""
 
     users = []
     for _ in range(0, 5):
@@ -28,15 +28,34 @@ def users(exchange):
             _fill_optional=["first_name", "last_name"],
         )
         assert user.has_verified_email_address()
-        user.exchanges.add(exchange)
+        user.exchanges.add(exchange, through_defaults={"confirmed": True})
+        users.append(user)
+
+    return users
+
+
+@pytest.fixture
+def unconfirmed_users(exchange):
+    """A number of unconfirmed users belonging to exchange."""
+
+    users = []
+    for _ in range(0, 5):
+        user = baker.make(
+            "af_gang_mail.User",
+            emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+            _fill_optional=["first_name", "last_name"],
+        )
+        assert user.has_verified_email_address()
+        user.exchanges.add(exchange, through_defaults={"confirmed": False})
         users.append(user)
 
     return users
 
 
 @pytest.mark.django_db
-def test_draw(exchange, users, django_assert_max_num_queries):
+def test_draw(exchange, users, unconfirmed_users, django_assert_max_num_queries):
     """Test a simple draw."""
+    # pylint: disable=unused-argument
 
     with django_assert_max_num_queries(2 + len(users)):
         draws = Draw.objects.bulk_create_from_exchange(exchange)
@@ -68,7 +87,7 @@ def test_draw_with_past_exchange(exchange):
         last_name="Diamond",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
-    mike_d.exchanges.add(exchange, past_exchange)
+    mike_d.exchanges.add(exchange, past_exchange, through_defaults={"confirmed": True})
     adrock = baker.make(
         "af_gang_mail.User",
         username="adrock",
@@ -76,7 +95,7 @@ def test_draw_with_past_exchange(exchange):
         last_name="Horovitz",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
-    adrock.exchanges.add(exchange, past_exchange)
+    adrock.exchanges.add(exchange, past_exchange, through_defaults={"confirmed": True})
     mca = baker.make(
         "af_gang_mail.User",
         username="mca",
@@ -84,7 +103,7 @@ def test_draw_with_past_exchange(exchange):
         last_name="Yauch",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
-    mca.exchanges.add(exchange, past_exchange)
+    mca.exchanges.add(exchange, past_exchange, through_defaults={"confirmed": True})
 
     # Set up a previous draw.
     # Mike D => Adrock => MCA.
@@ -129,7 +148,9 @@ def test_impossible_draw(exchange):
         last_name="Mercer",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
-    posdnuos.exchanges.add(exchange, past_exchange_1, past_exchange_2)
+    posdnuos.exchanges.add(
+        exchange, past_exchange_1, past_exchange_2, through_defaults={"confirmed": True}
+    )
     trugoy = baker.make(
         "af_gang_mail.User",
         username="trugoy",
@@ -137,7 +158,9 @@ def test_impossible_draw(exchange):
         last_name="Jolicoeur",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
-    trugoy.exchanges.add(exchange, past_exchange_1, past_exchange_2)
+    trugoy.exchanges.add(
+        exchange, past_exchange_1, past_exchange_2, through_defaults={"confirmed": True}
+    )
     maseo = baker.make(
         "af_gang_mail.User",
         username="maseo",
@@ -145,7 +168,9 @@ def test_impossible_draw(exchange):
         last_name="Mason",
         emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
     )
-    maseo.exchanges.add(exchange, past_exchange_1, past_exchange_2)
+    maseo.exchanges.add(
+        exchange, past_exchange_1, past_exchange_2, through_defaults={"confirmed": True}
+    )
 
     # Set up first exchange.
     # Posdnous => Trugoy => Maseo.
@@ -180,6 +205,62 @@ def test_impossible_draw(exchange):
         assert draw.sender != draw.recipient
         assert draw.sender in [posdnuos, trugoy, maseo]
         assert draw.recipient in [posdnuos, trugoy, maseo]
+
+
+@pytest.mark.django_db
+def test_previous_conf_does_not_confirm(exchange):
+    """
+    Test confirmation of one exchange does not imply confirmation of another.
+
+    Featuring Weezer.
+    """
+
+    past_exchange = baker.make("af_gang_mail.Exchange", slug="past-exchange")
+
+    # Set up Weezer. Note that Matt Sharp hasn't confirmed for the current exchange.
+    rivers = baker.make(
+        "af_gang_mail.User",
+        username="rivers",
+        first_name="Rivers",
+        last_name="Cuomo",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+    )
+    rivers.exchanges.add(exchange, past_exchange, through_defaults={"confirmed": True})
+    pat = baker.make(
+        "af_gang_mail.User",
+        username="pat",
+        first_name="Pat",
+        last_name="Wilson",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+    )
+    pat.exchanges.add(exchange, past_exchange, through_defaults={"confirmed": True})
+    brian = baker.make(
+        "af_gang_mail.User",
+        username="brian",
+        first_name="Brian",
+        last_name="Bell",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+    )
+    brian.exchanges.add(exchange, past_exchange, through_defaults={"confirmed": True})
+    matt = baker.make(
+        "af_gang_mail.User",
+        username="matt",
+        first_name="Matt",
+        last_name="Sharp",
+        emailaddress_set=baker.prepare(EmailAddress, verified=True, _quantity=1),
+    )
+    matt.exchanges.add(exchange, through_defaults={"confirmed": False})
+    matt.exchanges.add(past_exchange, through_defaults={"confirmed": True})
+
+    # Generate a new draw.
+    draws = Draw.objects.bulk_create_from_exchange(exchange)
+
+    # Test draws were generated.
+    assert len(draws) == 3
+    for draw in draws:
+        assert draw.sender != draw.recipient
+        assert draw.sender in [rivers, pat, brian]
+        assert draw.recipient in [rivers, pat, brian]
 
 
 @pytest.mark.django_db

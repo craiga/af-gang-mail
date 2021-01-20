@@ -19,8 +19,31 @@
       "is_active": true,
       "date_joined": "2020-06-22T18:00:25.299Z",
       "groups": [],
-      "user_permissions": [],
-      "exchanges": [1, 2, 3]
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "af_gang_mail.userinexchange",
+    "fields": {
+      "user": 1,
+      "exchange": 1,
+      "confirmed": true
+    }
+  },
+  {
+    "model": "af_gang_mail.userinexchange",
+    "fields": {
+      "user": 1,
+      "exchange": 2,
+      "confirmed": true
+    }
+  },
+  {
+    "model": "af_gang_mail.userinexchange",
+    "fields": {
+      "user": 1,
+      "exchange": 3,
+      "confirmed": true
     }
   },
   {
@@ -68,8 +91,31 @@
       "is_active": true,
       "date_joined": "2020-06-22T18:00:25.299Z",
       "groups": [],
-      "user_permissions": [],
-      "exchanges": [1, 2, 3]
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "af_gang_mail.userinexchange",
+    "fields": {
+      "user": 3,
+      "exchange": 1,
+      "confirmed": true
+    }
+  },
+  {
+    "model": "af_gang_mail.userinexchange",
+    "fields": {
+      "user": 3,
+      "exchange": 2,
+      "confirmed": true
+    }
+  },
+  {
+    "model": "af_gang_mail.userinexchange",
+    "fields": {
+      "user": 3,
+      "exchange": 3,
+      "confirmed": true
     }
   },
   {

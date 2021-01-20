@@ -4,10 +4,21 @@
 
 <div class="yellow-box">
   <dl>
+
     {% for field, value in draw_data.items %}
       <dt>{{ field }}</dt>
       <dd>{{ value }}</dd>
     {% endfor %}
+
+    <dt>Confirmation Email Subject</dt>
+    <dd>{{ confirmation_email_message.subject }}</dd>
+    <dt>Confirmation Email Body (Plain Text)</dt>
+    <dd><pre>{{ confirmation_email_message.body }}</pre></dd>
+    {% for email_body, mime_type in confirmation_email_message.alternatives %}
+      <dt>Confirmation Email Body ({{ mime_type }})</dt>
+      <dd>{{ email_body }}</dd>
+    {% endfor %}
+
     <dt>Drawn Email Subject</dt>
     <dd>{{ draw_email_message.subject }}</dd>
     <dt>Drawn Email Body (Plain Text)</dt>
@@ -16,9 +27,7 @@
       <dt>Drawn Email Body ({{ mime_type }})</dt>
       <dd>{{ email_body }}</dd>
     {% endfor %}
-    
-    
-    
+
     <dt>Send Reminder Email Subject</dt>
     <dd>{{ send_reminder_email_message.subject }}</dd>
     <dt>Send Reminder Email Body (Plain Text)</dt>
@@ -27,6 +36,7 @@
       <dt>Send Reminder Email Body ({{ mime_type }})</dt>
       <dd>{{ email_body }}</dd>
     {% endfor %}
+
     <dt>Receive Reminder Email Subject</dt>
     <dd>{{ receive_reminder_email_message.subject }}</dd>
     <dt>Receive Reminder Email Body (Plain Text)</dt>
@@ -35,8 +45,7 @@
       <dt>Receive Reminder Email Body ({{ mime_type }})</dt>
       <dd>{{ email_body }}</dd>
     {% endfor %}
-    
-    
+
   </dl>
 
   <nav>

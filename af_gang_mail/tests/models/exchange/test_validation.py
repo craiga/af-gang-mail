@@ -9,34 +9,80 @@ import pytest
 from model_bakery import baker
 
 
+@pytest.mark.parametrize(
+    "confirmation, confirmation_reminder, drawn, sent, received",
+    [
+        (
+            now(),
+            now() + timedelta(days=1),
+            now() + timedelta(days=2),
+            now() + timedelta(days=3),
+            now() + timedelta(days=4),
+        ),
+    ],
+)
 @pytest.mark.django_db
-def test_valid_datetime_sequence():
+def test_valid_datetime_sequence(
+    confirmation, confirmation_reminder, drawn, sent, received
+):
     """Test a valid datetime sequence."""
 
     exchange = baker.prepare(
         "af_gang_mail.Exchange",
         slug="my-cool-exchange",
-        drawn=now(),
-        sent=now() + timedelta(days=1),
-        received=now() + timedelta(days=2),
+        confirmation=confirmation,
+        confirmation_reminder=confirmation_reminder,
+        drawn=drawn,
+        sent=sent,
+        received=received,
     )
     exchange.full_clean()
 
 
 @pytest.mark.parametrize(
-    "drawn, sent, received",
+    "confirmation, confirmation_reminder, drawn, sent, received",
     [
-        (now() + timedelta(days=1), now(), now() + timedelta(days=2)),
-        (now() + timedelta(days=1), now() + timedelta(days=2), now()),
+        (
+            now() + timedelta(days=1),
+            now(),
+            now() + timedelta(days=2),
+            now() + timedelta(days=3),
+            now() + timedelta(days=4),
+        ),
+        (
+            now() + timedelta(days=1),
+            now() + timedelta(days=2),
+            now(),
+            now() + timedelta(days=3),
+            now() + timedelta(days=4),
+        ),
+        (
+            now() + timedelta(days=1),
+            now() + timedelta(days=2),
+            now() + timedelta(days=3),
+            now(),
+            now() + timedelta(days=4),
+        ),
+        (
+            now() + timedelta(days=1),
+            now() + timedelta(days=2),
+            now() + timedelta(days=3),
+            now() + timedelta(days=4),
+            now(),
+        ),
     ],
 )
 @pytest.mark.django_db
-def test_invalid_datetime_sequence(drawn, sent, received):
+def test_invalid_datetime_sequence(
+    confirmation, confirmation_reminder, drawn, sent, received
+):
     """Test an invalid datetime sequence."""
 
     exchange = baker.prepare(
         "af_gang_mail.Exchange",
         slug="my-cool-exchange",
+        confirmation=confirmation,
+        confirmation_reminder=confirmation_reminder,
         drawn=drawn,
         sent=sent,
         received=received,
