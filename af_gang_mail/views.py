@@ -21,7 +21,9 @@ from django.views.generic import (
     FormView,
     TemplateView,
     UpdateView,
+    View,
 )
+from django.views.generic.detail import SingleObjectMixin
 
 import django_countries
 from csp.decorators import csp_exempt
@@ -52,7 +54,14 @@ class Home(LoginRequiredMixin, TemplateView):
         upcoming_exchanges = []
         user_upcoming_exchanges = user.exchanges.all()
         for exchange in models.Exchange.objects.upcoming():
-            upcoming_exchanges.append((exchange in user_upcoming_exchanges, exchange))
+            user_confirmed = models.UserInExchange.objects.filter(
+                exchange=exchange,
+                user=user,
+                confirmed=True,
+            )
+            upcoming_exchanges.append(
+                (exchange in user_upcoming_exchanges, exchange, user_confirmed)
+            )
 
         user_eligible_for_draws = (
             user.has_verified_email_address() and not user.get_full_name()
@@ -154,6 +163,31 @@ class Draw(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
         draw = self.get_draw()
         context_data.update(draw.get_context_data())
         return context_data
+
+
+class ConfirmParticipation(
+    LoginRequiredMixin, PermissionRequiredMixin, SingleObjectMixin, View
+):
+    """Confirm participation in an exchange."""
+
+    model = models.Exchange
+
+    def has_permission(self):
+        return self.request.user.exchanges.filter(id=self.get_object().id).exists()
+
+    def get(self, request, **kwargs):  # pylint: disable=unused-argument
+        """Handle get request."""
+
+        exchange = self.get_object()
+        user_in_exchange = models.UserInExchange.objects.get(
+            user=request.user, exchange=exchange
+        )
+        user_in_exchange.confirmed = True
+        user_in_exchange.save()
+        messages.success(
+            request, f"You're all set to go for { exchange }!", fail_silently=True
+        )
+        return http.HttpResponseRedirect("/")
 
 
 class MailSent(FormView, Draw):
@@ -497,16 +531,24 @@ class ViewDraw(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data["draw_data"] = model_to_dict(self.get_object())
-        context_data[
-            "draw_email_message"
-        ] = self.get_object().as_created_email_message()
+
+        draw = self.get_object()
+        context_data["draw_data"] = model_to_dict(draw)
+        context_data["draw_email_message"] = draw.as_created_email_message()
         context_data[
             "send_reminder_email_message"
-        ] = self.get_object().as_send_reminder_email_message()
+        ] = draw.as_send_reminder_email_message()
         context_data[
             "receive_reminder_email_message"
-        ] = self.get_object().as_receive_reminder_email_message()
+        ] = draw.as_receive_reminder_email_message()
+
+        sender_in_exchange = models.UserInExchange.objects.get(
+            exchange=draw.exchange, user=draw.sender
+        )
+        context_data[
+            "confirmation_email_message"
+        ] = sender_in_exchange.as_confirmation_email_message()
+
         return context_data
 
 

@@ -1,0 +1,1 @@
+Confirm your participation in the {{ exchange.name }} AF GANG Mail Exchange!

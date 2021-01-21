@@ -1,4 +1,8 @@
-default:  ## Build and serve the web site.
+help: ## Display this help screen.
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+
+site:  ## Build and serve the web site.
 	pipenv run python manage.py migrate
 	make scss
 	make js
@@ -155,7 +159,5 @@ lint-templates:  ## Lint Templates.
 images: ## Resize and optimize images.
 	./make-images.sh
 
-help: ## Display this help screen.
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: cypress

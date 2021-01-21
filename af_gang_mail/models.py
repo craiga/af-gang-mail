@@ -38,7 +38,9 @@ class User(auth.models.AbstractUser):
     address_state = models.TextField("State", blank=True, null=False)
     address_postcode = models.TextField("Postcode", blank=True, null=False)
     address_country = CountryField("Country", blank=True, null=False)
-    exchanges = models.ManyToManyField("Exchange", related_name="users")
+    exchanges = models.ManyToManyField(
+        "Exchange", related_name="users", through="UserInExchange"
+    )
 
     objects = UserManager()
 
@@ -94,6 +96,14 @@ class ExchangeManager(models.Manager):
     def not_upcoming(self):
         return self.filter(drawn__lt=now())
 
+    def scheduled_for_confirmation(self):
+        return self.filter(confirmation__lt=now(), confirmation_started__isnull=True)
+
+    def scheduled_for_confirmation_reminder(self):
+        return self.filter(
+            confirmation_reminder__lt=now(), confirmation_reminder_started__isnull=True
+        )
+
     def scheduled_for_draw(self):
         return self.filter(drawn__lt=now(), draw_started__isnull=True)
 
@@ -115,11 +125,15 @@ class Exchange(models.Model):
 
     name = models.TextField(blank=False, null=False)
     slug = AutoSlugField(populate_from="name", unique=True)
+    confirmation = models.DateTimeField(blank=False, null=True)
+    confirmation_reminder = models.DateTimeField(blank=False, null=True)
     drawn = models.DateTimeField(blank=False, null=False)
     sent = models.DateTimeField(blank=False, null=False)
     received = models.DateTimeField(blank=False, null=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    confirmation_started = models.DateTimeField(blank=True, null=True)
+    confirmation_reminder_started = models.DateTimeField(blank=True, null=True)
     draw_started = models.DateTimeField(blank=True, null=True)
     send_reminder_started = models.DateTimeField(blank=True, null=True)
     receive_reminder_started = models.DateTimeField(blank=True, null=True)
@@ -131,7 +145,13 @@ class Exchange(models.Model):
         return self.name
 
     def clean(self):
-        if not self.drawn < self.sent < self.received:
+        if (
+            not self.confirmation
+            < self.confirmation_reminder
+            < self.drawn
+            < self.sent
+            < self.received
+        ):
             raise ValidationError(
                 "Exchange must be drawn before it's sent and sent before it's recieved."
             )
@@ -140,6 +160,66 @@ class Exchange(models.Model):
 
     class Meta:
         ordering = ["drawn"]
+
+
+class UserInExchange(models.Model):
+    """User in exchange."""
+
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="user_in_exchanges"
+    )
+    exchange = models.ForeignKey(
+        Exchange, on_delete=models.CASCADE, related_name="users_in_exchange"
+    )
+    confirmed = models.BooleanField(default=False, blank=False, null=False)
+
+    def _as_email_message(
+        self, subject_template, body_text_template, body_html_template, **kwargs
+    ):
+        """Construct an EmailMessage."""
+
+        subject_template = template.loader.get_template(subject_template)
+        body_text_template = template.loader.get_template(body_text_template)
+        body_html_template = template.loader.get_template(body_html_template)
+
+        site = Site.objects.get_current()
+        scheme = "https" if settings.SECURE_SSL_REDIRECT else "http"
+        context = {
+            "user": self.user,
+            "exchange": self.exchange,
+            "site": site,
+            "confirm_url": f"{ scheme }://{ site.domain }"
+            + urls.reverse(
+                "confirm_participation", kwargs={"slug": self.exchange.slug}
+            ),
+        }
+
+        msg = EmailMultiAlternatives(
+            subject=subject_template.render(context),
+            body=body_text_template.render(context),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[self.user.email],
+            **kwargs,
+        )
+        msg.attach_alternative(body_html_template.render(context), "text/html")
+
+        return msg
+
+    def as_confirmation_email_message(self, **kwargs):
+        return self._as_email_message(
+            "af_gang_mail/confirmation-email-subject.txt",
+            "af_gang_mail/confirmation-email-body.txt",
+            "af_gang_mail/confirmation-email-body.html",
+            **kwargs,
+        )
+
+    def as_confirmation_reminder_email_message(self, **kwargs):
+        return self._as_email_message(
+            "af_gang_mail/confirmation-reminder-email-subject.txt",
+            "af_gang_mail/confirmation-reminder-email-body.txt",
+            "af_gang_mail/confirmation-reminder-email-body.html",
+            **kwargs,
+        )
 
 
 class DrawManager(models.Manager):
@@ -185,7 +265,12 @@ class DrawManager(models.Manager):
 
         logger.info("Preparing set of draws for %s.", exchange.name)
 
-        users = list(exchange.users.eligible_for_draw())
+        confirmed_user_ids = exchange.users_in_exchange.filter(
+            confirmed=True
+        ).values_list("user_id", flat=True)
+        users = list(
+            exchange.users.eligible_for_draw().filter(id__in=confirmed_user_ids)
+        )
         logger.info("%d users.", len(users))
 
         # Run through some iterations and try to generate a perfect result.

@@ -1,0 +1,10 @@
+{% load humanize %}Hi {{ user.get_full_name }},
+
+The {{ exchange.name }} AF GANG Mail Exchange is coming up!
+
+Click this link to confirm that you're taking part: {{ confirm_url }}
+
+Thanks!
+
+xo
+{{ site.name }}

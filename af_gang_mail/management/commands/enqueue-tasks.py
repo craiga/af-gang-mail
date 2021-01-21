@@ -27,6 +27,19 @@ class Command(BaseCommand):
 
         logger.info("Starting.")
 
+        logger.info("Looking for confirmation messages to send…")
+        for exchange in models.Exchange.objects.scheduled_for_confirmation():
+            logger.info("Enqueueing confirmation messages for %s.", exchange.name)
+            exchange.confirmation_started = now()
+            exchange.save()
+            logger.debug(
+                "Set confirmation_started for %s to %s.",
+                exchange.name,
+                exchange.confirmation_started,
+            )
+            tasks.send_confirmation_emails.delay(exchange.id)
+            logger.info("Enqueued confirmation messages for %s.", exchange.name)
+
         logger.info("Looking for exchanges to draw…")
         for exchange in models.Exchange.objects.scheduled_for_draw():
             logger.info("Enqueueing draw for %s.", exchange.name)
