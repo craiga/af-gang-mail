@@ -19,9 +19,9 @@ describe("Sign up", () => {
     cy.contains("sign-up-step-one-intro");
     cy.contains("First name").click().type("Zane");
     cy.contains("Last name").click().type("Xylophone");
-    cy.get(".pac-target-input").click().type("Fucking 10");
-    cy.contains("Fucking, Austria").click();
-    cy.get('input[name="address_city"]').should("have.value", "Fucking");
+    cy.get(".pac-target-input").click().type("8 Coral Court Hoppers");
+    cy.contains("Hoppers Crossing").click();
+    cy.get('input[name="address_postcode"]').should("have.value", "3029");
     cy.contains("Austria");
     cy.contains("Save").click();
 
@@ -35,11 +35,11 @@ describe("Sign up", () => {
     cy.contains("home-unverified-email-address");
 
     cy.contains("home-name-and-address-intro");
-    cy.contains("10 Fucking");
-    cy.contains("Fucking");
-    cy.contains("Oberösterreich");
-    cy.contains("5121");
-    cy.contains("Austria");
+    cy.contains("8 Coral Court");
+    cy.contains("Hoppers Crossing");
+    cy.contains("3029");
+    cy.contains("Victoria");
+    cy.contains("Australia");
 
     cy.contains("home-upcoming-exchanges-intro");
     cy.contains("Christmas 2050");
