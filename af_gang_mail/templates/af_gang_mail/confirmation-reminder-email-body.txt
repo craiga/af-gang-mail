@@ -1,0 +1,12 @@
+{% load humanize %}Hi {{ user.get_full_name }},
+
+The {{ exchange.name }} AF GANG Mail Exchange is coming up!
+
+Due to some issues we've seen, we're now asking that you confirm that you're going to take part.
+
+To confirm that you're taking part, please click this link: {{ confirm_url }}
+
+Thanks!
+
+xo
+{{ site.name }}

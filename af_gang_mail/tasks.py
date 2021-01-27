@@ -89,6 +89,21 @@ def send_confirmation_emails(exchange_id):
 
 
 @celery.app.task
+def send_confirmation_reminder_emails(exchange_id):
+    """Send confirmation reminder emails for an exchange."""
+
+    exchange = models.Exchange.objects.get(id=exchange_id)
+    if exchange.send_emails:
+        connection = mail.get_connection()
+        connection.send_messages(
+            [
+                u.as_confirmation_reminder_email_message()
+                for u in exchange.users_in_exchange.filter(confirmed=False)
+            ]
+        )
+
+
+@celery.app.task
 def send_draw_emails(exchange_id):
     """Send emails for a draw."""
 

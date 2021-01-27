@@ -40,6 +40,23 @@ class Command(BaseCommand):
             tasks.send_confirmation_emails.delay(exchange.id)
             logger.info("Enqueued confirmation messages for %s.", exchange.name)
 
+        logger.info("Looking for confirmation reminder messages to send…")
+        for exchange in models.Exchange.objects.scheduled_for_confirmation_reminder():
+            logger.info(
+                "Enqueueing confirmation reminder messages for %s.", exchange.name
+            )
+            exchange.confirmation_reminder_started = now()
+            exchange.save()
+            logger.debug(
+                "Set confirmation_reminder_started for %s to %s.",
+                exchange.name,
+                exchange.confirmation_reminder_started,
+            )
+            tasks.send_confirmation_reminder_emails.delay(exchange.id)
+            logger.info(
+                "Enqueued confirmation reminder messages for %s.", exchange.name
+            )
+
         logger.info("Looking for exchanges to draw…")
         for exchange in models.Exchange.objects.scheduled_for_draw():
             logger.info("Enqueueing draw for %s.", exchange.name)
