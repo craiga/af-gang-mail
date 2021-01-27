@@ -655,6 +655,9 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         users = models.User.objects.count()
         for exchange in models.Exchange.objects.upcoming():
             users_in_exchange = exchange.users.count()
+            confirmed_users_in_exchange = models.UserInExchange.objects.filter(
+                exchange=exchange, confirmed=True
+            ).count()
             eligible_users_in_exchange = exchange.users.eligible_for_draw().count()
             percentages[f"Users in { exchange.name }"] = floor(
                 users_in_exchange / users * 100
@@ -662,6 +665,9 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
             try:
                 percentages[f"Eligible Users in { exchange.name }"] = floor(
                     eligible_users_in_exchange / users_in_exchange * 100
+                )
+                percentages[f"Users confirmed for { exchange.name }"] = floor(
+                    confirmed_users_in_exchange / users_in_exchange * 100
                 )
                 percentages[
                     f"Users ineligible due to unverified email in { exchange.name }"
