@@ -152,9 +152,7 @@ class Exchange(models.Model):
             < self.sent
             < self.received
         ):
-            raise ValidationError(
-                "Exchange must be drawn before it's sent and sent before it's recieved."
-            )
+            raise ValidationError("Exchange dates must be in order.")
 
         return super().clean()
 

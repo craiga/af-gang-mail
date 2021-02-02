@@ -14,6 +14,7 @@ from django.forms.models import model_to_dict
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
+from django.utils.timezone import now
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -653,7 +654,7 @@ class Statto(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         percentages = {}
 
         users = models.User.objects.count()
-        for exchange in models.Exchange.objects.upcoming():
+        for exchange in models.Exchange.objects.filter(received__gt=now()):
             users_in_exchange = exchange.users.count()
             confirmed_users_in_exchange = models.UserInExchange.objects.filter(
                 exchange=exchange, confirmed=True
