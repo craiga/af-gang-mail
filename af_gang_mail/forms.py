@@ -84,7 +84,15 @@ class Exchange(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(),
         }
-        fields = ["name", "drawn", "sent", "received", "send_emails"]
+        fields = [
+            "name",
+            "confirmation",
+            "confirmation_reminder",
+            "drawn",
+            "sent",
+            "received",
+            "send_emails",
+        ]
 
 
 def _fix_email(value):
