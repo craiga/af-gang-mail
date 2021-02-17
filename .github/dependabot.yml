@@ -6,8 +6,6 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "all"
-    assignees:
-      - "craiga"
     versioning-strategy: increase-if-necessary
   - package-ecosystem: "pip"
     directory: "/"
@@ -15,13 +13,9 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "all"
-    assignees:
-      - "craiga"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
     allow:
       - dependency-type: "all"
-    assignees:
-      - "craiga"
