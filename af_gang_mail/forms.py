@@ -2,6 +2,7 @@
 
 from django import forms, template
 from django.contrib import flatpages
+from django.utils.timezone import now
 
 from allauth.account import forms as allauth_forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
@@ -63,9 +64,7 @@ class SelectExchanges(forms.ModelForm):
 
     class Meta:
         model = models.User
-        fields = [
-            "exchanges",
-        ]
+        fields = ["exchanges"]
 
     def clean(self):
         super().clean()
@@ -74,6 +73,24 @@ class SelectExchanges(forms.ModelForm):
         self.cleaned_data["exchanges"] |= self.instance.exchanges.not_upcoming()
 
         return self.cleaned_data
+
+    def save(self, commit=True):
+        """If joining an exchange after the confirmation reminder, confirm it."""
+
+        previous_exchanges = set(self.instance.exchanges.all())
+        result = super().save(commit)
+        if commit:
+            for exchange in self.instance.exchanges.all():
+                if exchange not in previous_exchanges:
+                    if (
+                        exchange.confirmation_reminder
+                        and exchange.confirmation_reminder < now()
+                    ):
+                        models.UserInExchange.objects.filter(
+                            user=self.instance, exchange=exchange
+                        ).update(confirmed=True)
+
+        return result
 
 
 class Exchange(forms.ModelForm):
