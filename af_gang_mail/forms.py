@@ -78,15 +78,17 @@ class SelectExchanges(forms.ModelForm):
         """If joining an exchange after the confirmation reminder, confirm it."""
 
         previous_exchanges = set(self.instance.exchanges.all())
-        result = super().save()
-        for exchange in self.instance.exchanges.all():
-            if exchange not in previous_exchanges:
-                if exchange.confirmation_reminder < now():
-                    user_in_exchange = models.UserInExchange.objects.get(
-                        user=self.instance, exchange=exchange
-                    )
-                    user_in_exchange.confirmed = True
-                    user_in_exchange.save(commit)
+        result = super().save(commit)
+        if commit:
+            for exchange in self.instance.exchanges.all():
+                if exchange not in previous_exchanges:
+                    if (
+                        exchange.confirmation_reminder
+                        and exchange.confirmation_reminder < now()
+                    ):
+                        models.UserInExchange.objects.filter(
+                            user=self.instance, exchange=exchange
+                        ).update(confirmed=True)
 
         return result
 
