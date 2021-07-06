@@ -4,12 +4,32 @@
 
 from datetime import timedelta
 
+from django.conf import settings
 from django.utils.timezone import now
+from django.test.utils import override_settings
 
 import pytest
 from model_bakery import baker
 
 from af_gang_mail import models
+
+
+@pytest.fixture(scope="session", autouse=True)
+def set_settings():
+    """Global settings for all tests."""
+
+    with override_settings(
+        # Important test settings.
+        DEBUG=False,
+        PASSWORD_HASHERS=["django.contrib.auth.hashers.MD5PasswordHasher"],
+        CELERY_BROKER="memory://",
+        STATICFILES_STORAGE=settings.STATICFILES_STORAGE.replace("Manifest", ""),
+        WHITENOISE_AUTOREFRESH=True,
+        CACHES={
+            "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}
+        },
+    ):
+        yield
 
 
 @pytest.fixture
