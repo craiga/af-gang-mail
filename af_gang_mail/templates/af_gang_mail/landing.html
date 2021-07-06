@@ -9,12 +9,18 @@
     {% flatblock "landing-intro" %}
   </div>
   <section>
-    <form method="post" action="{% url 'account_signup' %}"  data-cy="signup">
+    <form method="post" action="{% url 'account_signup' %}" data-cy="signup" id="signup-form">
       {% flatblock "landing-sign-up-intro" %}
       {% csrf_token %}
       {{ register_form|crispy }}
       <input type="hidden" name="next" value="{% url 'sign-up-step-one' %}">
-      <button>Get Started</button>
+      <button
+        class="g-recaptcha"
+        {% if recaptcha_site_key %}
+          data-sitekey="{{ recaptcha_site_key }}"
+          data-callback="onCaptchaSuccess"
+        {% endif %}
+      >Get Started</button>
     </form>
     <form method="post" action="{% url 'account_login' %}" data-cy="login">
       {% flatblock "landing-log-in-intro" %}
@@ -24,4 +30,15 @@
       <a class="button secondary" href="{% url 'account_reset_password' %}">Forget your Password?</a>
     </form>
   </section>
+{% endblock %}
+
+{% block script %}
+  {% if recaptcha_site_key %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script nonce="{{ request.csp_nonce }}">
+      function onCaptchaSuccess(token) {
+         document.getElementById("signup-form").submit();
+       }
+    </script>
+  {% endif %}
 {% endblock %}

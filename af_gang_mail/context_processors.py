@@ -12,9 +12,11 @@ def sentry(request):
 
 
 def google(request):
-    return {
-        "google_api_key": settings.GOOGLE_API_KEY,
-    }
+    return {"google_api_key": settings.GOOGLE_API_KEY}
+
+
+def recaptcha(request):
+    return {"recaptcha_site_key": settings.RECAPTCHA_SITE_KEY}
 
 
 def edit_mode(request):

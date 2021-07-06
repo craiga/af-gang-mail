@@ -11,7 +11,25 @@
   {% if redirect_field_value %}
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button type="submit">Get Started</button>
+  <button
+    type="submit"
+    {% if recaptcha_site_key %}
+      class="g-recaptcha"
+      data-sitekey="{{ recaptcha_site_key }}"
+      data-callback="onCaptchaSuccess"
+    {% endif %}
+  >Get Started</button>
 </form>
 
+{% endblock %}
+
+{% block script %}
+  {% if recaptcha_site_key %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script nonce="{{ request.csp_nonce }}">
+      function onCaptchaSuccess(token) {
+         document.getElementById("signup-form").submit();
+       }
+    </script>
+  {% endif %}
 {% endblock %}

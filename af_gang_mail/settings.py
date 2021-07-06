@@ -119,6 +119,7 @@ TEMPLATES = [
                 "af_gang_mail.context_processors.edit_mode",
                 "af_gang_mail.context_processors.google",
                 "af_gang_mail.context_processors.sentry",
+                "af_gang_mail.context_processors.recaptcha",
             ],
         },
     },
@@ -275,8 +276,13 @@ CSP_SCRIPT_SRC = [
     "https://maps.googleapis.com",  # Google Places for address auto suggest
     "https://cdn.usefathom.com",
     "https://connect.facebook.net",  # Facebook's auto suggest script
+    "https://www.google.com",  # Google reCAPTCHA
 ]
 CSP_FONT_SRC = ["'self'"]
+CSP_CHILD_SRC = [
+    "https://www.google.com",  # Google reCAPTCHA
+]
+
 CSP_INCLUDE_NONCE_IN = ["script-src"]
 CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI", "")
 
@@ -460,3 +466,9 @@ CREATE_DRAW_MAX_ATTEMPTS = int(os.environ.get("CREATE_DRAW_MAX_ATTEMPTS", 100))
 CREATE_DRAW_SECONDS_PER_USER = float(
     os.environ.get("CREATE_DRAW_SECONDS_PER_USER", 0.003)
 )
+
+
+# reCAPTCHA
+
+RECAPTCHA_SITE_KEY = os.environ.get("RECAPTCHA_SITE_KEY")
+RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
