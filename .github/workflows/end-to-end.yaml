@@ -135,16 +135,16 @@ jobs:
             --fail
       - name: Save Video
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: "cypress/videos/"
       - name: Save Screenshots
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: "cypress/screenshots/"
       - name: Save Heroku Logs
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: "heroku-logs/"
