@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.1",
-    "@sentry/browser": "^6.2.0",
+    "@sentry/browser": "^7.37.2",
     "browserify": "latest",
     "flatpickr": "^4.6.3",
     "sass": "latest"
